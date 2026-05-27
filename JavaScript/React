@@ -1,0 +1,19 @@
+const RutasSelector = ({ onSelectProfile }) => {
+  const perfiles = [
+    { id: 'impulsa', nombre: 'Ruta Impulsa', desc: 'Emprendedor' },
+    { id: 'practica', nombre: 'Ruta Práctica', desc: 'Auxiliar Contable' },
+    { id: 'expert', nombre: 'Ruta Expert', desc: 'Contador Independiente' }
+    // ... otros perfiles
+  ];
+
+  return (
+    <div className="rutas-overlay">
+      <h2>Selecciona tu Ruta Retencol</h2>
+      {perfiles.map(perfil => (
+        <button key={perfil.id} onClick={() => onSelectProfile(perfil.id)}>
+          {perfil.nombre} - {perfil.desc}
+        </button>
+      ))}
+    </div>
+  );
+};
