@@ -323,56 +323,69 @@ input:checked+.tog-sl::before{transform:translateX(17px)}
     <button class="btn-pro-top" onclick="openPro()"><i class="ti ti-crown" style="font-size:12px"></i>PRO</button>
   </div>
 </header>
-<section class="seccion-rutas-retencol">
-    <h4 style="margin:0; color:#0056b3;">🎯 Configura tu Ruta de Usuario</h4>
-    <div class="grid-perfiles">
-        <div class="card-ruta" onclick="activarRuta('impulsa')">
-            <span>🚀</span><strong>Impulsa</strong>
-        </div>
-        <div class="card-ruta" onclick="activarRuta('practica')">
-            <span>📚</span><strong>Práctica</strong>
-        </div>
-        <div class="card-ruta" onclick="activarRuta('expert')">
-            <span>⚖️</span><strong>Expert</strong>
-        </div>
-        <div class="card-ruta" onclick="activarRuta('global')">
-            <span>🌍</span><strong>Global</strong>
-        </div>
-        <div class="card-ruta" onclick="activarRuta('personalizada')">
-            <span>⚙️</span><strong>Ajustes</strong>
-        </div>
-    </div>
-    <div id="mensaje-ruta" class="ruta-activa-msg">Selecciona un perfil para optimizar las calculadoras.</div>
-</section>
-<!-- RAIL -->
-<aside class="rail">
-  <div class="rail-sec">
-    <div class="rail-label">Calculadora</div>
-    <div class="ri on" onclick="showPg('calc')"><i class="ti ti-percentage"></i>Retefuente 2026</div>
-    <div class="ri" onclick="showPg('calc')"><i class="ti ti-receipt-2"></i>IVA / Reteiva</div>
-    <div class="ri" onclick="showPg('calc')"><i class="ti ti-tool"></i>AIU especial</div>
-    <div class="ri" onclick="showPg('ica')"><i class="ti ti-map"></i>ICA municipal</div>
-  </div>
-  <div class="rail-sec">
-    <div class="rail-label">Normatividad vigente</div>
-    <div class="ri" style="cursor:default;font-size:.74rem"><i class="ti ti-gavel" style="color:#fb923c"></i><div>Dcto. 572/2025 <span class="ri-alert">SUSP.</span></div></div>
-    <div class="ri" style="cursor:default;font-size:.74rem;opacity:.8"><i class="ti ti-check-circle" style="color:var(--emerald2)"></i><div style="font-size:.73rem">Dcto. 1625/2016 ✓ vigente</div></div>
-    <div class="ri" onclick="showPg('norma')"><i class="ti ti-table"></i>Ver bases actuales <span class="ri-alert">NUEVO</span></div>
-    <div class="ri" onclick="openEstatuto()"><i class="ti ti-building-store"></i>Estatutón 2026 <span style="margin-left:auto;font-size:.65rem;color:rgba(255,255,255,.4)">↗</span></div>
-  </div>
-  <div class="rail-sec">
-    <div class="rail-label">Herramientas PRO</div>
-    <div class="ri" onclick="openPro()"><i class="ti ti-file-download"></i>Exportar PDF <span class="ri-badge">PRO</span></div>
-    <div class="ri" onclick="openPro()"><i class="ti ti-table-export"></i>Excel <span class="ri-badge">PRO</span></div>
-    <div class="ri" onclick="openPro()"><i class="ti ti-robot"></i>IA Tributaria <span class="ri-badge">PRO</span></div>
-  </div>
-  <div class="rail-sec">
-    <div class="rail-label">Cuenta</div>
-    <div class="ri" onclick="showPg('hist')"><i class="ti ti-history"></i>Historial</div>
-  </div>
-</aside>
+<!-- 1. ESTILOS DE DISEÑO (Pegar antes del </head> o aquí mismo) -->
+<style>
+    .seccion-rutas-retencol {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        margin: 20px auto;
+        max-width: 95%;
+        border: 1px solid #e1e4e8;
+        font-family: -apple-system, system-ui, sans-serif;
+    }
+    .grid-perfiles {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 12px;
+        margin-top: 15px;
+    }
+    .card-ruta {
+        background: #f6f8fa;
+        border: 1px solid #d1d5da;
+        border-radius: 10px;
+        padding: 15px;
+        cursor: pointer;
+        transition: 0.2s;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .card-ruta:hover {
+        border-color: #0366d6;
+        background: #fff;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(3, 102, 214, 0.15);
+    }
+    .card-ruta span { font-size: 22px; margin-bottom: 8px; }
+    .card-ruta strong { font-size: 13px; color: #24292e; }
+    .ruta-activa-msg {
+        margin-top: 15px;
+        font-size: 12px;
+        color: #586069;
+        text-align: center;
+        padding: 8px;
+        border-radius: 6px;
+        background: #f1f8ff;
+    }
+</style>
 
-<!-- CONTENT -->
+<!-- 2. ESTRUCTURA DE RUTAS CORREGIDA -->
+</header> <!-- Cierre limpio del header -->
+
+<section class="seccion-rutas-retencol">
+    <h4 style="margin:0; color:#0366d6; text-align:center;">🎯 Personaliza tu Ruta RETENCOL</h4>
+    <div class="grid-perfiles">
+        <div class="card-ruta" onclick="activarRuta('impulsa')"><span>🚀</span><strong>Impulsa</strong></div>
+        <div class="card-ruta" onclick="activarRuta('practica')"><span>📚</span><strong>Práctica</strong></div>
+        <div class="card-ruta" onclick="activarRuta('expert')"><span>⚖️</span><strong>Expert</strong></div>
+        <div class="card-ruta" onclick="activarRuta('global')"><span>🌍</span><strong>Global</strong></div>
+        <div class="card-ruta" onclick="activarRuta('personalizada')"><span>⚙️</span><strong>Ajustes</strong></div>
+    </div>
+    <div id="mensaje-ruta" class="ruta-activa-msg">Selecciona un perfil para adaptar las herramientas.</div>
+</section>
 <main class="content">
 
 <!-- ===== CALCULADORA ===== -->
