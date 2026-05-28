@@ -268,7 +268,18 @@ input:checked+.tog-sl::before{transform:translateX(17px)}
     <button class="btn-pro-top" onclick="openPro()"><i class="ti ti-crown" style="font-size:12px"></i>PRO</button>
   </div>
 </header>
-
+<!-- Sección de Rutas Retencol -->
+<div id="contenedor-rutas" style="padding: 20px; background: #f4f4f4; border-radius: 8px; margin: 10px 0;">
+    <h3>Selecciona tu Ruta de Usuario</h3>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button onclick="activarRuta('impulsa')" style="padding: 10px; cursor: pointer;">🚀 Ruta Impulsa</button>
+        <button onclick="activarRuta('practica')" style="padding: 10px; cursor: pointer;">📚 Ruta Práctica</button>
+        <button onclick="activarRuta('expert')" style="padding: 10px; cursor: pointer;">⚖️ Ruta Expert</button>
+        <button onclick="activarRuta('global')" style="padding: 10px; cursor: pointer;">🌍 Ruta Global</button>
+        <button onclick="activarRuta('personalizada')" style="padding: 10px; cursor: pointer;">⚙️ Personalizada</button>
+    </div>
+    <p id="mensaje-ruta" style="margin-top: 15px; font-weight: bold; color: #2c3e50;"></p>
+</div>
 <div class="shell">
 <!-- RAIL -->
 <aside class="rail">
@@ -994,6 +1005,38 @@ function cop(n){return '$'+Math.round(n).toLocaleString('es-CO')}
 function muniNom(m){const n={bogota:'Bogotá D.C.',medellin:'Medellín',cali:'Cali',barranquilla:'Barranquilla',cartagena:'Cartagena',bucaramanga:'Bucaramanga',pereira:'Pereira',manizales:'Manizales',cucuta:'Cúcuta',soacha:'Soacha',ibague:'Ibagué',neiva:'Neiva',pasto:'Pasto',villavicencio:'Villavicencio',santa_marta:'Santa Marta',monteria:'Montería'};return n[m]||m;}
 
 evalLogica();renderICA();
+</script>
+<script>
+// Configuración de las rutas (Módulo desacoplado)
+const CONFIG_RUTAS = {
+    'impulsa': { nombre: 'Emprendedor (Impulsa)', mensaje: 'Valentina IA ahora usará lenguaje sencillo y mostrará solo ReteFuente básica.' },
+    'practica': { nombre: 'Auxiliar Contable (Práctica)', mensaje: 'Se han habilitado guías paso a paso para ReteIVA e ICA.' },
+    'expert': { nombre: 'Contador Independiente (Expert)', mensaje: 'Acceso total a herramientas avanzadas y reportes detallados.' },
+    'global': { nombre: 'Empresa (Global)', mensaje: 'Configuración para múltiples retenciones simultáneas activa.' },
+    'personalizada': { nombre: 'Perfil Libre', mensaje: 'Puedes elegir qué herramientas ver en tu panel.' }
+};
+
+function activarRuta(idPerfil) {
+    const perfil = CONFIG_RUTAS[idPerfil];
+    
+    // 1. Guardar la elección en la memoria del navegador
+    localStorage.setItem('perfilRetencol', idPerfil);
+    
+    // 2. Notificar al usuario
+    document.getElementById('mensaje-ruta').innerText = `Ruta Activa: ${perfil.nombre}. ${perfil.mensaje}`;
+    
+    // 3. Log para depuración (Aquí podrías ocultar/mostrar divs de tus calculadoras)
+    console.log("Cambiando contexto de RETENCOL a:", idPerfil);
+    
+    // 4. (Opcional) Aquí llamarías a una función para filtrar tus herramientas
+    // filtrarHerramientas(idPerfil);
+}
+
+// Cargar preferencia al iniciar la página
+window.onload = () => {
+    const guardado = localStorage.getItem('perfilRetencol');
+    if (guardado) activarRuta(guardado);
+};
 </script>
 </body>
 </html>
