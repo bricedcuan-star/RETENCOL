@@ -1,6 +1,57 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <style>
+    .contenedor-rutas-pro {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        margin: 20px 0;
+        border: 1px solid #e1e4e8;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+    
+    .grid-rutas {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin-top: 15px;
+    }
+    
+    .btn-ruta {
+        border: 2px solid #0366d6;
+        background: transparent;
+        color: #0366d6;
+        padding: 12px 8px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .btn-ruta:hover {
+        background: #0366d6;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(3, 102, 214, 0.3);
+    }
+    
+    .btn-ruta i { font-size: 1.5rem; }
+    
+    .mensaje-activo {
+        margin-top: 20px;
+        padding: 10px;
+        border-left: 4px solid #28a745;
+        background: #f6ffed;
+        color: #155724;
+        font-size: 0.9rem;
+    }
+</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Fraunces:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -1006,37 +1057,19 @@ function muniNom(m){const n={bogota:'Bogotá D.C.',medellin:'Medellín',cali:'Ca
 
 evalLogica();renderICA();
 </script>
-<script>
-// Configuración de las rutas (Módulo desacoplado)
-const CONFIG_RUTAS = {
-    'impulsa': { nombre: 'Emprendedor (Impulsa)', mensaje: 'Valentina IA ahora usará lenguaje sencillo y mostrará solo ReteFuente básica.' },
-    'practica': { nombre: 'Auxiliar Contable (Práctica)', mensaje: 'Se han habilitado guías paso a paso para ReteIVA e ICA.' },
-    'expert': { nombre: 'Contador Independiente (Expert)', mensaje: 'Acceso total a herramientas avanzadas y reportes detallados.' },
-    'global': { nombre: 'Empresa (Global)', mensaje: 'Configuración para múltiples retenciones simultáneas activa.' },
-    'personalizada': { nombre: 'Perfil Libre', mensaje: 'Puedes elegir qué herramientas ver en tu panel.' }
-};
-
-function activarRuta(idPerfil) {
-    const perfil = CONFIG_RUTAS[idPerfil];
+<div class="contenedor-rutas-pro">
+    <h3 style="margin-top:0; color: #24292e;">🎯 Personaliza tu experiencia RETENCOL</h3>
+    <p style="color: #586069; font-size: 0.9rem;">Selecciona tu perfil para adaptar las herramientas tributarias:</p>
     
-    // 1. Guardar la elección en la memoria del navegador
-    localStorage.setItem('perfilRetencol', idPerfil);
+    <div class="grid-rutas">
+        <button class="btn-ruta" onclick="activarRuta('impulsa')"><span>🚀</span> Impulsa</button>
+        <button class="btn-ruta" onclick="activarRuta('practica')"><span>📚</span> Práctica</button>
+        <button class="btn-ruta" onclick="activarRuta('expert')"><span>⚖️</span> Expert</button>
+        <button class="btn-ruta" onclick="activarRuta('global')"><span>🌍</span> Global</button>
+        <button class="btn-ruta" onclick="activarRuta('personalizada')"><span>⚙️</span> Ajustes</button>
+    </div>
     
-    // 2. Notificar al usuario
-    document.getElementById('mensaje-ruta').innerText = `Ruta Activa: ${perfil.nombre}. ${perfil.mensaje}`;
-    
-    // 3. Log para depuración (Aquí podrías ocultar/mostrar divs de tus calculadoras)
-    console.log("Cambiando contexto de RETENCOL a:", idPerfil);
-    
-    // 4. (Opcional) Aquí llamarías a una función para filtrar tus herramientas
-    // filtrarHerramientas(idPerfil);
-}
-
-// Cargar preferencia al iniciar la página
-window.onload = () => {
-    const guardado = localStorage.getItem('perfilRetencol');
-    if (guardado) activarRuta(guardado);
-};
-</script>
+    <div id="mensaje-ruta" class="mensaje-ruta-container"></div>
+</div>
 </body>
 </html>
