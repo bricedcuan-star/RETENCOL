@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RETENCOL 2026 — Admin · IA Tributaria</title>
+<title>RETENCOL 2026 — Acceso seguro</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Fraunces:ital,wght@0,600;0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
@@ -314,9 +314,135 @@ input:checked+.tog-sl::before{transform:translateX(17px)}
 @keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .fade{animation:slideUp .25s ease-out}
 @media(max-width:700px){.shell{grid-template-columns:1fr}.rail{display:none}.g2,.g3{grid-template-columns:1fr}.mgrid{grid-template-columns:1fr 1fr}.ai-left{display:none}.ai-shell{grid-template-columns:1fr}}
+
+/* ====== PRO MODAL ====== */
+#proOverlay{position:fixed;inset:0;z-index:9000;background:rgba(5,10,25,.75);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:1.5rem}
+#proOverlay.show{display:flex}
+.pro-modal{background:#0f1c35;border:1px solid rgba(255,255,255,.1);border-radius:20px;width:100%;max-width:420px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.6);animation:slideUp .25s ease-out}
+.pro-modal-top{background:linear-gradient(135deg,#0b1120,#1a3a8c);padding:1.75rem 2rem 1.5rem;text-align:center;position:relative}
+.pro-modal-top::after{content:'PRO';position:absolute;right:1.25rem;top:50%;transform:translateY(-50%);font-family:'Fraunces',serif;font-size:3.5rem;font-weight:700;color:rgba(255,255,255,.04);pointer-events:none}
+.pro-lock-icon{width:52px;height:52px;background:linear-gradient(135deg,var(--cobalt3),#06b6d4);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;margin:0 auto .85rem;box-shadow:0 8px 24px rgba(77,123,243,.4)}
+.pro-modal-title{font-family:'Fraunces',serif;font-size:1.1rem;color:#fff;margin-bottom:.3rem}
+.pro-modal-sub{font-size:.76rem;color:rgba(255,255,255,.4);line-height:1.5}
+.pro-feature-list{display:flex;flex-direction:column;gap:5px;padding:1rem 1.5rem .5rem}
+.pro-feat{display:flex;align-items:center;gap:8px;font-size:.78rem;color:rgba(255,255,255,.55);padding:.3rem 0}
+.pro-feat i{font-size:15px;color:var(--cobalt3);flex-shrink:0}
+.pro-feat strong{color:rgba(255,255,255,.8)}
+.pro-modal-form{padding:.75rem 1.5rem 1.5rem}
+.pro-modal-form .login-fg{margin-bottom:.75rem}
+.pro-modal-form .login-label{color:rgba(255,255,255,.4)}
+.pro-modal-form .login-input{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1)}
+.pro-modal-form .login-input:focus{border-color:var(--cobalt3);background:rgba(77,123,243,.07)}
+.pro-modal-btn{width:100%;background:linear-gradient(135deg,var(--cobalt),var(--cobalt2));color:#fff;border:none;border-radius:8px;padding:.7rem;font-family:'IBM Plex Sans',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px;margin-top:.5rem}
+.pro-modal-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(37,84,232,.4)}
+.pro-modal-btn:disabled{opacity:.5;cursor:default;transform:none;box-shadow:none}
+.pro-modal-close{position:absolute;top:.85rem;right:.85rem;background:rgba(255,255,255,.07);border:none;color:rgba(255,255,255,.4);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;transition:all .15s}
+.pro-modal-close:hover{background:rgba(255,255,255,.14);color:#fff}
+.login-error{background:rgba(185,28,28,.15);border:1px solid rgba(185,28,28,.4);border-radius:7px;padding:.55rem .85rem;font-size:.76rem;color:#fca5a5;display:flex;align-items:center;gap:7px;margin-top:.5rem;animation:slideUp .2s ease-out}
+.login-error i{font-size:13px;flex-shrink:0}
+.login-attempts{font-size:.65rem;color:rgba(255,255,255,.2);text-align:center;margin-top:.65rem}
+.login-attempts span{color:rgba(255,165,0,.5)}
+.login-spinner{width:15px;height:15px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.shake{animation:shake .4s ease-out}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+.login-lock-msg{background:rgba(185,28,28,.1);border:1px solid rgba(185,28,28,.3);border-radius:8px;padding:.75rem;text-align:center;font-size:.76rem;color:#fca5a5;margin-top:.5rem}
+.login-lock-msg i{display:block;font-size:20px;margin-bottom:.35rem;color:#f87171}
+
+/* PRO badge en nav y rail */
+.pro-lock-badge{background:linear-gradient(135deg,var(--cobalt3),#06b6d4);color:#fff;font-size:.55rem;font-weight:800;padding:2px 6px;border-radius:8px;letter-spacing:.06em;margin-left:4px;vertical-align:middle}
+.pro-lock-badge.locked::before{content:'🔒 '}
+
+/* Sesión activa badge */
+#sessionBadge{position:fixed;bottom:1rem;right:1rem;background:rgba(11,17,32,.9);border:1px solid rgba(77,123,243,.25);border-radius:20px;padding:.32rem 1rem .32rem .7rem;font-size:.68rem;color:rgba(255,255,255,.4);font-family:'IBM Plex Mono',monospace;display:none;z-index:200;backdrop-filter:blur(8px);cursor:pointer;transition:all .15s;display:none;align-items:center;gap:6px}
+#sessionBadge:hover{border-color:rgba(239,68,68,.4);color:rgba(239,68,68,.7)}
+#sessionBadge span{color:rgba(147,197,253,.7)}
+#sessionBadge .logout-hint{font-size:.58rem;color:rgba(239,68,68,.45);margin-left:4px}
+
+/* PRO features grayed out cuando no hay sesión */
+.pro-blur{position:relative;pointer-events:none}
+.pro-blur::after{content:'';position:absolute;inset:0;background:rgba(11,17,32,.55);border-radius:inherit;backdrop-filter:blur(3px);z-index:10}
+
+/* Productos digitales PRO */
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.875rem}
+.prod-card{background:var(--white);border:1.5px solid var(--mist);border-radius:var(--r);overflow:hidden;transition:all .2s;cursor:pointer}
+.prod-card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(11,17,32,.12);border-color:var(--cobalt3)}
+.prod-thumb{height:110px;display:flex;align-items:center;justify-content:center;font-size:2.5rem}
+.prod-body{padding:.85rem}
+.prod-cat{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cobalt);margin-bottom:.3rem}
+.prod-title{font-family:'IBM Plex Sans',sans-serif;font-size:.85rem;font-weight:700;color:var(--ink2);margin-bottom:.3rem;line-height:1.3}
+.prod-desc{font-size:.72rem;color:var(--slate);line-height:1.5;margin-bottom:.65rem}
+.prod-price{font-family:'IBM Plex Mono',monospace;font-size:.82rem;font-weight:600;color:var(--cobalt)}
+.prod-price-free{color:var(--emerald)}
+.prod-coming{font-size:.65rem;color:var(--slate2);font-style:italic}
+.prod-badge{display:inline-flex;align-items:center;gap:3px;font-size:.6rem;font-weight:700;padding:2px 7px;border-radius:10px;margin-bottom:.5rem}
+.prod-badge-new{background:var(--news-soft);color:var(--news);border:1px solid var(--news-border)}
+.prod-badge-soon{background:var(--mist);color:var(--slate)}
 </style>
 </head>
 <body>
+
+<!-- ====== PRO MODAL (se abre solo al tocar función PRO) ====== -->
+<div id="proOverlay">
+  <div class="pro-modal" id="proModal">
+    <div class="pro-modal-top">
+      <button class="pro-modal-close" onclick="closeProModal()" title="Cerrar"><i class="ti ti-x"></i></button>
+      <div class="pro-lock-icon"><i class="ti ti-crown"></i></div>
+      <div class="pro-modal-title">Acceso PRO — RETENCOL</div>
+      <div class="pro-modal-sub">Ingresa tus credenciales para desbloquear<br>esta función exclusiva</div>
+    </div>
+
+    <div class="pro-feature-list">
+      <div class="pro-feat"><i class="ti ti-robot"></i><div><strong>IA Valentina</strong> — Asistente tributaria con inteligencia artificial</div></div>
+      <div class="pro-feat"><i class="ti ti-file-download"></i><div><strong>Exportar PDF y Excel</strong> — Descarga tus cálculos</div></div>
+      <div class="pro-feat"><i class="ti ti-shopping-bag"></i><div><strong>Productos digitales</strong> — Guías, ejercicios, documentos emprendedor</div></div>
+    </div>
+
+    <div class="pro-modal-form">
+      <div id="proLoginForm">
+        <div class="login-fg">
+          <label class="login-label">USUARIO</label>
+          <div class="login-input-wrap">
+            <i class="ti ti-user login-input-icon"></i>
+            <input type="text" id="proUser" class="login-input" placeholder="Usuario" autocomplete="off" spellcheck="false" onkeydown="proLoginKey(event)">
+          </div>
+        </div>
+        <div class="login-fg">
+          <label class="login-label">CONTRASEÑA</label>
+          <div class="login-input-wrap">
+            <i class="ti ti-lock login-input-icon"></i>
+            <input type="password" id="proPwd" class="login-input" placeholder="••••••••••••" autocomplete="off" onkeydown="proLoginKey(event)">
+            <button class="login-eye" onclick="toggleProPwd()" title="Ver contraseña"><i class="ti ti-eye" id="proEyeIcon"></i></button>
+          </div>
+        </div>
+        <div id="proErrorMsg"></div>
+        <button class="pro-modal-btn" id="proLoginBtn" onclick="doProLogin()">
+          <i class="ti ti-shield-check"></i>Desbloquear acceso PRO
+        </button>
+        <div class="login-attempts" id="proAttemptsInfo" style="display:none">
+          Intentos fallidos: <span id="proAttemptsCount">0</span> / 5
+        </div>
+      </div>
+      <div id="proLockedMsg" style="display:none">
+        <div class="login-lock-msg">
+          <i class="ti ti-lock-access"></i>
+          Acceso bloqueado temporalmente.<br>
+          Espera <strong id="proLockCountdown">60</strong> segundos.
+        </div>
+      </div>
+      <div style="margin-top:1rem;text-align:center;font-size:.62rem;color:rgba(255,255,255,.15);line-height:1.6">
+        🔒 SHA-256 · Credenciales no almacenadas · Solo sesión local
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BADGE SESIÓN PRO ACTIVA -->
+<div id="sessionBadge" style="display:none">
+  <i class="ti ti-crown" style="font-size:11px;color:#60a5fa"></i>
+  PRO: <span id="sessionUser">—</span>
+  <span class="logout-hint" onclick="doLogout()" title="Cerrar sesión">· cerrar sesión</span>
+</div>
 
 <!-- ADMIN RIBBON -->
 <div class="admin-ribbon">
@@ -353,10 +479,10 @@ input:checked+.tog-sl::before{transform:translateX(17px)}
   </div>
   <nav class="topnav">
     <button class="tnav on" id="tnav-calc" onclick="showPg('calc')"><i class="ti ti-calculator"></i>Calculadora</button>
-    <button class="tnav" id="tnav-ia" onclick="showPg('ia')"><i class="ti ti-robot"></i>IA Valentina</button>
+    <button class="tnav" id="tnav-ia" onclick="requirePro('ia')"><i class="ti ti-robot"></i>IA Valentina <span class="pro-lock-badge locked">PRO</span></button>
     <button class="tnav" id="tnav-edu" onclick="showPg('edu')"><i class="ti ti-book-2"></i>Educativo</button>
     <button class="tnav" id="tnav-ica" onclick="showPg('ica')"><i class="ti ti-map-pin"></i>ICA</button>
-    <button class="tnav" id="tnav-hist" onclick="showPg('hist')"><i class="ti ti-history"></i>Historial</button>
+    <button class="tnav" id="tnav-prod" onclick="requirePro('prod')"><i class="ti ti-shopping-bag"></i>Productos <span class="pro-lock-badge locked">PRO</span></button>
   </nav>
   <div class="topbar-right">
     <div class="uvt-pill">UVT 2026 <strong>$52.374</strong></div>
@@ -383,9 +509,10 @@ input:checked+.tog-sl::before{transform:translateX(17px)}
   </div>
   <div class="rail-sec">
     <div class="rail-label">Herramientas (Admin)</div>
-    <div class="ri" onclick="showPg('ia')"><i class="ti ti-robot"></i>IA Valentina <span class="ri-badge">ACTIVA</span></div>
-    <div class="ri" onclick="exportarPDF()"><i class="ti ti-file-download"></i>Exportar PDF</div>
-    <div class="ri" onclick="exportarExcel()"><i class="ti ti-table-export"></i>Exportar Excel</div>
+    <div class="ri" onclick="requirePro('ia')"><i class="ti ti-robot"></i>IA Valentina <span class="ri-badge">PRO</span></div>
+    <div class="ri" onclick="requirePro('pdf')"><i class="ti ti-file-download"></i>Exportar PDF <span class="ri-badge">PRO</span></div>
+    <div class="ri" onclick="requirePro('excel')"><i class="ti ti-table-export"></i>Exportar Excel <span class="ri-badge">PRO</span></div>
+    <div class="ri" onclick="requirePro('prod')"><i class="ti ti-shopping-bag"></i>Productos digitales <span class="ri-badge">PRO</span></div>
     <div class="ri" onclick="showPg('hist')"><i class="ti ti-history"></i>Historial</div>
   </div>
 </aside>
@@ -632,9 +759,9 @@ input:checked+.tog-sl::before{transform:translateX(17px)}
     <div class="brow">
       <button class="btn btn-ghost" onclick="goTab('t-partes')"><i class="ti ti-refresh"></i>Nueva consulta</button>
       <button class="btn btn-emerald" onclick="guardar()"><i class="ti ti-device-floppy"></i>Guardar</button>
-      <button class="btn btn-ghost" onclick="exportarPDF()"><i class="ti ti-file-download"></i>Exportar PDF</button>
-      <button class="btn btn-ghost" onclick="exportarExcel()"><i class="ti ti-table-export"></i>Exportar Excel</button>
-      <button class="btn btn-violet" onclick="showPg('ia')"><i class="ti ti-robot"></i>Consultar IA Valentina</button>
+      <button class="btn btn-ghost" onclick="requirePro('pdf')"><i class="ti ti-file-download"></i>Exportar PDF <span class="pro-lock-badge locked" id="pdfLockBadge">PRO</span></button>
+      <button class="btn btn-ghost" onclick="requirePro('excel')"><i class="ti ti-table-export"></i>Exportar Excel <span class="pro-lock-badge locked" id="xlsLockBadge">PRO</span></button>
+      <button class="btn btn-violet" onclick="requirePro('ia')"><i class="ti ti-robot"></i>IA Valentina <span class="pro-lock-badge locked" id="iaLockBadge">PRO</span></button>
     </div>
   </div>
 </div>
@@ -753,6 +880,77 @@ input:checked+.tog-sl::before{transform:translateX(17px)}
     <div class="hero-sub">Cálculos guardados en esta sesión</div>
   </div>
   <div id="histList"></div>
+</div>
+
+<!-- ===== PRODUCTOS DIGITALES PRO ===== -->
+<div id="pg-prod" class="pg">
+  <div class="hero-band">
+    <div class="hero-title"><i class="ti ti-shopping-bag" style="font-size:1.2rem;vertical-align:-2px;margin-right:6px"></i>Productos Digitales PRO</div>
+    <div class="hero-sub">Guías, ejercicios prácticos y documentos exclusivos para contadores y emprendedores</div>
+  </div>
+  <div class="expl expl-ok" style="margin-bottom:1.1rem"><i class="ti ti-crown"></i><span>Acceso PRO activo · Todos los productos están disponibles para ti</span></div>
+  <div class="prod-grid">
+    <div class="prod-card">
+      <div class="prod-thumb" style="background:linear-gradient(135deg,#dde8ff,#e0f7fa)">📋</div>
+      <div class="prod-body">
+        <div class="prod-badge prod-badge-new"><i class="ti ti-check" style="font-size:9px"></i>NUEVO</div>
+        <div class="prod-cat">Guía práctica</div>
+        <div class="prod-title">Retenciones 2026 — Guía completa Decreto 572</div>
+        <div class="prod-desc">Todo sobre las nuevas bases y la revocatoria de la suspensión. Con ejemplos resueltos.</div>
+        <div class="prod-price">Incluido en PRO</div>
+      </div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-thumb" style="background:linear-gradient(135deg,#d1fae5,#a7f3d0)">🧮</div>
+      <div class="prod-body">
+        <div class="prod-badge prod-badge-new"><i class="ti ti-check" style="font-size:9px"></i>NUEVO</div>
+        <div class="prod-cat">Ejercicios</div>
+        <div class="prod-title">50 ejercicios de retefuente con solución</div>
+        <div class="prod-desc">Casos reales: servicios, honorarios, compras, AIU, SIMPLE y más. Ideal para estudio.</div>
+        <div class="prod-price">Incluido en PRO</div>
+      </div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-thumb" style="background:linear-gradient(135deg,#fce4ec,#f8bbd0)">🚀</div>
+      <div class="prod-body">
+        <div class="prod-badge prod-badge-new"><i class="ti ti-check" style="font-size:9px"></i>NUEVO</div>
+        <div class="prod-cat">Emprendedor</div>
+        <div class="prod-title">Kit tributario para emprendedores</div>
+        <div class="prod-desc">Documentos, formatos y guías para que tu negocio empiece con el pie derecho.</div>
+        <div class="prod-price">Incluido en PRO</div>
+      </div>
+    </div>
+    <div class="prod-card" style="opacity:.65">
+      <div class="prod-thumb" style="background:var(--mist2)">📊</div>
+      <div class="prod-body">
+        <div class="prod-badge prod-badge-soon">Próximamente</div>
+        <div class="prod-cat">Plantilla</div>
+        <div class="prod-title">Plantilla Excel — Declaración de renta PN</div>
+        <div class="prod-desc">Calcula tu declaración de renta 2025 paso a paso con esta plantilla inteligente.</div>
+        <div class="prod-coming">Disponible en agosto 2026</div>
+      </div>
+    </div>
+    <div class="prod-card" style="opacity:.65">
+      <div class="prod-thumb" style="background:var(--mist2)">🏛️</div>
+      <div class="prod-body">
+        <div class="prod-badge prod-badge-soon">Próximamente</div>
+        <div class="prod-cat">Guía</div>
+        <div class="prod-title">Estatutón municipal 2026 — Guía ICA</div>
+        <div class="prod-desc">Tarifas de ICA de los 32 municipios principales de Colombia actualizadas.</div>
+        <div class="prod-coming">Disponible en julio 2026</div>
+      </div>
+    </div>
+    <div class="prod-card" style="opacity:.65">
+      <div class="prod-thumb" style="background:var(--mist2)">📝</div>
+      <div class="prod-body">
+        <div class="prod-badge prod-badge-soon">Próximamente</div>
+        <div class="prod-cat">Documento</div>
+        <div class="prod-title">Contrato de prestación de servicios + cláusulas tributarias</div>
+        <div class="prod-desc">Modelo de contrato con retención, IVA y cláusulas de cumplimiento tributario.</div>
+        <div class="prod-coming">Disponible en septiembre 2026</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 </main>
@@ -1486,6 +1684,181 @@ function aiClearChat(){
 }
 
 evalLogica();renderICA();
+
+// ====== SISTEMA PRO — SHA-256 MODAL ======
+const _UH = '3cc031dade86a462ebb6722280f770d0f853059c12f7901780374f1e4b024376';
+const _PH = 'c8ab181951719c3b9f16a1e125331f35c6c8497b8dedb84c521cd74d47980ca5';
+
+let _proSession = false;
+let _pendingAction = null;
+let _attempts = 0;
+let _locked = false;
+let _lockTimer = null;
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+// Acciones que requieren PRO
+function requirePro(action) {
+  if (_proSession) {
+    // Ya autenticado — ejecutar directo
+    executePro(action);
+    return;
+  }
+  _pendingAction = action;
+  openProModal();
+}
+
+function executePro(action) {
+  if (action === 'ia') { showPg('ia'); }
+  else if (action === 'pdf') { exportarPDF(); }
+  else if (action === 'excel') { exportarExcel(); }
+  else if (action === 'prod') { showPg('prod'); }
+  updateProBadges();
+}
+
+function openProModal() {
+  document.getElementById('proOverlay').classList.add('show');
+  document.getElementById('proErrorMsg').innerHTML = '';
+  document.getElementById('proUser').value = '';
+  document.getElementById('proPwd').value = '';
+  document.getElementById('proAttemptsInfo').style.display = 'none';
+  setTimeout(() => document.getElementById('proUser').focus(), 120);
+}
+
+function closeProModal() {
+  document.getElementById('proOverlay').classList.remove('show');
+  _pendingAction = null;
+}
+
+// Cerrar modal al hacer clic fuera
+document.getElementById('proOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeProModal();
+});
+
+function proLoginKey(e) {
+  if (e.key === 'Enter') doProLogin();
+  if (e.key === 'Escape') closeProModal();
+}
+
+function toggleProPwd() {
+  const inp = document.getElementById('proPwd');
+  const icon = document.getElementById('proEyeIcon');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  icon.className = inp.type === 'password' ? 'ti ti-eye' : 'ti ti-eye-off';
+}
+
+function showProError(msg) {
+  document.getElementById('proErrorMsg').innerHTML =
+    `<div class="login-error"><i class="ti ti-alert-circle"></i><span>${msg}</span></div>`;
+  document.getElementById('proModal').classList.add('shake');
+  setTimeout(() => document.getElementById('proModal').classList.remove('shake'), 500);
+}
+
+function startProLockout() {
+  _locked = true;
+  document.getElementById('proLoginForm').style.display = 'none';
+  document.getElementById('proLockedMsg').style.display = 'block';
+  let secs = 60;
+  document.getElementById('proLockCountdown').textContent = secs;
+  _lockTimer = setInterval(() => {
+    secs--;
+    document.getElementById('proLockCountdown').textContent = secs;
+    if (secs <= 0) {
+      clearInterval(_lockTimer);
+      _locked = false; _attempts = 0;
+      document.getElementById('proLockedMsg').style.display = 'none';
+      document.getElementById('proLoginForm').style.display = 'block';
+      document.getElementById('proErrorMsg').innerHTML = '';
+      document.getElementById('proAttemptsInfo').style.display = 'none';
+    }
+  }, 1000);
+}
+
+async function doProLogin() {
+  if (_locked) return;
+  const userVal = document.getElementById('proUser').value.trim();
+  const pwdVal  = document.getElementById('proPwd').value;
+  const btn     = document.getElementById('proLoginBtn');
+  if (!userVal || !pwdVal) { showProError('Por favor ingresa usuario y contraseña.'); return; }
+
+  btn.disabled = true;
+  btn.innerHTML = '<div class="login-spinner"></div>Verificando...';
+
+  const [uHash, pHash] = await Promise.all([sha256(userVal), sha256(pwdVal)]);
+  await new Promise(r => setTimeout(r, 550));
+
+  if (uHash === _UH && pHash === _PH) {
+    // ÉXITO
+    _proSession = true;
+    btn.innerHTML = '<i class="ti ti-check"></i>¡Acceso PRO desbloqueado!';
+    btn.style.background = 'linear-gradient(135deg,#059669,#10b981)';
+    setTimeout(() => {
+      closeProModal();
+      updateProBadges();
+      document.getElementById('sessionBadge').style.display = 'flex';
+      document.getElementById('sessionUser').textContent = userVal;
+      if (_pendingAction) { executePro(_pendingAction); _pendingAction = null; }
+      btn.disabled = false;
+      btn.style.background = '';
+      btn.innerHTML = '<i class="ti ti-shield-check"></i>Desbloquear acceso PRO';
+    }, 700);
+  } else {
+    // FALLO
+    _attempts++;
+    btn.disabled = false;
+    btn.innerHTML = '<i class="ti ti-shield-check"></i>Desbloquear acceso PRO';
+    document.getElementById('proPwd').value = '';
+    if (_attempts >= 5) {
+      startProLockout();
+    } else {
+      const left = 5 - _attempts;
+      showProError(`Credenciales incorrectas. Te quedan <strong>${left}</strong> intento${left===1?'':'s'}.`);
+      document.getElementById('proAttemptsInfo').style.display = 'block';
+      document.getElementById('proAttemptsCount').textContent = _attempts;
+    }
+  }
+}
+
+function doLogout() {
+  if (!confirm('¿Cerrar sesión PRO?')) return;
+  _proSession = false;
+  document.getElementById('sessionBadge').style.display = 'none';
+  // Si estaba en página PRO, regresar a calculadora
+  const proPages = ['ia','prod'];
+  const active = document.querySelector('.pg.on');
+  if (active && proPages.includes(active.id.replace('pg-',''))) showPg('calc');
+  updateProBadges();
+}
+
+function updateProBadges() {
+  // Actualiza badges de candado en botones
+  const badges = document.querySelectorAll('.pro-lock-badge');
+  badges.forEach(b => {
+    if (_proSession) {
+      b.textContent = 'PRO ✓';
+      b.classList.remove('locked');
+      b.style.background = 'linear-gradient(135deg,#059669,#10b981)';
+    } else {
+      b.classList.add('locked');
+      b.style.background = '';
+    }
+  });
+}
+
+// Bloquear navegación directa a páginas PRO sin sesión
+const _originalShowPg = showPg;
+window.showPg = function(p) {
+  const proPages = ['ia','prod'];
+  if (proPages.includes(p) && !_proSession) {
+    requirePro(p);
+    return;
+  }
+  _originalShowPg(p);
+};
+
 </script>
 </body>
 </html>
