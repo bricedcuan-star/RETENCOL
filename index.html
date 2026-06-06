@@ -1636,30 +1636,28 @@ async function aiSendMessage(){
   aiTyping=true;aiShowTyping();
 
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
+    // Llamada al proxy seguro en Vercel — la API key nunca toca el navegador
+    const res=await fetch('/api/chat',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
-        system:AI_SYSTEM,
-        messages:aiHistory,
-      })
+      body:JSON.stringify({ messages: aiHistory })
     });
     const data=await res.json();
     aiHideTyping();aiTyping=false;
-    if(data.content&&data.content[0]&&data.content[0].text){
-      const reply=data.content[0].text;
+    if(data.reply){
+      const reply=data.reply;
       aiHistory.push({role:'assistant',content:reply});
       const htmlReply=`<p>${mdToHtml(reply)}</p>
         <div class="disc-mini"><i class="ti ti-info-circle"></i><span>Orientación tributaria · Valida con tu contador · UVT 2026: $52.374 · Dcto. 572/2025 vigente desde 1° jul 2026</span></div>`;
       aiAppendMsg('val',htmlReply);
+    } else if(data.error){
+      aiAppendMsg('val',`<p>⚠️ ${escHtml(data.error)}</p>`);
     } else {
-      aiAppendMsg('val','<p>Hmm, tuve un problemita conectándome 😅 ¿Puedes intentarlo de nuevo?</p>');
+      aiAppendMsg('val','<p>Hmm, tuve un problemita 😅 ¿Puedes intentarlo de nuevo?</p>');
     }
   }catch(err){
     aiHideTyping();aiTyping=false;
-    aiAppendMsg('val','<p>¡Uy! Hubo un problema de conexión 😅 Intenta en un momento.</p>');
+    aiAppendMsg('val','<p>¡Uy! Problema de conexión 😅 Revisa tu internet e intenta de nuevo.</p>');
   }
 }
 
