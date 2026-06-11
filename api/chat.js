@@ -54,26 +54,22 @@ export default async function handler(req, res) {
   }
 
   // Convertir formato {role, content} → formato Gemini {role, parts}
-  // Gemini usa "model" en vez de "assistant"
   const geminiContents = messages.slice(-20).map(m => ({
     role: m.role === 'assistant' ? 'model' : 'user',
     parts: [{ text: String(m.content) }],
   }));
 
-  // Gemini requiere que el primer mensaje sea "user"
-  // y que los roles alternen user/model
+  // Gemini requiere que el primer mensaje sea "user" y que alternen
   const cleanedContents = [];
   for (const msg of geminiContents) {
     const last = cleanedContents[cleanedContents.length - 1];
     if (last && last.role === msg.role) {
-      // fusionar mensajes del mismo rol
       last.parts[0].text += '\n' + msg.parts[0].text;
     } else {
       cleanedContents.push({ ...msg, parts: [{ text: msg.parts[0].text }] });
     }
   }
 
-  // Asegurar que empiece con "user"
   if (cleanedContents.length > 0 && cleanedContents[0].role !== 'user') {
     cleanedContents.shift();
   }
@@ -82,8 +78,9 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'No hay mensajes válidos para procesar.' });
   }
 
+  // CORRECCIÓN AQUÍ: Cambiado system_instruction por systemInstruction (exigido por API v1)
   const geminiPayload = {
-    system_instruction: {
+    systemInstruction: {
       parts: [{ text: SYSTEM_PROMPT }],
     },
     contents: cleanedContents,
@@ -99,7 +96,8 @@ export default async function handler(req, res) {
     ],
   };
 
-  const GEMINI_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+  // CORRECCIÓN AQUÍ: Ruta v1 limpia y oficial
+  const GEMINI_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
   try {
     const geminiRes = await fetch(GEMINI_URL, {
