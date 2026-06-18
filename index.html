@@ -1,303 +1,769 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RETENCOL — Liquidador de Retenciones Express</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f4f6f9;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
-        .clean-card {
-            border: none;
-            border-radius: 16px;
-            background: #ffffff;
-        }
-        .nav-pills .nav-link {
-            color: #6c757d;
-            border-radius: 8px;
-            font-weight: 500;
-            padding: 10px 20px;
-        }
-        .nav-pills .nav-link.active {
-            background-color: #0d6efd;
-            color: #ffffff;
-        }
-        .result-box {
-            background-color: #f8f9fa;
-            border-radius: 12px;
-            padding: 20px;
-            border-left: 5px solid #198754;
-        }
-        .text-neto {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: #198754;
-        }
-        .form-label {
-            font-weight: 600;
-            color: #495057;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RETENCOL </title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg-main: #f8fafc;
+  --bg-surface: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --text-soft: #94a3b8;
+  
+  --brand-primary: #2563eb;
+  --brand-primary-soft: #eff6ff;
+  --brand-dark: #020617;
+  
+  --accent-emerald: #10b981;
+  --accent-emerald-soft: #ecfdf5;
+  --accent-amber: #f59e0b;
+  --accent-amber-soft: #fffbeb;
+  --accent-rose: #ef4444;
+  --accent-rose-soft: #fef2f2;
+  
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+}
+
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-main);color:var(--text-main);min-height:100vh;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-weight:700;letter-spacing:-0.02em}
+
+/* TOPBAR */
+.topbar{background:var(--bg-surface);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:64px;position:sticky;top:0;z-index:200;box-shadow:var(--shadow-sm);border-bottom:1px solid #e2e8f0}
+.brand{display:flex;align-items:center;gap:12px;cursor:pointer}
+.brand-mark{width:32px;height:32px;background:var(--brand-dark);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:14px}
+.brand-name{font-size:1.15rem;font-weight:800;color:var(--brand-dark);letter-spacing:-0.03em}
+.brand-year{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--text-soft);letter-spacing:.05em}
+
+.topnav{display:flex;gap:4px;background:#f1f5f9;padding:4px;border-radius:var(--radius-md)}
+.tnav{background:none;border:none;color:var(--text-muted);font-size:.85rem;font-weight:600;font-family:inherit;padding:.5rem 1rem;border-radius:var(--radius-sm);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+.tnav:hover{color:var(--text-main)}
+.tnav.on{color:var(--brand-primary);background:var(--bg-surface);box-shadow:var(--shadow-sm)}
+.tnav i{font-size:16px}
+
+.topbar-right{display:flex;align-items:center;gap:12px}
+.uvt-pill{background:#f1f5f9;border-radius:20px;padding:.3rem .8rem;font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--text-muted);font-weight:500}
+.uvt-pill strong{color:var(--brand-primary);font-weight:600}
+.btn-pro-top{background:var(--brand-dark);color:#fff;border:none;border-radius:20px;padding:.35rem .9rem;font-size:.75rem;font-weight:600;font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .2s}
+.btn-pro-top:hover{opacity:0.9;transform:translateY(-1px)}
+
+/* LAYOUT PANEL */
+.shell{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 64px)}
+.rail{background:var(--bg-surface);padding:1.5rem 1rem;border-right:1px solid #e2e8f0;overflow-y:auto}
+.content{padding:2.5rem;overflow-y:auto;max-height:calc(100vh - 64px);max-width:1200px;width:100%;margin:0 auto}
+
+/* SIDEBAR RAIL */
+.rail-sec{margin-bottom:1.75rem}
+.rail-label{font-size:.65rem;font-weight:700;letter-spacing:.1em;color:var(--text-soft);padding:0 .5rem .5rem;text-transform:uppercase}
+.ri{display:flex;align-items:center;gap:10px;padding:.6rem .75rem;border-radius:var(--radius-md);color:var(--text-muted);font-size:.85rem;font-weight:500;cursor:pointer;transition:all .15s}
+.ri:hover{color:var(--text-main);background:#f1f5f9}
+.ri.on{color:var(--brand-primary);background:var(--brand-primary-soft);font-weight:600}
+.ri i{font-size:18px;flex-shrink:0}
+.ri-badge{margin-left:auto;font-size:.6rem;font-weight:700;padding:2px 6px;border-radius:10px;background:#f1f5f9;color:var(--text-muted)}
+.ri-alert{margin-left:auto;font-size:.6rem;font-weight:700;padding:2px 6px;border-radius:10px;background:var(--accent-amber-soft);color:var(--accent-amber)}
+
+/* COMPONENTES DE PÁGINAS */
+.pg{display:none}.pg.on{display:block}
+
+/* TARJETAS PREMIUM */
+.card{background:var(--bg-surface);border-radius:var(--radius-lg);border:1px solid #e2e8f0;box-shadow:var(--shadow-md);margin-bottom:1.5rem;overflow:hidden}
+.card-hd{padding:1.25rem 1.5rem;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:10px}
+.card-hd h3{font-size:.95rem;font-weight:700;color:var(--brand-dark)}
+.card-hd i{font-size:18px;color:var(--brand-primary)}
+.card-bd{padding:1.5rem}
+
+/* ALERTA NORMATIVA ELEGANTE */
+.norm-alert-banner {background: var(--accent-amber-soft);border: 1px solid #fde68a;border-radius: var(--radius-md);padding: 1rem 1.25rem;display: flex;gap:12px;margin-bottom: 1.5rem}
+.norm-alert-banner i {color: var(--accent-amber);font-size: 20px;flex-shrink: 0}
+.norm-alert-banner-txt {font-size: .85rem;color: #78350f;line-height: 1.5}
+.norm-alert-banner-txt strong {font-weight: 700}
+.norm-alert-banner-txt a {color: var(--brand-primary);text-decoration: none;font-weight: 600}
+
+/* HEROBAND LIMPIO */
+.hero-band{background:var(--brand-dark);border-radius:var(--radius-lg);padding:2rem;margin-bottom:1.5rem;color:#fff}
+.hero-title{font-size:1.4rem;font-weight:800;margin-bottom:.5rem;display:flex;align-items:center;gap:8px}
+.hero-sub{font-size:.85rem;color:var(--text-soft)}
+
+/* PASOS / STEPPER */
+.stepper{display:flex;margin-bottom:1.75rem;background:var(--bg-surface);padding:.5rem;border-radius:var(--radius-lg);border:1px solid #e2e8f0;box-shadow:var(--shadow-sm)}
+.stp{font-size:.85rem;font-weight:600;font-family:inherit;padding:.6rem 1.2rem;cursor:pointer;background:none;border:none;transition:all .15s;color:var(--text-muted);display:flex;align-items:center;gap:8px;flex:1;justify-content:center;border-radius:var(--radius-md)}
+.stp:hover{color:var(--text-main);background:#f8fafc}
+.stp.on{color:var(--brand-primary);background:var(--brand-primary-soft)}
+.stp.done{color:var(--accent-emerald)}
+.stp-n{width:22px;height:22px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--text-muted)}
+.stp.on .stp-n{background:var(--brand-primary);color:#fff}
+.stp.done .stp-n{background:var(--accent-emerald);color:#fff}
+
+/* FORMULARIOS ESTILIZADOS */
+.fg{display:flex;flex-direction:column;gap:6px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.25rem}
+label{font-size:.8rem;font-weight:600;color:var(--text-muted)}
+label .req{color:var(--accent-rose);margin-left:2px}
+input,select{font-family:inherit;font-size:.9rem;border:1px solid #cbd5e1;border-radius:var(--radius-md);padding:.65rem .85rem;background:var(--bg-surface);color:var(--text-main);width:100%;transition:all .15s;outline:none}
+input:focus,select:focus{border-color:var(--brand-primary);box-shadow:0 0 0 4px rgba(37,99,235,0.15)}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem;cursor:pointer}
+.pfx{position:relative}.pfx input{padding-left:1.85rem}.pfx .px{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);color:var(--text-soft);font-size:.9rem;pointer-events:none}
+input[readonly]{background:#f1f5f9;color:var(--text-muted);border-color:#e2e8f0}
+
+/* BOTONES */
+.btn{font-family:inherit;font-size:.85rem;font-weight:600;padding:.65rem 1.25rem;border-radius:var(--radius-md);border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .2s}
+.btn-cobalt{background:var(--brand-primary);color:#fff}.btn-cobalt:hover{background:#1d4ed8;transform:translateY(-1px)}
+.btn-ghost{background:var(--bg-surface);color:var(--text-muted);border:1px solid #cbd5e1}.btn-ghost:hover{background:#f8fafc;color:var(--text-main)}
+.btn-emerald{background:var(--accent-emerald);color:#fff}.btn-emerald:hover{background:#059669}
+.brow{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1.5rem}
+
+/* CONTROLES INTEGRADOS (TOGGLE SWITCH) */
+.trow{display:flex;align-items:center;justify-content:space-between;padding:1rem 0;border-bottom:1px solid #f1f5f9}
+.trow:last-child{border-bottom:none}
+.trow-label{font-size:.9rem;font-weight:600;color:var(--brand-dark)}
+.trow-sub{font-size:.78rem;color:var(--text-muted);margin-top:2px}
+.tog{position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0}
+.tog input{opacity:0;width:0;height:0}
+.tog-sl{position:absolute;cursor:pointer;inset:0;background:#e2e8f0;border-radius:12px;transition:.2s}
+.tog-sl::before{content:'';position:absolute;height:16px;width:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+input:checked+.tog-sl{background:var(--brand-primary)}
+input:checked+.tog-sl::before{transform:translateX(18px)}
+
+/* EXPLICACIONES EN LÍNEA */
+.expl{display:flex;gap:10px;align-items:flex-start;padding:1rem;border-radius:var(--radius-md);margin-bottom:.75rem;font-size:.85rem}
+.expl i{font-size:18px;flex-shrink:0}
+.expl-info{background:var(--brand-primary-soft);color:var(--brand-primary)}
+.expl-ok{background:var(--accent-emerald-soft);color:var(--accent-emerald)}
+.expl-warn{background:var(--accent-amber-soft);color:#92400e}
+.expl-tip{background: #f0fdfa;color: #042f2e; border: 1px solid #ccfbf1}
+
+/* INDICADORES FINANCIEROS (KPI DASHBOARD) */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem}
+.mc{background:var(--bg-surface);border:1px solid #e2e8f0;border-radius:var(--radius-lg);padding:1.25rem;box-shadow:var(--shadow-sm)}
+.mc.accent{border-color:#bfdbfe;background:var(--brand-primary-soft)}
+.mc.success{border-color:#a7f3d0;background:var(--accent-emerald-soft)}
+.mc.warn{border-color:#fde68a;background:var(--accent-amber-soft)}
+.mc-label{font-size:.75rem;color:var(--text-muted);font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.02em}
+.mc-val{font-family:'JetBrains Mono',monospace;font-size:1.25rem;font-weight:700;color:var(--brand-dark)}
+.mc.accent .mc-val{color:var(--brand-primary)}
+.mc.success .mc-val{color:var(--accent-emerald)}
+.mc.warn .mc-val{color:#b45309}
+
+/* TABLAS ESTILO PREMIUM */
+.btable{width:100%;border-collapse:collapse;font-size:.85rem}
+.btable thead th{background:#f8fafc;color:var(--text-muted);padding:.75rem 1rem;font-size:.75rem;font-weight:700;letter-spacing:.02em;text-align:left;border-bottom:1px solid #e2e8f0}
+.btable tbody td{padding:1rem;border-bottom:1px solid #f1f5f9;color:var(--text-main);vertical-align:middle}
+.btable tbody td:last-child{text-align:right;font-weight:600;font-family:'JetBrains Mono',monospace}
+.row-sub{font-size:.75rem;color:var(--text-muted);margin-top:2px}
+.tr-base{background:#f8fafc}
+.tr-total td{font-weight:700;background:var(--brand-dark);color:#fff!important}
+.tr-total td:last-child{color:#60a5fa!important}
+.tr-neto td{background:var(--accent-emerald-soft);color:var(--accent-emerald)!important;font-weight:700!important;font-size:.95rem}
+
+/* TABLA COMPARATIVA */
+.comp-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.comp-table thead th{background:var(--brand-dark);color:#fff;padding:.75rem 1rem;font-size:.8rem;text-align:left}
+.comp-table tbody td{padding:1rem;border-bottom:1px solid #e2e8f0}
+.col-susp{background:var(--accent-rose-soft);color:var(--accent-rose);text-decoration:line-through;opacity:0.7}
+.col-vigente{background:var(--accent-emerald-soft);color:var(--accent-emerald);font-weight:600}
+.col-concepto{font-weight:600;color:var(--brand-dark);background:#f8fafc}
+
+/* INSIGNIAS / BADGES */
+.bd{display:inline-flex;align-items:center;padding:.2rem .6rem;border-radius:12px;font-size:.7rem;font-weight:600}
+.bd-blue{background:var(--brand-primary-soft);color:var(--brand-primary)}
+.bd-green{background:var(--accent-emerald-soft);color:var(--accent-emerald)}
+.bd-gray{background:#f1f5f9;color:var(--text-muted)}
+.bd-amber{background:var(--accent-amber-soft);color:#b45309}
+
+/* CARDS EDUCATIVAS */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;margin-bottom:1.5rem}
+.ccard{background:var(--bg-surface);border:1px solid #e2e8f0;border-radius:var(--radius-lg);padding:1.25rem;cursor:pointer;transition:all 0.2s;box-shadow:var(--shadow-sm)}
+.ccard:hover{border-color:var(--brand-primary);transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.cc-icon{width:40px;height:40px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:1rem}
+.cc-title{font-size:.95rem;font-weight:700;color:var(--brand-dark);margin-bottom:4px}
+.cc-desc{font-size:.8rem;color:var(--text-muted);line-height:1.4}
+
+/* MODAL PRO */
+.promo{position:fixed;inset:0;background:rgba(2,6,17,0.6);backdrop-filter:blur(4px);z-index:999;display:flex;align-items:center;justify-content:center;padding:1rem}
+.probox{background:var(--bg-surface);border-radius:var(--radius-lg);width:100%;max-width:460px;overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid #e2e8f0}
+.probox-top{background:var(--brand-dark);padding:2rem;text-align:center;color:#fff}
+.probox-icon{width:48px;height:48px;background:var(--brand-primary);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:24px}
+.probox-title{font-size:1.35rem;font-weight:800;margin-bottom:.25rem}
+.probox-sub{font-size:.85rem;color:var(--text-soft)}
+.probox-body{padding:1.5rem}
+.pro-feat{display:flex;align-items:center;gap:10px;padding:.5rem 0;font-size:.85rem;color:var(--text-main);border-bottom:1px solid #f1f5f9}
+.pro-feat i{color:var(--accent-emerald);font-size:16px}
+.pro-price{background:var(--brand-primary-soft);border-radius:var(--radius-md);padding:1rem;text-align:center;margin:1rem 0}
+.pro-price .amount{font-size:1.6rem;color:var(--brand-primary);font-weight:700}
+.btn-pro-main{width:100%;background:var(--brand-primary);color:#fff;border:none;border-radius:var(--radius-md);padding:.75rem;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px}
+
+@keyframes slideUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.fade{animation:slideUp .2s cubic-bezier(0.16, 1, 0.3, 1)}
+@media(max-width:768px){.shell{grid-template-columns:1fr}.rail{display:none}.g2,.g3{grid-template-columns:1fr}.mgrid{grid-template-columns:1fr 1fr}}
+</style>
 </head>
 <body>
 
-    <!-- CABECERA RETENCOL REAL -->
-    <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom py-3">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#">
-                <span class="fw-bold text-dark text-uppercase">🛡️ RETENCOL</span>
-                <span class="badge bg-light text-muted border ms-2 font-monospace">v2026.1</span>
-            </a>
-            <div class="ms-auto">
-                <span class="text-muted small"><i class="bi bi-calendar3"></i> Periodo Operativo: <strong>Junio 2026</strong></span>
-            </div>
+<!-- ALERTA NORMATIVA PRINCIPAL -->
+<div class="norm-alert-banner">
+  <i class="ti ti-gavel"></i>
+  <div class="norm-alert-banner-txt">
+    <strong>Normativa Actualizada:</strong> El Consejo de Estado suspendió provisionalmente los efectos del Decreto 572/2025[cite: 3]. RETENCOL aplica automáticamente los topes y bases del Decreto 1625/2016[cite: 3]. <a href="https://www.dian.gov.co/Prensa/Paginas/NG-Comunicado-de-Prensa-070-2026.aspx" target="_blank">Ver Circular DIAN 070 →</a>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="brand" onclick="showPg('calc')">
+    <div class="brand-mark">R</div>
+    <span class="brand-name">RETENCOL <span class="brand-year">2026</span></span>
+  </div>
+  <nav class="topnav">
+    <button class="tnav on" id="tnav-calc" onclick="showPg('calc')"><i class="ti ti-calculator"></i>Calculadora</button>
+    <button class="tnav" id="tnav-edu" onclick="showPg('edu')"><i class="ti ti-book-2"></i>Módulos</button>
+    <button class="tnav" id="tnav-ica" onclick="showPg('ica')"><i class="ti ti-map-pin"></i>ICA</button>
+    <button class="tnav" id="tnav-hist" onclick="showPg('hist')"><i class="ti ti-history"></i>Historial</button>
+  </nav>
+  <div class="topbar-right">
+    <div class="uvt-pill">UVT 2026: <strong>$52.374</strong></div>
+    <button class="btn-pro-top" onclick="openPro()"><i class="ti ti-crown"></i>PRO</button>
+  </div>
+</header>
+
+<div class="shell">
+<aside class="rail">
+  <div class="rail-sec">
+    <div class="rail-label">Herramientas</div>
+    <div class="ri on" onclick="showPg('calc')"><i class="ti ti-percentage"></i>Retefuente</div>
+    <div class="ri" onclick="showPg('calc')"><i class="ti ti-receipt-2"></i>IVA / Reteiva</div>
+    <div class="ri" onclick="showPg('ica')"><i class="ti ti-map"></i>ICA Distrital</div>
+  </div>
+  <div class="rail-sec">
+    <div class="rail-label">Normativa</div>
+    <div class="ri" onclick="showPg('norma')"><i class="ti ti-table"></i>Ver bases actuales <span class="ri-alert">Modificado</span></div>
+  </div>
+</aside>
+
+<main class="content">
+
+<!-- PÁGINA CALCULADORA -->
+<div id="pg-calc" class="pg on">
+  <div class="hero-band">
+    <div class="hero-title"><i class="ti ti-calculator"></i> Motor de Retenciones Liquidadas</div>
+    <div class="hero-sub">Procesamiento automático bajo bases restauradas del Decreto 1625/2016[cite: 3].</div>
+  </div>
+
+  <div class="stepper">
+    <button class="stp on" id="s1" onclick="goTab('t-partes')"><div class="stp-n">1</div> Perfiles</button>
+    <button class="stp" id="s2" onclick="goTab('t-op')"><div class="stp-n">2</div> Operación</button>
+    <button class="stp" id="s3" onclick="goTab('t-conc')"><div class="stp-n">3</div> Impuestos</button>
+    <button class="stp" id="s4" style="opacity:.4"><div class="stp-n">4</div> Resultados</button>
+  </div>
+
+  <!-- SECCIÓN PARTES -->
+  <div id="t-partes">
+    <div class="card">
+      <div class="card-hd"><i class="ti ti-building"></i><h3>Agente Comprador / Pagador</h3></div>
+      <div class="card-bd">
+        <div class="g2">
+          <div class="fg"><label>Tipo de Persona</label>
+            <select id="cTipo" onchange="evalLogica()">
+              <option value="">— Selecciona —</option>
+              <option value="pj_gran">Persona jurídica — Gran contribuyente</option>
+              <option value="pj_ord">Persona jurídica — Régimen ordinario</option>
+              <option value="pj_esp">Entidad pública (Nación / Territorio)</option>
+              <option value="pn_decl">Persona natural — Declarante de renta</option>
+              <option value="pn_no">Persona natural — No declarante</option>
+            </select>
+          </div>
+          <div class="fg"><label>Régimen Tributario</label>
+            <select id="cReg" onchange="evalLogica()">
+              <option value="ordinario">Régimen ordinario</option>
+              <option value="simple">Régimen SIMPLE de tributación</option>
+              <option value="especial">Régimen especial (ESAL)</option>
+            </select>
+          </div>
+          <div class="fg"><label>¿Es agente retenedor?</label>
+            <select id="cAgente" onchange="evalLogica()">
+              <option value="si">Sí — Está obligado a retener</option>
+              <option value="no">No — No practica retención</option>
+            </select>
+          </div>
+          <div class="fg"><label>Responsabilidad de IVA</label>
+            <select id="cIVA" onchange="evalLogica()">
+              <option value="si">Sí — Responsable de IVA</option>
+              <option value="no">No — No responsable de IVA</option>
+            </select>
+          </div>
         </div>
-    </nav>
-
-    <!-- INTERFAZ PRINCIPAL (VISTA EN IMAGE_82D988.PNG) -->
-    <div class="container my-5" style="max-width: 800px;">
-        
-        <div class="text-center mb-5">
-            <h1 class="fw-bold text-dark">Liquidador de Retenciones Express</h1>
-            <p class="text-muted">Procesa facturas de forma limpia y directa sin lidiar con ruido normativo en pantalla.</p>
-        </div>
-
-        <!-- PESTAÑAS DE PROGRESIÓN LÓGICA -->
-        <ul class="nav nav-pills nav-justified mb-4 p-2 bg-white rounded-3 shadow-sm" id="pills-tab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="paso1-tab" data-bs-toggle="pill" data-bs-target="#paso1" type="button" role="tab">① Datos Básicos</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="paso2-tab" data-bs-toggle="pill" data-bs-target="#paso2" type="button" role="tab">② Perfiles RUT</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="paso3-tab" data-bs-toggle="pill" data-bs-target="#paso3" type="button" role="tab" onclick="calcularRetenciones()">③ Resultado Neto</button>
-            </li>
-        </ul>
-
-        <!-- FORMULARIO DE ENTRADA / SALIDA -->
-        <div class="card clean-card shadow-sm p-4 p-md-5">
-            <div class="tab-content" id="pills-tabContent">
-                
-                <!-- PASO 1: DATOS DE LA FACTURA -->
-                <div class="tab-pane fade show active" id="paso1" role="tabpanel">
-                    <h4 class="fw-bold mb-4 text-dark">Paso 1: Datos de la Factura</h4>
-                    
-                    <div class="mb-4">
-                        <label for="monto" class="form-label">Valor antes de IVA ($)</label>
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-text bg-light text-muted">$</span>
-                            <input type="number" id="monto" class="form-control" value="1500000">
-                        </div>
-                    </div>
-
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-6">
-                            <label for="concepto" class="form-label">Concepto de la Operación</label>
-                            <select id="concepto" class="form-select">
-                                <option value="servicios">Servicios Generales (Declarante)</option>
-                                <option value="compras">Compras Generales (Declarante)</option>
-                                <option value="arriendos">Arrendamiento de Inmuebles</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="municipio" class="form-label">Municipio destino (Para ICA)</label>
-                            <select id="municipio" class="form-select">
-                                <option value="bogota">Bogotá D.C. (11.04 x 1000)</option>
-                                <option value="medellin">Medellín (4 x 1000)</option>
-                                <option value="cali">Cali (6.6 x 1000)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="text-end mt-4">
-                        <button class="btn btn-primary px-5 py-2" onclick="cambiarTab('#paso2-tab')">Siguiente →</button>
-                    </div>
-                </div>
-
-                <!-- PASO 2: PERFILES RUT -->
-                <div class="tab-pane fade" id="paso2" role="tabpanel">
-                    <h4 class="fw-bold mb-4 text-dark">Paso 2: Perfiles RUT</h4>
-                    
-                    <div class="p-3 border rounded-3 mb-4 bg-light">
-                        <div class="form-check form-switch d-flex justify-content-between align-items-center ps-0">
-                            <div>
-                                <label class="form-check-label fw-bold d-block text-dark" for="esAgente">¿El Comprador es Agente Retenedor?</label>
-                                <small class="text-muted">Casilla 53 del RUT contiene la responsabilidad 07.</small>
-                            </div>
-                            <input class="form-check-input ms-3 fs-4" type="checkbox" id="esAgente" checked>
-                        </div>
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="regimenVendedor" class="form-label">Régimen Fiscal del Vendedor</label>
-                        <select id="regimenVendedor" class="form-select">
-                            <option value="ordinario">Régimen Ordinario</option>
-                            <option value="simple">Régimen Simple de Tributación (RST)</option>
-                            <option value="natural">Persona Natural (No Declarante)</option>
-                        </select>
-                    </div>
-
-                    <div class="d-flex justify-content-between mt-5">
-                        <button class="btn btn-outline-secondary px-4" onclick="cambiarTab('#paso1-tab')">← Atrás</button>
-                        <button class="btn btn-success px-5" onclick="cambiarTab('#paso3-tab'); calcularRetenciones();">Calcular Neto</button>
-                    </div>
-                </div>
-
-                <!-- PASO 3: RESULTADO NETO (MINIMALISTA - INFORMACIÓN A DEMANDA) -->
-                <div class="tab-pane fade" id="paso3" role="tabpanel">
-                    <h4 class="fw-bold mb-4 text-dark">Paso 3: Resultado Neto</h4>
-
-                    <!-- AUTOMATIZACIÓN INVISIBLE: SOLO MUESTRA EL RESULTADO FINANCIERO -->
-                    <div class="result-box mb-4 text-center text-md-start">
-                        <div class="row align-items-center">
-                            <div class="col-md-7">
-                                <span class="text-muted text-uppercase fw-bold small d-block">Monto Neto a Pagar/Cobrar</span>
-                                <div class="text-neto" id="netoDisplay">$0</div>
-                            </div>
-                            <div class="col-md-5 text-md-end mt-3 mt-md-0">
-                                <div class="small text-muted">Base Bruta: <span id="brutoDisplay" class="fw-bold text-dark">$0</span></div>
-                                <div class="small text-muted">Retenciones Aplicadas: <span id="retenDisplay" class="fw-bold text-danger">-$0</span></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- INFORMACIÓN BAJO DEMANDA (SÓLO SI HACE CLIC) -->
-                    <div class="accordion accordion-flush border rounded-3 overflow-hidden mb-4" id="accordionDetalle">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed bg-light text-dark fw-bold small text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#panelDetalle">
-                                    🔍 Ver Sustento Legal y Desglose Técnico
-                                </button>
-                            </h2>
-                            <div id="panelDetalle" class="accordion-collapse collapse" data-bs-parent="#accordionDetalle">
-                                <div class="accordion-body bg-white p-0">
-                                    <ul class="list-group list-group-flush mb-0">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center py-3">
-                                            <div>
-                                                <strong class="d-block text-dark">Retención en la Fuente</strong>
-                                                <small class="text-muted" id="legalRetefuente">-</small>
-                                            </div>
-                                            <span class="badge bg-danger fs-6 px-3 py-2 font-monospace" id="valRetefuente">-$0</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center py-3">
-                                            <div>
-                                                <strong class="d-block text-dark">ReteICA</strong>
-                                                <small class="text-muted" id="legalICA">-</small>
-                                            </div>
-                                            <span class="badge bg-danger fs-6 px-3 py-2 font-monospace" id="valICA">-$0</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="d-flex justify-content-between mt-5">
-                        <button class="btn btn-outline-secondary px-4" onclick="cambiarTab('#paso2-tab')">Modificar</button>
-                        <button class="btn btn-primary px-4" onclick="window.location.reload()">Nueva Liquidación</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+      </div>
     </div>
-
-    <!-- PIE DE PÁGINA REAL DE TU CAPTURA -->
-    <footer class="text-center text-muted py-4 mt-5 border-top bg-white">
-        <div class="container">
-            <p class="mb-0 small">RETENCOL 2026 — Interfaz Minimalista Orientada a Resultados.</p>
+    <div class="card">
+      <div class="card-hd"><i class="ti ti-user-check"></i><h3>Proveedor / Vendedor</h3></div>
+      <div class="card-bd">
+        <div class="g2">
+          <div class="fg"><label>Tipo de Persona</label>
+            <select id="vTipo" onchange="evalLogica()">
+              <option value="">— Selecciona —</option>
+              <option value="pj_gran">Persona jurídica — Gran contribuyente</option>
+              <option value="pj_ord">Persona jurídica — Régimen ordinario</option>
+              <option value="pj_esp">Entidad pública</option>
+              <option value="pn_decl">Persona natural — Declarante de renta</option>
+              <option value="pn_no">Persona natural — No declarante</option>
+            </select>
+          </div>
+          <div class="fg"><label>Régimen Tributario</label>
+            <select id="vReg" onchange="evalLogica()">
+              <option value="ordinario">Régimen ordinario</option>
+              <option value="simple">Régimen SIMPLE de tributación</option>
+              <option value="especial">Régimen especial (ESAL)</option>
+            </select>
+          </div>
+          <div class="fg"><label>¿Es Autorretenedor?</label>
+            <select id="vAutoret" onchange="evalLogica()">
+              <option value="no">No</option>
+              <option value="si">Sí — Autorretenedor calificado</option>
+            </select>
+          </div>
+          <div class="fg"><label>Responsabilidad de IVA</label>
+            <select id="vIVA" onchange="evalLogica()">
+              <option value="si">Sí — Responsable de IVA</option>
+              <option value="no">No — No responsable de IVA</option>
+            </select>
+          </div>
         </div>
-    </footer>
+      </div>
+    </div>
+    <div id="logicaBlock"></div>
+    <div class="brow">
+      <button class="btn btn-cobalt" onclick="goTab('t-op')">Siguiente <i class="ti ti-arrow-right"></i></button>
+    </div>
+  </div>
 
-    <!-- ESTRUCTURA DE DATOS JSON & MOTOR INVISIBLE -->
-    <script>
-        // 1. Estructura de Datos JSON interna (Mapea el estado de la aplicación)
-        const retencolConfig = {
-            "configuracion_invisible": {
-                "uvt_actual": 52374,
-                "fecha_sistema": "2026-06-18",
-                "decreto_transicion": "Decreto 572/2025 (Transición Junio)"
-            },
-            "reglas_municipales_ica": {
-                "bogota": { "tarifa": 11.04 / 1000, "nombre": "Bogotá D.C." },
-                "medellin": { "tarifa": 4 / 1000, "nombre": "Medellín" },
-                "cali": { "tarifa": 6.6 / 1000, "nombre": "Cali" }
-            }
-        };
+  <!-- SECCIÓN OPERACIÓN -->
+  <div id="t-op" style="display:none">
+    <div class="card">
+      <div class="card-hd"><i class="ti ti-file-invoice"></i><h3>Parámetros Económicos de la Operación</h3></div>
+      <div class="card-bd">
+        <div class="g2">
+          <div class="fg"><label>Concepto de Retención <span class="req">*</span></label>
+            <select id="tipoOp" onchange="updateAIU();calcular()">
+              <option value="">— Selecciona —</option>
+              <optgroup label="── Servicios ──">
+                <option value="serv_gen">Servicios en general (4% · base 4 UVT)</option>
+                <option value="serv_hon">Honorarios y consultorías (10% / 11% · base $0)</option>
+                <option value="serv_trans">Transporte de carga (1% · base 4 UVT)</option>
+                <option value="serv_hotel">Hoteles / arrendamiento (3.5% · base 4 UVT)</option>
+                <option value="serv_mant">Mantenimiento y reparación (4% · base 4 UVT)</option>
+                <option value="serv_aseo">Aseo y vigilancia — AIU (2% · base 4 UVT)</option>
+                <option value="serv_obra">Obras civiles — AIU (2% · base $0)</option>
+              </optgroup>
+              <optgroup label="── Compras ──">
+                <option value="compra_gen">Compras generales declarante (2.5% · base 27 UVT)</option>
+                <option value="compra_no">Compras a no declarantes (3.5% · base 27 UVT)</option>
+                <option value="compra_agri">Productos agrícolas (1.5% · base 92 UVT)</option>
+                <option value="compra_cafe">Café pergamino o cereza (0.5% · base 160 UVT)</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="fg"><label>Jurisdicción (Municipio)</label>
+            <select id="muni">
+              <option value="bogota">Bogotá D.C.</option>
+              <option value="medellin">Medellín</option>
+              <option value="cali">Cali</option>
+              <option value="soacha">Soacha</option>
+              <option value="santa_marta">Santa Marta</option>
+            </select>
+          </div>
+          <div class="fg"><label>Valor de la Operación (Base Bruta) <span class="req">*</span></label>
+            <div class="pfx"><span class="px">$</span><input type="number" id="valorBruto" placeholder="0" oninput="calcular()"></div>
+          </div>
+          <div class="fg"><label>Valor UVT de Referencia</label>
+            <div class="pfx"><span class="px">$</span><input type="number" id="uvtVal" value="52374" readonly></div>
+          </div>
+        </div>
+        <div id="aiuBlock" style="display:none;margin-top:1.5rem">
+          <div class="expl expl-tip"><i class="ti ti-info-circle"></i>Componente especial de AIU activo. El cálculo tributario se segmenta sobre la utilidad.</div>
+          <div class="g3" style="margin-top:.75rem">
+            <div class="fg"><label>Administración (%)</label><input type="number" id="aiuA" value="10" oninput="calcular()"></div>
+            <div class="fg"><label>Imprevistos (%)</label><input type="number" id="aiuI" value="2" oninput="calcular()"></div>
+            <div class="fg"><label>Utilidad (%)</label><input type="number" id="aiuU" value="5" oninput="calcular()"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="brow">
+      <button class="btn btn-ghost" onclick="goTab('t-partes')"><i class="ti ti-arrow-left"></i> Atrás</button>
+      <button class="btn btn-cobalt" onclick="goTab('t-conc')">Siguiente <i class="ti ti-arrow-right"></i></button>
+    </div>
+  </div>
 
-        function cambiarTab(tabId) {
-            const triggerEl = document.querySelector(tabId);
-            const tab = new bootstrap.Tab(triggerEl);
-            tab.show();
-        }
+  <!-- SECCIÓN IMPUESTOS -->
+  <div id="t-conc" style="display:none">
+    <div class="card">
+      <div class="card-hd"><i class="ti ti-adjustments-horizontal"></i><h3>Discriminación de Tributos a Evaluar</h3></div>
+      <div class="card-bd">
+        <div class="trow">
+          <div><div class="trow-label">Retención en la Fuente a Título de Renta</div><div class="trow-sub">Decreto 1625/2016[cite: 3].</div></div>
+          <label class="tog"><input type="checkbox" id="chRete" checked onchange="calcular()"><span class="tog-sl"></span></label>
+        </div>
+        <div class="trow">
+          <div><div class="trow-label">Impuesto al Valor Agregado (IVA Generated 19%)</div><div class="trow-sub">Estatuto Tributario Nacional.</div></div>
+          <label class="tog"><input type="checkbox" id="chIVA" checked onchange="checkboxIVA()"><span class="tog-sl"></span></label>
+        </div>
+        <div class="trow">
+          <div><div class="trow-label">Retención de IVA (Reteiva 15%)</div><div class="trow-sub font-small">Aplicable según calidad del pagador.</div></div>
+          <label class="tog"><input type="checkbox" id="chReteiva" checked onchange="calcular()"><span class="tog-sl"></span></label>
+        </div>
+        <div class="trow">
+          <div><div class="trow-label">Impuesto de Industria y Comercio (ICA) / Reteica</div><div class="trow-sub">Acuerdos municipales vigentes.</div></div>
+          <label class="tog"><input type="checkbox" id="chICA" checked onchange="calcular()"><span class="tog-sl"></span></label>
+        </div>
+        <div style="display:none"><input type="checkbox" id="chReteica" checked></div>
+      </div>
+    </div>
+    <div class="brow">
+      <button class="btn btn-ghost" onclick="goTab('t-op')"><i class="ti ti-arrow-left"></i> Atrás</button>
+      <button class="btn btn-cobalt" onclick="calcular();goTab('t-res')"><i class="ti ti-bolt"></i> Liquidar Operación</button>
+    </div>
+  </div>
 
-        // 2. Motor de Automatización Invisible con la Lógica de Transición Correcta
-        function calcularRetenciones() {
-            const bruto = parseFloat(document.getElementById('monto').value) || 0;
-            const concepto = document.getElementById('concepto').value;
-            const municipioKey = document.getElementById('municipio').value;
-            const esAgente = document.getElementById('esAgente').checked;
-            const regimenVendedor = document.getElementById('regimenVendedor').value;
+  <!-- SECCIÓN RESULTADOS -->
+  <div id="t-res" style="display:none">
+    <div id="resContainer" class="fade"></div>
+    <div class="brow">
+      <button class="btn btn-ghost" onclick="goTab('t-partes')"><i class="ti ti-refresh"></i> Nuevo Cálculo</button>
+      <button class="btn btn-emerald" onclick="guardar()"><i class="ti ti-device-floppy"></i> Archivar Memoria</button>
+    </div>
+  </div>
+</div>
 
-            const uvt = retencolConfig.configuracion_invisible.uvt_actual;
-            let retefuente = 0;
-            let reteica = 0;
+<!-- PÁGINA COMPARATIVA NORMATIVA -->
+<div id="pg-norma" class="pg">
+  <div class="hero-band">
+    <div class="hero-title"><i class="ti ti-gavel"></i> Arquitectura de Bases Vigentes</div>
+    <div class="hero-sub">Efectos de la suspensión provisional decretada por el Consejo de Estado[cite: 3].</div>
+  </div>
+  <div class="card">
+    <div class="card-bd" style="padding:0">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Concepto Evaluado</th>
+            <th>Decreto 572/2025 (Inactivo)[cite: 3]</th>
+            <th>Decreto 1625/2016 (Vigente)[cite: 3]</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="col-concepto">Servicios Generales</td><td class="col-susp">2 UVT ($104.748)</td><td class="col-vigente">4 UVT ($209.496)[cite: 3]</td></tr>
+          <tr><td class="col-concepto">Compras Generales</td><td class="col-susp">10 UVT ($523.740)</td><td class="col-vigente">27 UVT ($1.414.098)[cite: 3]</td></tr>
+          <tr><td class="col-concepto">Productos Agrícolas</td><td class="col-susp">70 UVT</td><td class="col-vigente">92 UVT[cite: 3]</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
-            // LÓGICA DE TRANSICIÓN DE JUNIO: Se sigue usando el Decreto 572 de 2025 (bases bajas)
-            // El desmonte definitivo hacia el Decreto 1625 ocurrirá a partir del 1 de julio de 2026.
-            let baseMinimaFuente = 0;
-            let tarifaFuente = 0;
+<!-- PÁGINA MÓDULOS EDUCATIVOS -->
+<div id="pg-edu" class="pg">
+  <div class="hero-band">
+    <div class="hero-title"><i class="ti ti-school"></i> Academia y Fundamentos Tributarios</div>
+    <div class="hero-sub">Conceptos explicados sin tecnicismos complejos para fácil asimilación académica.</div>
+  </div>
+  <div class="cgrid">
+    <div class="ccard" onclick="showConc('rete')"><div class="cc-icon" style="background:var(--brand-primary-soft);color:var(--brand-primary)"><i class="ti ti-percentage"></i></div><div class="cc-title">Retención en Fuente</div><div class="cc-desc">Mecanismo de pago anticipado del impuesto de renta. No es un impuesto extra[cite: 3].</div></div>
+    <div class="ccard" onclick="showConc('iva')"><div class="cc-icon" style="background:var(--accent-emerald-soft);color:var(--accent-emerald)"><i class="ti ti-receipt-2"></i></div><div class="cc-title">Dinámica del IVA</div><div class="cc-desc">Impuesto indirecto al consumo nacional, gravado por lo general a tarifa del 19%[cite: 3].</div></div>
+    <div class="ccard" onclick="showConc('simple')"><div class="cc-icon" style="background:#f0fdfa;color:#0d9488"><i class="ti ti-star"></i></div><div class="cc-title">Régimen SIMPLE</div><div class="cc-desc">Modelo opcional que unifica tributos y mitiga las molestas retenciones tradicionales[cite: 3].</div></div>
+  </div>
+  <div id="concDetail"></div>
+</div>
 
-            if (concepto === 'servicios') {
-                baseMinimaFuente = 2 * uvt;   // Decreto 572: 2 UVT = $104.748
-                tarifaFuente = 0.04;          // 4%
-            } else if (concepto === 'compras') {
-                baseMinimaFuente = 10 * uvt;  // Decreto 572: 10 UVT = $523.740
-                tarifaFuente = 0.025;         // 2.5%
-            } else if (concepto === 'arriendos') {
-                baseMinimaFuente = 10 * uvt;  // Decreto 572: 10 UVT = $523.740
-                tarifaFuente = 0.035;         // 3.5%
-            }
+<!-- PÁGINA ICA -->
+<div id="pg-ica" class="pg">
+  <div class="card">
+    <div class="card-hd"><i class="ti ti-map-pin"></i><h3>Filtro Avanzado de ICA Municipal</h3></div>
+    <div class="card-bd">
+      <div class="g2">
+        <div class="fg"><label>Municipio Destino</label>
+          <select id="icaMuni" onchange="renderICA()">
+            <option value="bogota">Bogotá D.C.</option><option value="medellin">Medellín</option><option value="cali">Cali</option><option value="soacha">Soacha</option>
+          </select>
+        </div>
+        <div class="fg"><label>Clasificación de Actividad</label>
+          <select id="icaAct" onchange="renderICA()">
+            <option value="all">Todas las categorías</option><option value="industrial">Industrial</option><option value="comercial">Comercial</option><option value="servicios">Servicios</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="icaResult"></div>
+</div>
 
-            // Aplicar filtros de negocio invisibles en segundo plano
-            if (esAgente && regimenVendedor !== 'simple') {
-                if (bruto >= baseMinimaFuente) {
-                    retefuente = bruto * tarifaFuente;
-                }
-            }
+<!-- PÁGINA HISTORIAL -->
+<div id="pg-hist" class="pg">
+  <div id="histList"></div>
+</div>
 
-            // Obtener datos del JSON de municipios para ReteICA
-            const infoIca = retencolConfig.reglas_municipales_ica[municipioKey];
-            if (regimenVendedor !== 'simple') {
-                reteica = bruto * infoIca.tarifa;
-            }
+</main>
+</div>
 
-            const totalRetenciones = retefuente + reteica;
-            const neto = bruto - totalRetenciones;
+<!-- PRO MODAL -->
+<div class="promo" id="proModal" style="display:none" onclick="if(event.target===this)closePro()">
+  <div class="probox">
+    <div class="probox-top">
+      <div class="probox-icon"><i class="ti ti-crown"></i></div>
+      <div class="probox-title">RETENCOL Premium</div>
+      <div class="probox-sub">Herramientas de automatización analítica para profesionales</div>
+    </div>
+    <div class="probox-body">
+      <div class="pro-feat"><i class="ti ti-check"></i> Exportación inteligente de informes a PDF y planillas Excel</div>
+      <div class="pro-feat"><i class="ti ti-check"></i> Consultoría inteligente de analítica tributaria</div>
+      <div class="pro-price"><div class="amount">$79.000<span style="font-size:14px;color:var(--text-muted)"> / mes</span></div></div>
+      <button class="btn-pro-main" onclick="closePro()">Entendido</button>
+    </div>
+  </div>
+</div>
 
-            // Formatear outputs
-            const formatter = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 });
+<script>
+const UVT26 = 52374;
+const OPS = {
+  serv_gen:     {t:.04,  bUVT:4,   nom:'Servicios Generales', cod:'391', norm:'Dcto. 1625/2016'},
+  serv_hon:     {t:.10,  bUVT:0,   nom:'Honorarios y Consultoría', cod:'392', norm:'Art. 392 E.T.'},
+  serv_trans:   {t:.01,  bUVT:4,   nom:'Transporte de Carga', cod:'394', norm:'Estatuto Tributario'},
+  serv_hotel:   {t:.035, bUVT:4,   nom:'Alojamiento y Hoteles', cod:'395', norm:'Regulación General'},
+  serv_mant:    {t:.04,  bUVT:4,   nom:'Mantenimiento de Activos', cod:'396', norm:'Norma Base'},
+  serv_aseo:    {t:.02,  bUVT:4,   nom:'Aseo y Vigilancia (AIU)', cod:'397', norm:'Art. 462-1 E.T.', aiu:true},
+  serv_obra:    {t:.02,  bUVT:0,   nom:'Contratos de Obra Civil', cod:'399', norm:'Art. 462-1 E.T.', aiu:true},
+  compra_gen:   {t:.025, bUVT:27,  nom:'Compras Generales (Declarante)', cod:'401', norm:'Dcto. 1625/2016'},
+  compra_no:    {t:.035, bUVT:27,  nom:'Compras (No Declarante)', cod:'401', norm:'Dcto. 1625/2016'},
+  compra_agri:  {t:.015, bUVT:92,  nom:'Productos del Sector Agrícola', cod:'402', norm:'Restaurado'},
+  compra_cafe:  {t:.005, bUVT:160, nom:'Adquisición de Café Orgánico', cod:'402', norm:'Restaurado'}
+};
 
-            // Renderizar la información en pantalla
-            document.getElementById('netoDisplay').innerText = formatter.format(neto);
-            document.getElementById('brutoDisplay').innerText = formatter.format(bruto);
-            document.getElementById('retenDisplay').innerText = formatter.format(totalRetenciones);
-            
-            document.getElementById('valRetefuente').innerText = "-" + formatter.format(retefuente);
-            document.getElementById('valICA').innerText = "-" + formatter.format(reteica);
-            
-            // Asignación de textos informativos en el menú desplegable oculto a demanda
-            document.getElementById('legalRetefuente').innerText = `Base aplicada: ${formatter.format(baseMinimaFuente)} | Tarifa: ${tarifaFuente * 100}% (${retencolConfig.configuracion_invisible.decreto_transicion})`;
-            document.getElementById('legalICA').innerText = `Tarifa en ${infoIca.nombre}: ${(infoIca.tarifa * 1000).toFixed(2)} por mil.`;
-        }
-    </script>
+const ICA = {
+  bogota:{
+    industrial:[{act:'Manufacturas e industrias tipo C',tarifa:4.14}],
+    comercial:[{act:'Distribución mayorista y minorista',tarifa:4.14}],
+    servicios:[{act:'Servicios profesionales de consultoría',tarifa:9.66}]
+  },
+  medellin:{
+    industrial:[{act:'Manufacturas generales',tarifa:3.5}],
+    comercial:[{act:'Comercio al por menor coordinado',tarifa:5}],
+    servicios:[{act:'Servicios técnicos especializados',tarifa:8}]
+  },
+  cali:{
+    industrial:[{act:'Producción fabril',tarifa:4}],
+    comercial:[{act:'Comercio general urbano',tarifa:5}],
+    servicios:[{act:'Prestación de servicios generales',tarifa:7}]
+  },
+  soacha:{
+    industrial:[{act:'Industria regional manufacturera',tarifa:4}],
+    comercial:[{act:'Comercio de bienes generales',tarifa:4.5}],
+    servicios:[{act:'Servicios profesionales independientes',tarifa:8}]
+  }
+};
 
-    <!-- Bootstrap 5 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+let hist=[];
+
+function checkboxIVA() {
+  const chIVA = document.getElementById('chIVA').checked;
+  document.getElementById('chReteiva').checked = chIVA;
+  calcular();
+}
+
+function showPg(p){
+  document.querySelectorAll('.pg').forEach(x=>x.classList.remove('on'));
+  document.getElementById('pg-'+p).classList.add('on');
+  document.querySelectorAll('.tnav').forEach(x=>x.classList.remove('on'));
+  const el=document.getElementById('tnav-'+p);if(el)el.classList.add('on');
+  if(p==='ica')renderICA();
+  if(p==='hist')renderHist();
+}
+
+function goTab(id){
+  ['t-partes','t-op','t-conc','t-res'].forEach(t=>{
+    const el=document.getElementById(t);if(el)el.style.display=t===id?'block':'none';
+  });
+  const map={'t-partes':0,'t-op':1,'t-conc':2,'t-res':3};
+  const idx=map[id]||0;
+  ['s1','s2','s3','s4'].forEach((s,i)=>{
+    const el=document.getElementById(s);if(!el)return;
+    el.classList.remove('on','done');
+    if(i===idx)el.classList.add('on');
+    else if(i<idx)el.classList.add('done');
+  });
+  if(id==='t-res')calcular();
+}
+
+function evalLogica(){
+  const cTipo=document.getElementById('cTipo').value;
+  const cAgente=document.getElementById('cAgente').value;
+  const vReg=document.getElementById('vReg').value;
+  const vAutoret=document.getElementById('vAutoret').value;
+  const msgs=[];
+  
+  if(cAgente==='si') msgs.push({t:'ok',i:'ti-shield-check',txt:'El comprador tiene calidad de <strong>Agente Retenedor</strong> activo[cite: 3].'});
+  else msgs.push({t:'warn',i:'ti-shield-off',txt:'El pagador no ostenta la obligación de practicar retención en la fuente[cite: 3].'});
+  if(vReg==='simple') msgs.push({t:'tip',i:'ti-star',txt:'Beneficiario pertenece al <strong>Régimen SIMPLE</strong>: Exceptuado de retenciones. Art. 911 E.T.[cite: 3]'});
+  if(vAutoret==='si') msgs.push({t:'info',i:'ti-refresh',txt:'Vendedor calificado como Autorretenedor: No se le debe retener físicamente.'});
+  
+  const div=document.getElementById('logicaBlock');
+  div.innerHTML=msgs.map(m=>`<div class="expl expl-${m.t}"><i class="ti ${m.i}"></i><span>${m.txt}</span></div>`).join('');
+}
+
+function updateAIU(){
+  const op=OPS[document.getElementById('tipoOp').value];
+  document.getElementById('aiuBlock').style.display=(op&&op.aiu)?'block':'none';
+}
+
+function calcular(){
+  const valor=parseFloat(document.getElementById('valorBruto').value)||0;
+  const opKey=document.getElementById('tipoOp').value;
+  const muni=document.getElementById('muni').value;
+  const cTipo=document.getElementById('cTipo').value;
+  const cAgente=document.getElementById('cAgente').value;
+  const cIVA=document.getElementById('cIVA').value;
+  const vReg=document.getElementById('vReg').value;
+  const vIVA=document.getElementById('vIVA').value;
+  const vAutoret=document.getElementById('vAutoret').value;
+  
+  const chRete=document.getElementById('chRete').checked;
+  const chIVA=document.getElementById('chIVA').checked;
+  const chReteiva=document.getElementById('chReteiva').checked;
+  const chICA=document.getElementById('chICA').checked;
+
+  if(!valor||!opKey){
+    document.getElementById('resContainer').innerHTML=`<div class="expl expl-warn"><i class="ti ti-alert-circle"></i><span>Completa la base económica y el concepto para proyectar el resultado.</span></div>`;
+    return;
+  }
+
+  const op=OPS[opKey];
+  const baseMinPesos=op.bUVT*UVT26;
+  const esAIU=!!op.aiu;
+
+  let baseAIU=0, aiuPct=0;
+  if(esAIU){
+    aiuPct=(parseFloat(document.getElementById('aiuA').value)||0)+(parseFloat(document.getElementById('aiuI').value)||0)+(parseFloat(document.getElementById('aiuU').value)||0);
+    baseAIU=valor*(aiuPct/100);
+  }
+
+  let rows=[], explainers=[], retefuente=0, iva=0, reteiva=0, icaAmt=0, reteicaAmt=0;
+
+  // RETEFUENTE
+  if(chRete){
+    let aplica=false, razon='', val=0;
+    const baseCal=esAIU?baseAIU:valor;
+    if(cAgente!=='si') razon='Pagador no es agente de retención determinado por ley[cite: 3].';
+    else if(vReg==='simple') razon='Vendedor amparado bajo exención del artículo 911 del E.T. (SIMPLE)[cite: 3].';
+    else if(vAutoret==='si') razon='Operación sujeta a Auto-retención del proveedor.';
+    else if(baseCal<baseMinPesos) razon=`La cuantía base ($${fmt(baseCal)}) no supera el umbral mínimo legal de ${op.bUVT} UVT ($${fmt(baseMinPesos)})[cite: 3].`;
+    else{aplica=true;val=baseCal*op.t;razon=`Cálculo del ${(op.t*100).toFixed(1)}% aplicado correctamente[cite: 3].`;}
+    retefuente=val;
+    rows.push({concepto:`Retefuente (${op.nom})`,detalle:op.norm,aplica,val,tarifa:`${(op.t*100).toFixed(1)}%`,tipo:'ret'});
+    explainers.push({t:aplica?'warn':'ok',i:aplica?'ti-percentage':'ti-check',txt:`<strong>Retención Renta:</strong> ${razon}`});
+  }
+
+  // IVA
+  if(chIVA){
+    let aplica=false;
+    if(vIVA==='si'){aplica=true;iva=(esAIU?baseAIU:valor)*0.19;}
+    rows.push({concepto:'IVA por Pagar (19%)',detalle:'Estatuto Tributario',aplica,val:iva,tarifa:'19%',tipo:'iva'});
+  }
+
+  // RETEIVA
+  if(chReteiva && iva>0 && (cTipo==='pj_gran'||cTipo==='pj_esp')){
+    reteiva=iva*0.15;
+    rows.push({concepto:'Retención de IVA (Reteiva)',detalle:'Asignación de Gran Contribuyente',aplica:true,val:reteiva,tarifa:'15%',tipo:'ret'});
+  }
+
+  // ICA
+  if(chICA){
+    const sect=(opKey.startsWith('serv'))?'servicios':'comercial';
+    const data=(ICA[muni]||ICA.bogota)[sect]||[];
+    if(data.length){
+      icaAmt=valor*(data[0].tarifa/1000);
+      reteicaAmt=icaAmt*0.5;
+      rows.push({concepto:`ICA Municipal (${data[0].act})`,detalle:muniNom(muni),aplica:true,val:icaAmt,tarifa:`${data[0].tarifa}‰`,tipo:'ica'});
+      rows.push({concepto:'Retención de ICA (Reteica)',detalle:'Retención del 50%',aplica:true,val:reteicaAmt,tarifa:'50%',tipo:'ret'});
+    }
+  }
+
+  const totalRet=retefuente+reteiva+reteicaAmt;
+  const neto=valor+iva-totalRet;
+  window._last={fecha:new Date(),op:op.nom,valor,totalRet,iva,neto};
+
+  document.getElementById('resContainer').innerHTML=`
+    <div class="mgrid">
+      <div class="mc"><div class="mc-label">Subtotal Operación</div><div class="mc-val">${cop(valor)}</div></div>
+      <div class="mc accent"><div class="mc-label">IVA Generado</div><div class="mc-val">${cop(iva)}</div></div>
+      <div class="mc warn"><div class="mc-label">Retenciones Aplicadas</div><div class="mc-val">(${cop(totalRet)})</div></div>
+      <div class="mc success"><div class="mc-label">Neto Líquido a Pagar</div><div class="mc-val">${cop(neto)}</div></div>
+    </div>
+    <div class="card">
+      <div class="card-bd" style="padding:0">
+        <table class="btable">
+          <thead><tr><th>Concepto Impositivo</th><th>Tarifa</th><th>Aplicación</th><th>Monto Total</th></tr></thead>
+          <tbody>
+            <tr class="tr-base"><td><strong>Valor Base Contratado</strong></td><td>—</td><td><span class="bd bd-gray">BASE</span></td><td>${cop(valor)}</td></tr>
+            ${rows.map(r=>`<tr>
+              <td><strong>${r.concepto}</strong><div class="row-sub">${r.detalle}</div></td>
+              <td><span class="bd bd-blue">${r.tarifa}</span></td>
+              <td>${r.aplica?`<span class="bd bd-amber">Afecta</span>`:`<span class="bd bd-gray">Omitido</span>`}</td>
+              <td>${r.aplica?(r.tipo==='ret'?'('+cop(r.val)+')':cop(r.val)):'$0'}</td>
+            </tr>`).join('')}
+            <tr class="tr-total"><td colspan="3">TOTAL RETENCIONES DEDUCIDAS</td><td>(${cop(totalRet)})</td></tr>
+            <tr class="tr-neto"><td colspan="3">NETO EFECTIVO TRANSFERIDO</td><td>${cop(neto)}</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card"><div class="card-bd">${explainers.map(e=>`<div class="expl expl-${e.t}"><i class="ti ${e.i}"></i><span>${e.txt}</span></div>`).join('')}</div></div>`;
+}
+
+function guardar(){if(!window._last)return;hist.unshift(window._last);alert('Registro salvado en la sesión local de forma exitosa.');}
+
+function renderHist(){
+  const d=document.getElementById('histList');
+  if(!hist.length){d.innerHTML=`<div class="card"><div class="card-bd" style="text-align:center;color:var(--text-soft);padding:3rem"><i class="ti ti-history" style="font-size:32px;display:block;margin-bottom:1rem"></i>No se registran transacciones liquidadas en la sesión actual.</div></div>`;return;}
+  d.innerHTML=hist.map(h=>`<div class="card"><div class="card-bd" style="display:flex;justify-content:space-between;align-items:center"><div><strong>${h.op}</strong><div class="row-sub">${h.fecha.toLocaleTimeString()}</div></div><div style="font-family:'JetBrains Mono';font-weight:700;color:var(--accent-emerald)">${cop(h.neto)}</div></div></div>`).join('');
+}
+
+function renderICA(){
+  const muni=document.getElementById('icaMuni').value;
+  const act=document.getElementById('icaAct').value;
+  const data=ICA[muni]||ICA.bogota;
+  const cats=act==='all'?['industrial','comercial','servicios']:[act];
+  
+  document.getElementById('icaResult').innerHTML=cats.map(cat=>{
+    const arr=data[cat]||[];
+    return arr.map(r=>`<div class="card"><div class="card-bd" style="display:flex;justify-content:space-between"><div><strong>${r.act}</strong><div class="row-sub">${muniNom(muni)}</div></div><div style="font-family:'JetBrains Mono';color:var(--brand-primary);font-weight:700">${r.tarifa}‰</div></div></div>`).join('');
+  }).join('');
+}
+
+const CONCS={
+  rete:{title:'Estructura de la Retención en la Fuente',body:'La retención en la fuente no es un impuesto independiente[cite: 3]. Representa una recolección anticipada y controlada por el Estado colombiano para mitigar la evasión fiscal en el impuesto global de renta anual[cite: 3].'},
+  iva:{title:'Impuesto sobre las Ventas (IVA)',body:'Es un gravamen indirecto de naturaleza nacional que recae sobre la prestación de servicios, venta de bienes e importaciones estructuradas a lo largo del territorio[cite: 3].'},
+  simple:{title:'Tributación bajo el Régimen SIMPLE',body:'Modelo alternativo unificado que sustituye los esquemas tradicionales de retenciones recurrentes para simplificar la carga administrativa de las pequeñas organizaciones comerciales[cite: 3].'}
+};
+
+function showConc(k){
+  const c=CONCS[k];
+  document.getElementById('concDetail').innerHTML=`<div class="card fade"><div class="card-hd"><h3>${c.title}</h3></div><div class="card-bd">${c.body}</div></div>`;
+}
+
+function openPro(){document.getElementById('proModal').style.display='flex'}
+function closePro(){document.getElementById('proModal').style.display='none'}
+function fmt(n){return Math.round(n).toLocaleString('es-CO')}
+function cop(n){return '$'+Math.round(n).toLocaleString('es-CO')}
+function muniNom(m){const names={bogota:'Bogotá D.C.',medellin:'Medellín',cali:'Cali',soacha:'Soacha'};return names[m]||m}
+
+evalLogica();
+</script>
 </body>
 </html>
