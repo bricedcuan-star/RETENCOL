@@ -1,0 +1,329 @@
+{
+  "_meta": {
+    "version": "2.0.0",
+    "descripcion": "Tarifas ICA (Industria y Comercio) por municipio — RETENCOL 2026",
+    "fuente": "Estatutón 2026 — @impuestosconbotas",
+    "nota_decreto572": "La revocatoria del Decreto 572/2025 NO afecta las tarifas de ICA. Estas dependen de los estatutos tributarios municipales.",
+    "unidad": "Por mil (‰). Reteica = 50% de la tarifa ICA salvo estatuto municipal que disponga lo contrario.",
+    "ultima_actualizacion": "2026-06-03",
+    "referencia_verificacion": "https://sites.google.com/view/estatuton-2024/inicio"
+  },
+
+  "municipios": {
+
+    "bogota": {
+      "nombre": "Bogotá D.C.",
+      "departamento": "Cundinamarca",
+      "actividades": {
+        "industrial": [
+          { "ciiu": "B", "act": "Explotación minera (CIIU B)", "tarifa": 7.00 },
+          { "ciiu": "C", "act": "Industria manufacturera (CIIU C)", "tarifa": 4.14 }
+        ],
+        "comercial": [
+          { "ciiu": "G46", "act": "Comercio al por mayor (CIIU G46)", "tarifa": 4.14 },
+          { "ciiu": "G47", "act": "Comercio al por menor (CIIU G47)", "tarifa": 4.14 }
+        ],
+        "servicios": [
+          { "ciiu": "M69", "act": "Servicios profesionales (CIIU M69)", "tarifa": 9.66 },
+          { "ciiu": "H",   "act": "Transporte (CIIU H)", "tarifa": 9.66 },
+          { "ciiu": "I",   "act": "Hoteles y restaurantes (CIIU I)", "tarifa": 9.66 },
+          { "ciiu": "Q",   "act": "Salud (CIIU Q)", "tarifa": 4.14 }
+        ],
+        "financiero": [
+          { "ciiu": "K64", "act": "Intermediación financiera (CIIU K64)", "tarifa": 11.04 },
+          { "ciiu": "K65", "act": "Seguros (CIIU K65)", "tarifa": 11.04 }
+        ]
+      }
+    },
+
+    "medellin": {
+      "nombre": "Medellín",
+      "departamento": "Antioquia",
+      "actividades": {
+        "industrial": [
+          { "ciiu": "C", "act": "Industria manufacturera", "tarifa": 3.50 }
+        ],
+        "comercial": [
+          { "ciiu": "G46", "act": "Comercio al por mayor", "tarifa": 4.00 },
+          { "ciiu": "G47", "act": "Comercio al por menor", "tarifa": 5.00 }
+        ],
+        "servicios": [
+          { "ciiu": "M",  "act": "Servicios profesionales", "tarifa": 8.00 },
+          { "ciiu": "H",  "act": "Transporte", "tarifa": 7.00 }
+        ],
+        "financiero": [
+          { "ciiu": "K", "act": "Intermediación financiera", "tarifa": 10.00 }
+        ]
+      }
+    },
+
+    "cali": {
+      "nombre": "Cali",
+      "departamento": "Valle del Cauca",
+      "actividades": {
+        "industrial": [
+          { "ciiu": "C", "act": "Industria manufacturera", "tarifa": 4.00 }
+        ],
+        "comercial": [
+          { "ciiu": "G", "act": "Comercio general", "tarifa": 5.00 }
+        ],
+        "servicios": [
+          { "ciiu": "S", "act": "Servicios en general", "tarifa": 7.00 }
+        ],
+        "financiero": [
+          { "ciiu": "K", "act": "Servicios financieros", "tarifa": 10.00 }
+        ]
+      }
+    },
+
+    "barranquilla": {
+      "nombre": "Barranquilla",
+      "departamento": "Atlántico",
+      "actividades": {
+        "industrial": [
+          { "ciiu": "C", "act": "Industria manufacturera", "tarifa": 3.00 }
+        ],
+        "comercial": [
+          { "ciiu": "G", "act": "Comercio general", "tarifa": 4.00 }
+        ],
+        "servicios": [
+          { "ciiu": "S", "act": "Servicios en general", "tarifa": 6.00 }
+        ],
+        "financiero": [
+          { "ciiu": "K", "act": "Servicios financieros", "tarifa": 10.00 }
+        ]
+      }
+    },
+
+    "cartagena": {
+      "nombre": "Cartagena",
+      "departamento": "Bolívar",
+      "actividades": {
+        "industrial": [
+          { "ciiu": "C", "act": "Industria manufacturera", "tarifa": 3.50 }
+        ],
+        "comercial": [
+          { "ciiu": "G", "act": "Comercio general", "tarifa": 4.50 }
+        ],
+        "servicios": [
+          { "ciiu": "S", "act": "Servicios en general", "tarifa": 7.00 }
+        ],
+        "financiero": [
+          { "ciiu": "K", "act": "Servicios financieros", "tarifa": 10.00 }
+        ]
+      }
+    },
+
+    "bucaramanga": {
+      "nombre": "Bucaramanga",
+      "departamento": "Santander",
+      "actividades": {
+        "industrial": [
+          { "ciiu": "C", "act": "Industria manufacturera", "tarifa": 3.00 }
+        ],
+        "comercial": [
+          { "ciiu": "G", "act": "Comercio general", "tarifa": 4.00 }
+        ],
+        "servicios": [
+          { "ciiu": "S", "act": "Servicios en general", "tarifa": 6.00 },
+          { "ciiu": "M", "act": "Servicios profesionales", "tarifa": 7.00 }
+        ],
+        "financiero": [
+          { "ciiu": "K", "act": "Servicios financieros", "tarifa": 10.00 }
+        ]
+      }
+    },
+
+    "pereira": {
+      "nombre": "Pereira",
+      "departamento": "Risaralda",
+      "actividades": {
+        "industrial": [
+          { "ciiu": "C", "act": "Industria manufacturera", "tarifa": 3.50 }
+        ],
+        "comercial": [
+          { "ciiu": "G", "act": "Comercio general", "tarifa": 4.50 }
+        ],
+        "servicios": [
+          { "ciiu": "S", "act": "Servicios en general", "tarifa": 7.00 }
+        ],
+        "financiero": [
+          { "ciiu": "K", "act": "Servicios financieros", "tarifa": 10.00 }
+        ]
+      }
+    },
+
+    "manizales": {
+      "nombre": "Manizales",
+      "departamento": "Caldas",
+      "actividades": {
+        "industrial": [
+          { "ciiu": "C", "act": "Industria manufacturera", "tarifa": 3.00 }
+        ],
+        "comercial": [
+          { "ciiu": "G", "act": "Comercio general", "tarifa": 4.00 }
+        ],
+        "servicios": [
+          { "ciiu": "S", "act": "Servicios en general", "tarifa": 6.50 }
+        ],
+        "financiero": [
+          { "ciiu": "K", "act": "Servicios financieros", "tarifa": 10.00 }
+        ]
+      }
+    },
+
+    "cucuta": {
+      "nombre": "Cúcuta",
+      "departamento": "Norte de Santander",
+      "actividades": {
+        "industrial": [
+          { "ciiu": "C", "act": "Industria manufacturera", "tarifa": 3.50 }
+        ],
+        "comercial": [
+          { "ciiu": "G", "act": "Comercio general", "tarifa": 4.00 }
+        ],
+        "servicios": [
+          { "ciiu": "S", "act": "Servicios en general", "tarifa": 6.50 }
+        ],
+        "financiero": [
+          { "ciiu": "K", "act": "Servicios financieros", "tarifa": 10.00 }
+        ]
+      }
+    },
+
+    "soacha": {
+      "nombre": "Soacha",
+      "departamento": "Cundinamarca",
+      "actividades": {
+        "industrial": [
+          { "ciiu": "C", "act": "Industria manufacturera", "tarifa": 4.00 }
+        ],
+        "comercial": [
+          { "ciiu": "G", "act": "Comercio general", "tarifa": 4.50 }
+        ],
+        "servicios": [
+          { "ciiu": "S", "act": "Servicios en general", "tarifa": 7.00 },
+          { "ciiu": "M", "act": "Servicios profesionales", "tarifa": 8.00 }
+        ],
+        "financiero": [
+          { "ciiu": "K", "act": "Servicios financieros", "tarifa": 10.00 }
+        ]
+      }
+    },
+
+    "ibague": {
+      "nombre": "Ibagué",
+      "departamento": "Tolima",
+      "actividades": {
+        "industrial": [
+          { "ciiu": "C", "act": "Industria manufacturera", "tarifa": 3.50 }
+        ],
+        "comercial": [
+          { "ciiu": "G", "act": "Comercio general", "tarifa": 4.00 }
+        ],
+        "servicios": [
+          { "ciiu": "S", "act": "Servicios en general", "tarifa": 6.50 }
+        ],
+        "financiero": [
+          { "ciiu": "K", "act": "Servicios financieros", "tarifa": 10.00 }
+        ]
+      }
+    },
+
+    "neiva": {
+      "nombre": "Neiva",
+      "departamento": "Huila",
+      "actividades": {
+        "industrial": [
+          { "ciiu": "C", "act": "Industria manufacturera", "tarifa": 3.50 }
+        ],
+        "comercial": [
+          { "ciiu": "G", "act": "Comercio general", "tarifa": 4.00 }
+        ],
+        "servicios": [
+          { "ciiu": "S", "act": "Servicios en general", "tarifa": 6.00 }
+        ],
+        "financiero": [
+          { "ciiu": "K", "act": "Servicios financieros", "tarifa": 10.00 }
+        ]
+      }
+    },
+
+    "pasto": {
+      "nombre": "Pasto",
+      "departamento": "Nariño",
+      "actividades": {
+        "industrial": [
+          { "ciiu": "C", "act": "Industria manufacturera", "tarifa": 3.00 }
+        ],
+        "comercial": [
+          { "ciiu": "G", "act": "Comercio general", "tarifa": 4.50 }
+        ],
+        "servicios": [
+          { "ciiu": "S", "act": "Servicios en general", "tarifa": 6.50 }
+        ],
+        "financiero": [
+          { "ciiu": "K", "act": "Servicios financieros", "tarifa": 10.00 }
+        ]
+      }
+    },
+
+    "villavicencio": {
+      "nombre": "Villavicencio",
+      "departamento": "Meta",
+      "actividades": {
+        "industrial": [
+          { "ciiu": "C", "act": "Industria manufacturera", "tarifa": 4.00 }
+        ],
+        "comercial": [
+          { "ciiu": "G", "act": "Comercio general", "tarifa": 5.00 }
+        ],
+        "servicios": [
+          { "ciiu": "S", "act": "Servicios en general", "tarifa": 7.00 }
+        ],
+        "financiero": [
+          { "ciiu": "K", "act": "Servicios financieros", "tarifa": 10.00 }
+        ]
+      }
+    },
+
+    "santa_marta": {
+      "nombre": "Santa Marta",
+      "departamento": "Magdalena",
+      "actividades": {
+        "industrial": [
+          { "ciiu": "C", "act": "Industria manufacturera", "tarifa": 3.00 }
+        ],
+        "comercial": [
+          { "ciiu": "G", "act": "Comercio general", "tarifa": 4.50 }
+        ],
+        "servicios": [
+          { "ciiu": "S", "act": "Servicios en general", "tarifa": 6.00 }
+        ],
+        "financiero": [
+          { "ciiu": "K", "act": "Servicios financieros", "tarifa": 9.00 }
+        ]
+      }
+    },
+
+    "monteria": {
+      "nombre": "Montería",
+      "departamento": "Córdoba",
+      "actividades": {
+        "industrial": [
+          { "ciiu": "C", "act": "Industria manufacturera", "tarifa": 3.00 }
+        ],
+        "comercial": [
+          { "ciiu": "G", "act": "Comercio general", "tarifa": 4.00 }
+        ],
+        "servicios": [
+          { "ciiu": "S", "act": "Servicios en general", "tarifa": 6.00 }
+        ],
+        "financiero": [
+          { "ciiu": "K", "act": "Servicios financieros", "tarifa": 10.00 }
+        ]
+      }
+    }
+
+  }
+}
