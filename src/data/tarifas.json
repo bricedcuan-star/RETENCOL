@@ -1,0 +1,380 @@
+{
+  "_meta": {
+    "version": "2.0.0",
+    "descripcion": "Tarifas de retención en la fuente — RETENCOL 2026",
+    "uvt_resolucion": "Resolución DIAN 000238 del 15 de diciembre de 2025",
+    "fuente_junio": "Decreto 1625/2016 — vigente 8 mayo al 30 junio 2026 (suspensión provisional Auto CE 07/05/2026)",
+    "fuente_julio": "Decreto 572/2025 — vigente desde 1° julio 2026 (revocatoria CE 02/06/2026)",
+    "ultima_actualizacion": "2026-06-03",
+    "nota": "Actualizar UVT_2026 cada diciembre con la nueva Resolución DIAN"
+  },
+
+  "UVT_2026": 52374,
+
+  "periodos": {
+    "junio": {
+      "label": "Junio 2026 — Bases Dcto. 1625/2016",
+      "decreto": "Decreto 1625/2016",
+      "vigencia_desde": "2026-05-08",
+      "vigencia_hasta": "2026-06-30",
+      "activo": true
+    },
+    "julio": {
+      "label": "Julio 2026 en adelante — Bases Decreto 572/2025",
+      "decreto": "Decreto 572/2025",
+      "vigencia_desde": "2026-07-01",
+      "vigencia_hasta": null,
+      "activo": false
+    }
+  },
+
+  "OPS_JUNIO": {
+    "serv_gen": {
+      "t": 0.04,
+      "bUVT": 4,
+      "nom": "Servicios en general",
+      "cod": "391",
+      "norm": "Art. 392 E.T. · Dcto. 1625/2016 (base: 4 UVT)",
+      "grupo": "servicios",
+      "aiu": false
+    },
+    "serv_hon": {
+      "t": 0.10,
+      "bUVT": 0,
+      "nom": "Honorarios y consultorías",
+      "cod": "392",
+      "norm": "Art. 392 E.T. — PJ o PN declarante 10% · no declarante 11%",
+      "grupo": "servicios",
+      "aiu": false,
+      "nota": "Tarifa 11% para PN no declarante — aplica lógica adicional en el frontend"
+    },
+    "serv_trans": {
+      "t": 0.01,
+      "bUVT": 4,
+      "nom": "Transporte de carga",
+      "cod": "394",
+      "norm": "Art. 395 E.T. · base 4 UVT",
+      "grupo": "servicios",
+      "aiu": false
+    },
+    "serv_hotel": {
+      "t": 0.035,
+      "bUVT": 4,
+      "nom": "Hoteles / arrendamiento",
+      "cod": "395",
+      "norm": "Art. 396 E.T. · base 4 UVT",
+      "grupo": "servicios",
+      "aiu": false
+    },
+    "serv_mant": {
+      "t": 0.04,
+      "bUVT": 4,
+      "nom": "Mantenimiento y reparación",
+      "cod": "396",
+      "norm": "Art. 392 E.T. · base 4 UVT",
+      "grupo": "servicios",
+      "aiu": false
+    },
+    "serv_aseo": {
+      "t": 0.02,
+      "bUVT": 4,
+      "nom": "Aseo y vigilancia (AIU)",
+      "cod": "397",
+      "norm": "Art. 462-1 E.T.",
+      "grupo": "servicios",
+      "aiu": true
+    },
+    "serv_obra": {
+      "t": 0.02,
+      "bUVT": 0,
+      "nom": "Obras civiles (AIU)",
+      "cod": "399",
+      "norm": "Art. 462-1 E.T.",
+      "grupo": "servicios",
+      "aiu": true
+    },
+    "serv_soft": {
+      "t": 0.035,
+      "bUVT": 4,
+      "nom": "Licenciamiento de software",
+      "cod": "392",
+      "norm": "Art. 392 E.T.",
+      "grupo": "servicios",
+      "aiu": false
+    },
+    "serv_pub": {
+      "t": 0.03,
+      "bUVT": 4,
+      "nom": "Publicidad",
+      "cod": "392",
+      "norm": "Art. 392 E.T.",
+      "grupo": "servicios",
+      "aiu": false
+    },
+    "compra_gen": {
+      "t": 0.025,
+      "bUVT": 27,
+      "nom": "Compras generales (declarante)",
+      "cod": "401",
+      "norm": "Art. 401 E.T. · Dcto. 1625/2016 (base: 27 UVT)",
+      "grupo": "compras",
+      "aiu": false
+    },
+    "compra_no": {
+      "t": 0.035,
+      "bUVT": 27,
+      "nom": "Compras a no declarantes",
+      "cod": "401",
+      "norm": "Art. 401 E.T. (base: 27 UVT)",
+      "grupo": "compras",
+      "aiu": false
+    },
+    "compra_agri": {
+      "t": 0.015,
+      "bUVT": 92,
+      "nom": "Productos agrícolas",
+      "cod": "402",
+      "norm": "Art. 401 E.T. · base 92 UVT",
+      "grupo": "compras",
+      "aiu": false
+    },
+    "compra_cafe": {
+      "t": 0.005,
+      "bUVT": 160,
+      "nom": "Café pergamino o cereza",
+      "cod": "402",
+      "norm": "Dcto. 1625/2016 · base 160 UVT",
+      "grupo": "compras",
+      "aiu": false
+    },
+    "compra_activo": {
+      "t": 0.01,
+      "bUVT": 0,
+      "nom": "Activos fijos",
+      "cod": "404",
+      "norm": "Art. 398 E.T.",
+      "grupo": "compras",
+      "aiu": false
+    },
+    "compra_combus": {
+      "t": 0.001,
+      "bUVT": 0,
+      "nom": "Combustibles derivados petróleo",
+      "cod": "406",
+      "norm": "Art. 401 E.T.",
+      "grupo": "compras",
+      "aiu": false
+    },
+    "arrend": {
+      "t": 0.035,
+      "bUVT": 27,
+      "nom": "Arrendamiento bienes inmuebles",
+      "cod": "411",
+      "norm": "Art. 401 E.T. · base 27 UVT",
+      "grupo": "otros",
+      "aiu": false
+    },
+    "intereses": {
+      "t": 0.07,
+      "bUVT": 0,
+      "nom": "Intereses y rendimientos financieros",
+      "cod": "418",
+      "norm": "Art. 395 E.T.",
+      "grupo": "otros",
+      "aiu": false
+    },
+    "loter": {
+      "t": 0.20,
+      "bUVT": 48,
+      "nom": "Loterías, rifas y premios",
+      "cod": "422",
+      "norm": "Art. 402 E.T.",
+      "grupo": "otros",
+      "aiu": false
+    },
+    "div": {
+      "t": 0.075,
+      "bUVT": 0,
+      "nom": "Dividendos gravados",
+      "cod": "421",
+      "norm": "Art. 242 E.T.",
+      "grupo": "otros",
+      "aiu": false
+    }
+  },
+
+  "OPS_JULIO": {
+    "serv_gen": {
+      "t": 0.04,
+      "bUVT": 2,
+      "nom": "Servicios en general",
+      "cod": "391",
+      "norm": "Art. 392 E.T. · Dcto. 572/2025 (base: 2 UVT) — vigente desde 1° jul 2026",
+      "grupo": "servicios",
+      "aiu": false
+    },
+    "serv_hon": {
+      "t": 0.10,
+      "bUVT": 0,
+      "nom": "Honorarios y consultorías",
+      "cod": "392",
+      "norm": "Art. 392 E.T. — 10%/11% sin cambio",
+      "grupo": "servicios",
+      "aiu": false,
+      "nota": "Tarifa 11% para PN no declarante — aplica lógica adicional en el frontend"
+    },
+    "serv_trans": {
+      "t": 0.01,
+      "bUVT": 2,
+      "nom": "Transporte de carga",
+      "cod": "394",
+      "norm": "Dcto. 572/2025 · base 2 UVT",
+      "grupo": "servicios",
+      "aiu": false
+    },
+    "serv_hotel": {
+      "t": 0.035,
+      "bUVT": 2,
+      "nom": "Hoteles / arrendamiento",
+      "cod": "395",
+      "norm": "Dcto. 572/2025 · base 2 UVT",
+      "grupo": "servicios",
+      "aiu": false
+    },
+    "serv_mant": {
+      "t": 0.04,
+      "bUVT": 2,
+      "nom": "Mantenimiento y reparación",
+      "cod": "396",
+      "norm": "Dcto. 572/2025 · base 2 UVT",
+      "grupo": "servicios",
+      "aiu": false
+    },
+    "serv_aseo": {
+      "t": 0.02,
+      "bUVT": 2,
+      "nom": "Aseo y vigilancia (AIU)",
+      "cod": "397",
+      "norm": "Art. 462-1 E.T.",
+      "grupo": "servicios",
+      "aiu": true
+    },
+    "serv_obra": {
+      "t": 0.02,
+      "bUVT": 0,
+      "nom": "Obras civiles (AIU)",
+      "cod": "399",
+      "norm": "Art. 462-1 E.T.",
+      "grupo": "servicios",
+      "aiu": true
+    },
+    "serv_soft": {
+      "t": 0.035,
+      "bUVT": 2,
+      "nom": "Licenciamiento de software",
+      "cod": "392",
+      "norm": "Dcto. 572/2025 · base 2 UVT",
+      "grupo": "servicios",
+      "aiu": false
+    },
+    "serv_pub": {
+      "t": 0.03,
+      "bUVT": 2,
+      "nom": "Publicidad",
+      "cod": "392",
+      "norm": "Dcto. 572/2025 · base 2 UVT",
+      "grupo": "servicios",
+      "aiu": false
+    },
+    "compra_gen": {
+      "t": 0.025,
+      "bUVT": 10,
+      "nom": "Compras generales (declarante)",
+      "cod": "401",
+      "norm": "Dcto. 572/2025 (base: 10 UVT) — vigente desde 1° jul 2026",
+      "grupo": "compras",
+      "aiu": false
+    },
+    "compra_no": {
+      "t": 0.035,
+      "bUVT": 10,
+      "nom": "Compras a no declarantes",
+      "cod": "401",
+      "norm": "Dcto. 572/2025 (base: 10 UVT)",
+      "grupo": "compras",
+      "aiu": false
+    },
+    "compra_agri": {
+      "t": 0.015,
+      "bUVT": 70,
+      "nom": "Productos agrícolas",
+      "cod": "402",
+      "norm": "Dcto. 572/2025 · base 70 UVT",
+      "grupo": "compras",
+      "aiu": false
+    },
+    "compra_cafe": {
+      "t": 0.005,
+      "bUVT": 70,
+      "nom": "Café pergamino o cereza",
+      "cod": "402",
+      "norm": "Dcto. 572/2025 · base 70 UVT",
+      "grupo": "compras",
+      "aiu": false
+    },
+    "compra_activo": {
+      "t": 0.01,
+      "bUVT": 0,
+      "nom": "Activos fijos",
+      "cod": "404",
+      "norm": "Art. 398 E.T.",
+      "grupo": "compras",
+      "aiu": false
+    },
+    "compra_combus": {
+      "t": 0.001,
+      "bUVT": 0,
+      "nom": "Combustibles derivados petróleo",
+      "cod": "406",
+      "norm": "Art. 401 E.T.",
+      "grupo": "compras",
+      "aiu": false
+    },
+    "arrend": {
+      "t": 0.025,
+      "bUVT": 10,
+      "nom": "Arrendamiento bienes inmuebles",
+      "cod": "411",
+      "norm": "Dcto. 572/2025 · base 10 UVT",
+      "grupo": "otros",
+      "aiu": false
+    },
+    "intereses": {
+      "t": 0.07,
+      "bUVT": 0,
+      "nom": "Intereses y rendimientos financieros",
+      "cod": "418",
+      "norm": "Art. 395 E.T.",
+      "grupo": "otros",
+      "aiu": false
+    },
+    "loter": {
+      "t": 0.20,
+      "bUVT": 48,
+      "nom": "Loterías, rifas y premios",
+      "cod": "422",
+      "norm": "Art. 402 E.T.",
+      "grupo": "otros",
+      "aiu": false
+    },
+    "div": {
+      "t": 0.075,
+      "bUVT": 0,
+      "nom": "Dividendos gravados",
+      "cod": "421",
+      "norm": "Art. 242 E.T.",
+      "grupo": "otros",
+      "aiu": false
+    }
+  }
+}
