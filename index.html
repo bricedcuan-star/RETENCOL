@@ -3,173 +3,300 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RETENCOL & SIEL - Control Normativo de Retenciones</title>
-    <!-- Bootstrap 5 CSS para diseño limpio -->
+    <title>RETENCOL 2026 - Procesador Inteligente</title>
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Iconos de Bootstrap -->
+    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
-        .card-custom {
-            border-radius: 12px;
+        .clean-card {
             border: none;
+            border-radius: 16px;
+            background: #ffffff;
+        }
+        .nav-pills .nav-link {
+            color: #6c757d;
+            border-radius: 8px;
+            font-weight: 500;
+            padding: 10px 20px;
+        }
+        .nav-pills .nav-link.active {
+            background-color: #0d6efd;
+            color: #ffffff;
+        }
+        .result-box {
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 5px solid #198754;
+        }
+        .text-neto {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #198754;
+        }
+        .form-label {
+            font-weight: 600;
+            color: #495057;
         }
     </style>
 </head>
 <body>
 
-    <!-- BARRA DE NAVEGACIÓN -->
-    <nav class="navbar navbar-dark bg-dark shadow-sm">
+    <!-- MENÚ SUPERIOR MINIMALISTA -->
+    <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom py-3">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#">
-                <i class="bi bi-shield-check text-success me-2"></i>
-                <span class="fw-bold">RETENCOL</span>
-                <span class="text-muted mx-2">|</span>
-                <span class="fs-6 text-light">Módulo de Inteligencia Normativa</span>
+                <i class="bi bi-cpu-fill text-primary me-2 fs-4"></i>
+                <span class="fw-bold text-dark">RETENCOL</span>
+                <span class="badge bg-light text-muted border ms-3 font-monospace">v2026.1</span>
             </a>
-            <span class="badge bg-outline-light border text-light small">UVT 2026: $52.374</span>
+            <div class="ms-auto d-none d-md-block">
+                <span class="text-muted small"><i class="bi bi-calendar3 me-1"></i> Periodo Operativo: <strong>Junio 2026</strong></span>
+            </div>
         </div>
     </nav>
 
-    <!-- CONTENEDOR PRINCIPAL -->
-    <div class="container my-5">
+    <!-- CONTENEDOR DE ACCIÓN -->
+    <div class="container my-5" style="max-width: 800px;">
         
-        <!-- ENCABEZADO -->
-        <div class="row mb-5 align-items-center">
-            <div class="col-md-8">
-                <h1 class="fw-bold text-dark display-5">Actualización Urgente: Retorno al Decreto 1625 de 2016</h1>
-                <p class="text-muted lead">Transición y desmonte de las tarifas del Decreto 572 de 2025 tras las últimas decisiones judiciales.</p>
-            </div>
-            <div class="col-md-4 text-md-end">
-                <div class="p-3 bg-white shadow-sm rounded-3 d-inline-block">
-                    <span class="text-muted d-block small text-uppercase fw-bold">Fecha del Sistema</span>
-                    <span class="fw-bold text-primary fs-5">18 de Junio de 2026</span>
+        <div class="text-center mb-5">
+            <h1 class="fw-bold text-dark tracking-tight">Liquidador de Retenciones Express</h1>
+            <p class="text-muted">Procesa facturas de forma limpia y directa sin lidiar con ruido normativo en pantalla.</p>
+        </div>
+
+        <!-- CONTROL DE PASOS DE PROGRESIÓN LÓGICA -->
+        <ul class="nav nav-pills nav-justified mb-4 p-2 bg-white rounded-3 shadow-sm" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="paso1-tab" data-bs-toggle="pill" data-bs-target="#paso1" type="button" role="tab"><i class="bi bi-1-circle me-2"></i>Datos Básicos</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="paso2-tab" data-bs-toggle="pill" data-bs-target="#paso2" type="button" role="tab"><i class="bi bi-2-circle me-2"></i>Perfiles RUT</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="paso3-tab" data-bs-toggle="pill" data-bs-target="#paso3" type="button" role="tab" onclick="calcularRetenciones()"><i class="bi bi-3-circle me-2"></i>Resultado Neto</button>
+            </li>
+        </ul>
+
+        <!-- CONTENIDO DINÁMICO DE LOS PASOS -->
+        <div class="card clean-card shadow-sm p-4 p-md-5">
+            <div class="tab-content" id="pills-tabContent">
+                
+                <!-- PASO 1: INPUTS BÁSICOS -->
+                <div class="tab-pane fade show class active" id="paso1" role="tabpanel">
+                    <h4 class="fw-bold mb-4 text-dark">Paso 1: Datos de la Factura</h4>
+                    
+                    <div class="mb-4">
+                        <label for="monto" class="form-label">Valor antes de IVA ($)</label>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text bg-light text-muted">$</span>
+                            <input type="number" id="monto" class="form-control" placeholder="0.00" value="1500000">
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label for="concepto" class="form-label">Concepto de la Operación</label>
+                            <select id="concepto" class="form-select form-select-lg">
+                                <option value="servicios">Servicios Generales (Declarante)</option>
+                                <option value="compras">Compras Generales (Declarante)</option>
+                                <option value="arriendos">Arrendamiento de Inmuebles</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="municipio" class="form-label">Municipio destino (Para ICA)</label>
+                            <select id="municipio" class="form-select form-select-lg">
+                                <option value="bogota">Bogotá D.C. (11.04 x 1000)</option>
+                                <option value="medellin">Medellín (4 x 1000)</option>
+                                <option value="cali">Cali (6.6 x 1000)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="text-end mt-4">
+                        <button class="btn btn-primary btn-lg px-5" onclick="cambiarTab('#paso2-tab')">Siguiente <i class="bi bi-arrow-right ms-2"></i></button>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- ================================================================= -->
-        <!-- NUEVA NOTA NORMATIVA: LÓGICA DE TRANSICIÓN CORRECTA              -->
-        <!-- ================================================================= -->
-        <div class="alert alert-info border-start border-4 border-info shadow-sm card-custom p-4 mb-4" role="alert">
-            <div class="d-flex align-items-start">
-                <i class="bi bi-info-circle-fill text-info fs-3 me-3"></i>
-                <div>
-                    <h3 class="alert-heading fw-bold text-dark mb-2">🚨 ALERTA DE TRANSICIÓN: Regreso al Decreto 1625 de 2016</h3>
-                    <p class="mb-3 text-secondary">
-                        Tras la última decisión del 2 de junio de 2026, el Consejo de Estado ratificó que **NO se debe aplicar el Decreto 572 de 2025** y se debe regresar definitivamente a las tarifas anteriores del **Decreto 1625 de 2016**.
-                    </p>
-                    <hr class="border-info opacity-25">
-                    <p class="mb-0 fw-bold text-dark">
-                        ⚠️ <span class="text-danger">¿Por qué desde el 1 de Julio?</span> Debido a que muchas empresas ya venían aplicando u organizaron sus sistemas con las tarifas del Decreto 572, el mes de <strong>junio de 2026 opera como transición</strong>. El desmonte total y la aplicación obligatoria de las tarifas anteriores (Decreto 1625) se hará efectiva a partir del <strong>1 de julio de 2026</strong>.
-                    </p>
+                <!-- PASO 2: VALIDACIÓN DE PERFILES -->
+                <div class="tab-pane fade" id="paso2" role="tabpanel">
+                    <h4 class="fw-bold mb-4 text-dark">Paso 2: Validación Jurídica</h4>
+                    
+                    <div class="p-3 border rounded-3 mb-4 bg-light">
+                        <div class="form-check form-switch d-flex justify-content-between align-items-center ps-0">
+                            <div>
+                                <label class="form-check-label fw-bold d-block text-dark" for="esAgente">¿El Comprador es Agente Retenedor?</label>
+                                <small class="text-muted">Casilla 53 del RUT contiene la responsabilidad 07.</small>
+                            </div>
+                            <input class="form-check-switch form-check-input ms-3 fs-4" type="checkbox" id="esAgente" checked>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="regimenVendedor" class="form-label">Régimen Fiscal del Vendedor</label>
+                        <select id="regimenVendedor" class="form-select form-select-lg">
+                            <option value="ordinario">Régimen Ordinario / Común</option>
+                            <option value="simple">Régimen Simple de Tributación (RST) - Exento de Retefuente</option>
+                            <option value="natural">Persona Natural (No Declarante)</option>
+                        </select>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-5">
+                        <button class="btn btn-outline-secondary btn-lg px-4" onclick="cambiarTab('#paso1-tab')"><i class="bi bi-arrow-left me-2"></i> Atrás</button>
+                        <button class="btn btn-success btn-lg px-5" onclick="cambiarTab('#paso3-tab'); calcularRetenciones();">Calcular Neto <i class="bi bi-calculator ms-2"></i></button>
+                    </div>
                 </div>
+
+                <!-- PASO 3: OUTPUT MÍNIMO Y DATOS A DEMANDA -->
+                <div class="tab-pane fade" id="paso3" role="tabpanel">
+                    <h4 class="fw-bold mb-4 text-dark">Paso 3: Liquidación Final</h4>
+
+                    <!-- AUTOMATIZACIÓN INVISIBLE: SOLO MUESTRA EL RESULTADO NETO -->
+                    <div class="result-box mb-4 text-center text-md-start">
+                        <div class="row align-items-center">
+                            <div class="col-md-7">
+                                <span class="text-muted text-uppercase fw-bold small d-block">Monto Neto Estimado a Recibir/Pagar</span>
+                                <div class="text-neto" id="netoDisplay">$0</div>
+                            </div>
+                            <div class="col-md-5 text-md-end mt-3 mt-md-0">
+                                <div class="small text-muted">Base Bruta: <span id="brutoDisplay" class="fw-bold text-dark">$0</span></div>
+                                <div class="small text-muted">Retenciones Totales: <span id="retenDisplay" class="fw-bold text-danger">-$0</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DISEÑO CLEAN: ACORDEÓN DESPLEGABLE SÓLO SI EL USUARIO QUIERE VER EL DETALLE -->
+                    <div class="accordion accordion-flush border rounded-3 overflow-hidden mb-4" id="accordionDetalle">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-light text-dark fw-bold small text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#panelDetalle">
+                                    <i class="bi bi-receipt-cutoff me-2 text-primary"></i> Ver Desglose Técnico y Sustento Legal
+                                </button>
+                            </h2>
+                            <div id="panelDetalle" class="accordion-collapse collapse" data-bs-parent="#accordionDetalle">
+                                <div class="accordion-body bg-white p-0">
+                                    <ul class="list-group list-group-flush mb-0">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                                            <div>
+                                                <strong class="d-block text-dark">Retención en la Fuente</strong>
+                                                <small class="text-muted" id="legalRetefuente">Calculado bajo parámetros del Decreto 1625 de 2016</small>
+                                            </div>
+                                            <span class="badge bg-danger fs-6 px-3 py-2 font-monospace" id="valRetefuente">-$0</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                                            <div>
+                                                <strong class="d-block text-dark">ReteICA</strong>
+                                                <small class="text-muted" id="legalICA">Retención Municipal Automática</small>
+                                            </div>
+                                            <span class="badge bg-danger fs-6 px-3 py-2 font-monospace" id="valICA">-$0</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-5">
+                        <button class="btn btn-outline-secondary btn-lg px-4" onclick="cambiarTab('#paso2-tab')"><i class="bi bi-arrow-left me-2"></i> Modificar</button>
+                        <button class="btn btn-primary btn-lg px-4" onclick="window.location.reload()"><i class="bi bi-arrow-counterclockwise me-2"></i> Nueva Factura</button>
+                    </div>
+                </div>
+
             </div>
         </div>
-
-        <!-- TABLA RESUMEN DE TRANSICIÓN TEMPORAL -->
-        <div class="card shadow-sm card-custom mb-5 overflow-hidden">
-            <div class="card-header bg-dark text-white fw-bold py-3">
-                <i class="bi bi-calendar-range me-2"></i>Cronograma de Ajuste en Sistemas
-            </div>
-            <div class="table-responsive">
-                <table class="table table-striped table-hover align-middle mb-0 text-center">
-                    <thead class="table-light text-uppercase font-monospace small">
-                        <tr>
-                            <th style="width: 35%">Período</th>
-                            <th style="width: 35%">Tarifas en Operación</th>
-                            <th style="width: 30%">Acción del Sistema</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="fw-bold text-secondary">Todo el mes de Junio 2026</td>
-                            <td>
-                                <span class="badge bg-warning text-dark px-3 py-2 fs-6">Decreto 572 de 2025</span>
-                                <div class="small text-muted mt-1">(Bases bajas: Compras 10 UVT / Servicios 2 UVT)</div>
-                            </td>
-                            <td class="text-muted">Período de gracia / Transición para empresas adaptadas</td>
-                        </tr>
-                        <tr class="table-success">
-                            <td class="fw-bold text-success">Desde 1 de Julio de 2026</td>
-                            <td>
-                                <span class="badge bg-success px-3 py-2 fs-6">Decreto 1625 de 2016</span>
-                                <div class="small text-dark mt-1"><strong>¡Vuelven las bases anteriores más altas!</strong></div>
-                            </td>
-                            <td class="text-success fw-bold">Aplicación Obligatoria y Definitiva</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- ================================================================= -->
-        <!-- TABLA COMPARATIVA DE LO QUE ENTRA A REGIR EL 1 DE JULIO          -->
-        <!-- ================================================================= -->
-        <h2 class="fw-bold text-primary mb-4 d-flex align-items-center">
-            <i class="bi bi-arrow-left-right me-2"></i>Comparativa de Restablecimiento (Bases en UVT 2026: $52.374)
-        </h2>
-        
-        <div class="card shadow-sm card-custom overflow-hidden mb-5">
-            <div class="card-header bg-primary text-white fw-bold py-3">
-                <i class="bi bi-table me-2"></i>Bases Mínimas de Retención que Regresan el 1 de Julio
-            </div>
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover align-middle mb-0">
-                    <thead class="table-light text-center text-uppercase font-monospace small">
-                        <tr>
-                            <th>Concepto</th>
-                            <th>Tarifa Actual (Hasta 30 Jun - Dec 572)</th>
-                            <th>Nueva Tarifa Restablecida (Desde 1 Jul - Dec 1625)</th>
-                            <th>Impacto Contable</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="fw-bold ps-4">Compras Generales</td>
-                            <td class="text-center text-danger">10 UVT ($523.740)</td>
-                            <td class="text-center fw-bold text-success bg-light-success">27 UVT ($1.414.098)</td>
-                            <td><span class="badge bg-success">+ Alivio de Caja: Sube el tope mínimo para retener</span></td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold ps-4">Servicios Generales</td>
-                            <td class="text-center text-danger">2 UVT ($104.748)</td>
-                            <td class="text-center fw-bold text-success bg-light-success">4 UVT ($209.496)</td>
-                            <td><span class="badge bg-success">Menos facturas atrapadas en retención</span></td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold ps-4">Arrendamientos (Inmuebles)</td>
-                            <td class="text-center text-danger">10 UVT ($523.740)</td>
-                            <td class="text-center fw-bold text-success bg-light-success">27 UVT ($1.414.098)</td>
-                            <td><span class="badge bg-success">Se normaliza al tope tradicional</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- RECOMENDACIÓN TÉCNICA -->
-        <div class="card card-custom bg-dark text-light p-4">
-            <h5 class="fw-bold text-warning mb-2"><i class="bi bi-gear-fill me-2"></i>Instrucción para el Software (RETENCOL)</h5>
-            <p class="mb-0 small text-secondary">
-                Asegúrate de programar la actualización de las variables globales del sistema para que el cambio de bases ocurra exactamente a las 00:00 horas del 1 de julio de 2026. Esto evitará discordancias con los proveedores que emitieron facturas bajo la transición del Decreto 572 en junio.
-            </p>
-        </div>
-
-    </div> <!-- Fin del contenedor -->
+    </div>
 
     <!-- PIE DE PÁGINA -->
-    <footer class="bg-dark text-secondary py-4 mt-5 text-center border-top border-secondary">
+    <footer class="text-center text-muted py-4 mt-5 border-top bg-white">
         <div class="container">
-            <p class="mb-1 small text-light">RETENCOL Dashboard Contable - Ajuste de Transición Normativa 2026</p>
-            <p class="mb-0 text-muted" style="font-size: 0.8rem;">Actualizado conforme al dictamen del Consejo de Estado del 2 de junio de 2026.</p>
+            <p class="mb-0 small">RETENCOL 2026 — Interfaz Minimalista Orientada a Resultados.</p>
         </div>
     </footer>
 
-    <!-- Bootstrap 5 JS -->
+    <!-- LOGIC SCRIPT (CÁLCULOS POR DETRÁS - INVISIBLES) -->
+    <script>
+        // Función para cambiar de pestaña mediante los botones de acción
+        function cambiarTab(tabId) {
+            const triggerEl = document.querySelector(tabId);
+            const tab = new bootstrap.Tab(triggerEl);
+            tab.show();
+        }
+
+        // Lógica automática e invisible del motor RETENCOL
+        function calcularRetenciones() {
+            const bruto = parseFloat(document.getElementById('monto').value) || 0;
+            const concepto = document.getElementById('concepto').value;
+            const municipio = document.getElementById('municipio').value;
+            const esAgente = document.getElementById('esAgente').checked;
+            const regimenVendedor = document.getElementById('regimenVendedor').value;
+
+            // Constantes invisibles al usuario
+            const uvt = 52374; 
+            let retefuente = 0;
+            let reteica = 0;
+
+            // Parámetros normativos vigentes (Bases altas Decreto 1625/2016 por transición de junio)
+            let baseMinimaFuetne = 0;
+            let tarifaFuente = 0;
+
+            if (concepto === 'servicios') {
+                baseMinimaFuetne = 4 * uvt; // 4 UVT = $209.496
+                tarifaFuente = 0.04; // 4%
+            } else if (concepto === 'compras') {
+                baseMinimaFuetne = 27 * uvt; // 27 UVT = $1.414.098
+                tarifaFuente = 0.025; // 2.5%
+            } else if (concepto === 'arriendos') {
+                baseMinimaFuetne = 27 * uvt; // 27 UVT = $1.414.098
+                tarifaFuente = 0.035; // 3.5%
+            }
+
+            // Validación de Reglas de Negocio
+            if (esAgente && regimenVendedor !== 'simple') {
+                if (bruto >= baseMinimaFuetne) {
+                    retefuente = bruto * tarifaFuente;
+                }
+            }
+
+            // Cálculo automatizado de ICA según municipio seleccionado
+            let tarifaICA = 0;
+            if (municipio === 'bogota') tarifaICA = 11.04 / 1000;
+            if (municipio === 'medellin') tarifaICA = 4 / 1000;
+            if (municipio === 'cali') tarifaICA = 6.6 / 1000;
+            
+            // Asumiendo que supera la base mínima de ICA distrital
+            if (regimenVendedor !== 'simple') {
+                reteica = bruto * tarifaICA;
+            }
+
+            // Cálculos finales
+            const totalRetenciones = retefuente + reteica;
+            const neto = bruto - totalRetenciones;
+
+            // Formateador de moneda colombiana
+            const formatter = new Intl.NumberFormat('es-CO', {
+                style: 'currency',
+                currency: 'COP',
+                minimumFractionDigits: 0
+            });
+
+            // Inyección limpia en el DOM del Paso 3
+            document.getElementById('netoDisplay').innerText = formatter.format(neto);
+            document.getElementById('brutoDisplay').innerText = formatter.format(bruto);
+            document.getElementById('retenDisplay').innerText = formatter.format(totalRetenciones);
+            
+            document.getElementById('valRetefuente').innerText = "-" + formatter.format(retefuente);
+            document.getElementById('valICA').innerText = "-" + formatter.format(reteica);
+            
+            document.getElementById('legalRetefuente').innerText = `Base mínima: ${formatter.format(baseMinimaFuetne)} (${tarifaFuente * 100}% aplicado bajo Dec. 1625/2016)`;
+            document.getElementById('legalICA').innerText = `Tarifa municipal aplicada: ${(tarifaICA * 1000).toFixed(2)} por mil.`;
+        }
+    </script>
+
+    <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
