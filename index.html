@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RETENCOL 2026 - Procesador Inteligente</title>
+    <title>RETENCOL — Liquidador de Retenciones Express</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         body {
             background-color: #f4f6f9;
@@ -47,61 +45,60 @@
 </head>
 <body>
 
-    <!-- MENÚ SUPERIOR MINIMALISTA -->
+    <!-- CABECERA RETENCOL REAL -->
     <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom py-3">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#">
-                <i class="bi bi-cpu-fill text-primary me-2 fs-4"></i>
-                <span class="fw-bold text-dark">RETENCOL</span>
-                <span class="badge bg-light text-muted border ms-3 font-monospace">v2026.1</span>
+                <span class="fw-bold text-dark text-uppercase">🛡️ RETENCOL</span>
+                <span class="badge bg-light text-muted border ms-2 font-monospace">v2026.1</span>
             </a>
-            <div class="ms-auto d-none d-md-block">
-                <span class="text-muted small"><i class="bi bi-calendar3 me-1"></i> Periodo Operativo: <strong>Junio 2026</strong></span>
+            <div class="ms-auto">
+                <span class="text-muted small"><i class="bi bi-calendar3"></i> Periodo Operativo: <strong>Junio 2026</strong></span>
             </div>
         </div>
     </nav>
 
-    <!-- CONTENEDOR DE ACCIÓN -->
+    <!-- INTERFAZ PRINCIPAL (VISTA EN IMAGE_82D988.PNG) -->
     <div class="container my-5" style="max-width: 800px;">
         
         <div class="text-center mb-5">
-            <h1 class="fw-bold text-dark tracking-tight">Liquidador de Retenciones Express</h1>
+            <h1 class="fw-bold text-dark">Liquidador de Retenciones Express</h1>
             <p class="text-muted">Procesa facturas de forma limpia y directa sin lidiar con ruido normativo en pantalla.</p>
         </div>
 
-        <!-- CONTROL DE PASOS DE PROGRESIÓN LÓGICA -->
+        <!-- PESTAÑAS DE PROGRESIÓN LÓGICA -->
         <ul class="nav nav-pills nav-justified mb-4 p-2 bg-white rounded-3 shadow-sm" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="paso1-tab" data-bs-toggle="pill" data-bs-target="#paso1" type="button" role="tab"><i class="bi bi-1-circle me-2"></i>Datos Básicos</button>
+                <button class="nav-link active" id="paso1-tab" data-bs-toggle="pill" data-bs-target="#paso1" type="button" role="tab">① Datos Básicos</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="paso2-tab" data-bs-toggle="pill" data-bs-target="#paso2" type="button" role="tab"><i class="bi bi-2-circle me-2"></i>Perfiles RUT</button>
+                <button class="nav-link" id="paso2-tab" data-bs-toggle="pill" data-bs-target="#paso2" type="button" role="tab">② Perfiles RUT</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="paso3-tab" data-bs-toggle="pill" data-bs-target="#paso3" type="button" role="tab" onclick="calcularRetenciones()"><i class="bi bi-3-circle me-2"></i>Resultado Neto</button>
+                <button class="nav-link" id="paso3-tab" data-bs-toggle="pill" data-bs-target="#paso3" type="button" role="tab" onclick="calcularRetenciones()">③ Resultado Neto</button>
             </li>
         </ul>
 
-        <!-- CONTENIDO DINÁMICO DE LOS PASOS -->
+        <!-- FORMULARIO DE ENTRADA / SALIDA -->
         <div class="card clean-card shadow-sm p-4 p-md-5">
             <div class="tab-content" id="pills-tabContent">
                 
-                <!-- PASO 1: INPUTS BÁSICOS -->
-                <div class="tab-pane fade show class active" id="paso1" role="tabpanel">
+                <!-- PASO 1: DATOS DE LA FACTURA -->
+                <div class="tab-pane fade show active" id="paso1" role="tabpanel">
                     <h4 class="fw-bold mb-4 text-dark">Paso 1: Datos de la Factura</h4>
                     
                     <div class="mb-4">
                         <label for="monto" class="form-label">Valor antes de IVA ($)</label>
                         <div class="input-group input-group-lg">
                             <span class="input-group-text bg-light text-muted">$</span>
-                            <input type="number" id="monto" class="form-control" placeholder="0.00" value="1500000">
+                            <input type="number" id="monto" class="form-control" value="1500000">
                         </div>
                     </div>
 
                     <div class="row g-3 mb-4">
                         <div class="col-md-6">
                             <label for="concepto" class="form-label">Concepto de la Operación</label>
-                            <select id="concepto" class="form-select form-select-lg">
+                            <select id="concepto" class="form-select">
                                 <option value="servicios">Servicios Generales (Declarante)</option>
                                 <option value="compras">Compras Generales (Declarante)</option>
                                 <option value="arriendos">Arrendamiento de Inmuebles</option>
@@ -109,7 +106,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="municipio" class="form-label">Municipio destino (Para ICA)</label>
-                            <select id="municipio" class="form-select form-select-lg">
+                            <select id="municipio" class="form-select">
                                 <option value="bogota">Bogotá D.C. (11.04 x 1000)</option>
                                 <option value="medellin">Medellín (4 x 1000)</option>
                                 <option value="cali">Cali (6.6 x 1000)</option>
@@ -118,13 +115,13 @@
                     </div>
 
                     <div class="text-end mt-4">
-                        <button class="btn btn-primary btn-lg px-5" onclick="cambiarTab('#paso2-tab')">Siguiente <i class="bi bi-arrow-right ms-2"></i></button>
+                        <button class="btn btn-primary px-5 py-2" onclick="cambiarTab('#paso2-tab')">Siguiente →</button>
                     </div>
                 </div>
 
-                <!-- PASO 2: VALIDACIÓN DE PERFILES -->
+                <!-- PASO 2: PERFILES RUT -->
                 <div class="tab-pane fade" id="paso2" role="tabpanel">
-                    <h4 class="fw-bold mb-4 text-dark">Paso 2: Validación Jurídica</h4>
+                    <h4 class="fw-bold mb-4 text-dark">Paso 2: Perfiles RUT</h4>
                     
                     <div class="p-3 border rounded-3 mb-4 bg-light">
                         <div class="form-check form-switch d-flex justify-content-between align-items-center ps-0">
@@ -132,49 +129,49 @@
                                 <label class="form-check-label fw-bold d-block text-dark" for="esAgente">¿El Comprador es Agente Retenedor?</label>
                                 <small class="text-muted">Casilla 53 del RUT contiene la responsabilidad 07.</small>
                             </div>
-                            <input class="form-check-switch form-check-input ms-3 fs-4" type="checkbox" id="esAgente" checked>
+                            <input class="form-check-input ms-3 fs-4" type="checkbox" id="esAgente" checked>
                         </div>
                     </div>
 
                     <div class="mb-4">
                         <label for="regimenVendedor" class="form-label">Régimen Fiscal del Vendedor</label>
-                        <select id="regimenVendedor" class="form-select form-select-lg">
-                            <option value="ordinario">Régimen Ordinario / Común</option>
-                            <option value="simple">Régimen Simple de Tributación (RST) - Exento de Retefuente</option>
+                        <select id="regimenVendedor" class="form-select">
+                            <option value="ordinario">Régimen Ordinario</option>
+                            <option value="simple">Régimen Simple de Tributación (RST)</option>
                             <option value="natural">Persona Natural (No Declarante)</option>
                         </select>
                     </div>
 
                     <div class="d-flex justify-content-between mt-5">
-                        <button class="btn btn-outline-secondary btn-lg px-4" onclick="cambiarTab('#paso1-tab')"><i class="bi bi-arrow-left me-2"></i> Atrás</button>
-                        <button class="btn btn-success btn-lg px-5" onclick="cambiarTab('#paso3-tab'); calcularRetenciones();">Calcular Neto <i class="bi bi-calculator ms-2"></i></button>
+                        <button class="btn btn-outline-secondary px-4" onclick="cambiarTab('#paso1-tab')">← Atrás</button>
+                        <button class="btn btn-success px-5" onclick="cambiarTab('#paso3-tab'); calcularRetenciones();">Calcular Neto</button>
                     </div>
                 </div>
 
-                <!-- PASO 3: OUTPUT MÍNIMO Y DATOS A DEMANDA -->
+                <!-- PASO 3: RESULTADO NETO (MINIMALISTA - INFORMACIÓN A DEMANDA) -->
                 <div class="tab-pane fade" id="paso3" role="tabpanel">
-                    <h4 class="fw-bold mb-4 text-dark">Paso 3: Liquidación Final</h4>
+                    <h4 class="fw-bold mb-4 text-dark">Paso 3: Resultado Neto</h4>
 
-                    <!-- AUTOMATIZACIÓN INVISIBLE: SOLO MUESTRA EL RESULTADO NETO -->
+                    <!-- AUTOMATIZACIÓN INVISIBLE: SOLO MUESTRA EL RESULTADO FINANCIERO -->
                     <div class="result-box mb-4 text-center text-md-start">
                         <div class="row align-items-center">
                             <div class="col-md-7">
-                                <span class="text-muted text-uppercase fw-bold small d-block">Monto Neto Estimado a Recibir/Pagar</span>
+                                <span class="text-muted text-uppercase fw-bold small d-block">Monto Neto a Pagar/Cobrar</span>
                                 <div class="text-neto" id="netoDisplay">$0</div>
                             </div>
                             <div class="col-md-5 text-md-end mt-3 mt-md-0">
                                 <div class="small text-muted">Base Bruta: <span id="brutoDisplay" class="fw-bold text-dark">$0</span></div>
-                                <div class="small text-muted">Retenciones Totales: <span id="retenDisplay" class="fw-bold text-danger">-$0</span></div>
+                                <div class="small text-muted">Retenciones Aplicadas: <span id="retenDisplay" class="fw-bold text-danger">-$0</span></div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- DISEÑO CLEAN: ACORDEÓN DESPLEGABLE SÓLO SI EL USUARIO QUIERE VER EL DETALLE -->
+                    <!-- INFORMACIÓN BAJO DEMANDA (SÓLO SI HACE CLIC) -->
                     <div class="accordion accordion-flush border rounded-3 overflow-hidden mb-4" id="accordionDetalle">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed bg-light text-dark fw-bold small text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#panelDetalle">
-                                    <i class="bi bi-receipt-cutoff me-2 text-primary"></i> Ver Desglose Técnico y Sustento Legal
+                                    🔍 Ver Sustento Legal y Desglose Técnico
                                 </button>
                             </h2>
                             <div id="panelDetalle" class="accordion-collapse collapse" data-bs-parent="#accordionDetalle">
@@ -183,14 +180,14 @@
                                         <li class="list-group-item d-flex justify-content-between align-items-center py-3">
                                             <div>
                                                 <strong class="d-block text-dark">Retención en la Fuente</strong>
-                                                <small class="text-muted" id="legalRetefuente">Calculado bajo parámetros del Decreto 1625 de 2016</small>
+                                                <small class="text-muted" id="legalRetefuente">-</small>
                                             </div>
                                             <span class="badge bg-danger fs-6 px-3 py-2 font-monospace" id="valRetefuente">-$0</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center py-3">
                                             <div>
                                                 <strong class="d-block text-dark">ReteICA</strong>
-                                                <small class="text-muted" id="legalICA">Retención Municipal Automática</small>
+                                                <small class="text-muted" id="legalICA">-</small>
                                             </div>
                                             <span class="badge bg-danger fs-6 px-3 py-2 font-monospace" id="valICA">-$0</span>
                                         </li>
@@ -201,8 +198,8 @@
                     </div>
 
                     <div class="d-flex justify-content-between mt-5">
-                        <button class="btn btn-outline-secondary btn-lg px-4" onclick="cambiarTab('#paso2-tab')"><i class="bi bi-arrow-left me-2"></i> Modificar</button>
-                        <button class="btn btn-primary btn-lg px-4" onclick="window.location.reload()"><i class="bi bi-arrow-counterclockwise me-2"></i> Nueva Factura</button>
+                        <button class="btn btn-outline-secondary px-4" onclick="cambiarTab('#paso2-tab')">Modificar</button>
+                        <button class="btn btn-primary px-4" onclick="window.location.reload()">Nueva Liquidación</button>
                     </div>
                 </div>
 
@@ -210,80 +207,83 @@
         </div>
     </div>
 
-    <!-- PIE DE PÁGINA -->
+    <!-- PIE DE PÁGINA REAL DE TU CAPTURA -->
     <footer class="text-center text-muted py-4 mt-5 border-top bg-white">
         <div class="container">
             <p class="mb-0 small">RETENCOL 2026 — Interfaz Minimalista Orientada a Resultados.</p>
         </div>
     </footer>
 
-    <!-- LOGIC SCRIPT (CÁLCULOS POR DETRÁS - INVISIBLES) -->
+    <!-- ESTRUCTURA DE DATOS JSON & MOTOR INVISIBLE -->
     <script>
-        // Función para cambiar de pestaña mediante los botones de acción
+        // 1. Estructura de Datos JSON interna (Mapea el estado de la aplicación)
+        const retencolConfig = {
+            "configuracion_invisible": {
+                "uvt_actual": 52374,
+                "fecha_sistema": "2026-06-18",
+                "decreto_transicion": "Decreto 572/2025 (Transición Junio)"
+            },
+            "reglas_municipales_ica": {
+                "bogota": { "tarifa": 11.04 / 1000, "nombre": "Bogotá D.C." },
+                "medellin": { "tarifa": 4 / 1000, "nombre": "Medellín" },
+                "cali": { "tarifa": 6.6 / 1000, "nombre": "Cali" }
+            }
+        };
+
         function cambiarTab(tabId) {
             const triggerEl = document.querySelector(tabId);
             const tab = new bootstrap.Tab(triggerEl);
             tab.show();
         }
 
-        // Lógica automática e invisible del motor RETENCOL
+        // 2. Motor de Automatización Invisible con la Lógica de Transición Correcta
         function calcularRetenciones() {
             const bruto = parseFloat(document.getElementById('monto').value) || 0;
             const concepto = document.getElementById('concepto').value;
-            const municipio = document.getElementById('municipio').value;
+            const municipioKey = document.getElementById('municipio').value;
             const esAgente = document.getElementById('esAgente').checked;
             const regimenVendedor = document.getElementById('regimenVendedor').value;
 
-            // Constantes invisibles al usuario
-            const uvt = 52374; 
+            const uvt = retencolConfig.configuracion_invisible.uvt_actual;
             let retefuente = 0;
             let reteica = 0;
 
-            // Parámetros normativos vigentes (Bases altas Decreto 1625/2016 por transición de junio)
-            let baseMinimaFuetne = 0;
+            // LÓGICA DE TRANSICIÓN DE JUNIO: Se sigue usando el Decreto 572 de 2025 (bases bajas)
+            // El desmonte definitivo hacia el Decreto 1625 ocurrirá a partir del 1 de julio de 2026.
+            let baseMinimaFuente = 0;
             let tarifaFuente = 0;
 
             if (concepto === 'servicios') {
-                baseMinimaFuetne = 4 * uvt; // 4 UVT = $209.496
-                tarifaFuente = 0.04; // 4%
+                baseMinimaFuente = 2 * uvt;   // Decreto 572: 2 UVT = $104.748
+                tarifaFuente = 0.04;          // 4%
             } else if (concepto === 'compras') {
-                baseMinimaFuetne = 27 * uvt; // 27 UVT = $1.414.098
-                tarifaFuente = 0.025; // 2.5%
+                baseMinimaFuente = 10 * uvt;  // Decreto 572: 10 UVT = $523.740
+                tarifaFuente = 0.025;         // 2.5%
             } else if (concepto === 'arriendos') {
-                baseMinimaFuetne = 27 * uvt; // 27 UVT = $1.414.098
-                tarifaFuente = 0.035; // 3.5%
+                baseMinimaFuente = 10 * uvt;  // Decreto 572: 10 UVT = $523.740
+                tarifaFuente = 0.035;         // 3.5%
             }
 
-            // Validación de Reglas de Negocio
+            // Aplicar filtros de negocio invisibles en segundo plano
             if (esAgente && regimenVendedor !== 'simple') {
-                if (bruto >= baseMinimaFuetne) {
+                if (bruto >= baseMinimaFuente) {
                     retefuente = bruto * tarifaFuente;
                 }
             }
 
-            // Cálculo automatizado de ICA según municipio seleccionado
-            let tarifaICA = 0;
-            if (municipio === 'bogota') tarifaICA = 11.04 / 1000;
-            if (municipio === 'medellin') tarifaICA = 4 / 1000;
-            if (municipio === 'cali') tarifaICA = 6.6 / 1000;
-            
-            // Asumiendo que supera la base mínima de ICA distrital
+            // Obtener datos del JSON de municipios para ReteICA
+            const infoIca = retencolConfig.reglas_municipales_ica[municipioKey];
             if (regimenVendedor !== 'simple') {
-                reteica = bruto * tarifaICA;
+                reteica = bruto * infoIca.tarifa;
             }
 
-            // Cálculos finales
             const totalRetenciones = retefuente + reteica;
             const neto = bruto - totalRetenciones;
 
-            // Formateador de moneda colombiana
-            const formatter = new Intl.NumberFormat('es-CO', {
-                style: 'currency',
-                currency: 'COP',
-                minimumFractionDigits: 0
-            });
+            // Formatear outputs
+            const formatter = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 });
 
-            // Inyección limpia en el DOM del Paso 3
+            // Renderizar la información en pantalla
             document.getElementById('netoDisplay').innerText = formatter.format(neto);
             document.getElementById('brutoDisplay').innerText = formatter.format(bruto);
             document.getElementById('retenDisplay').innerText = formatter.format(totalRetenciones);
@@ -291,12 +291,13 @@
             document.getElementById('valRetefuente').innerText = "-" + formatter.format(retefuente);
             document.getElementById('valICA').innerText = "-" + formatter.format(reteica);
             
-            document.getElementById('legalRetefuente').innerText = `Base mínima: ${formatter.format(baseMinimaFuetne)} (${tarifaFuente * 100}% aplicado bajo Dec. 1625/2016)`;
-            document.getElementById('legalICA').innerText = `Tarifa municipal aplicada: ${(tarifaICA * 1000).toFixed(2)} por mil.`;
+            // Asignación de textos informativos en el menú desplegable oculto a demanda
+            document.getElementById('legalRetefuente').innerText = `Base aplicada: ${formatter.format(baseMinimaFuente)} | Tarifa: ${tarifaFuente * 100}% (${retencolConfig.configuracion_invisible.decreto_transicion})`;
+            document.getElementById('legalICA').innerText = `Tarifa en ${infoIca.nombre}: ${(infoIca.tarifa * 1000).toFixed(2)} por mil.`;
         }
     </script>
 
-    <!-- Bootstrap 5 JS Bundle -->
+    <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
