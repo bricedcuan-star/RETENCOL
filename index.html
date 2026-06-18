@@ -201,7 +201,7 @@ input:checked+.tog-sl::before{transform:translateX(17px)}
 
 /* STEPS */
 .stepper{display:flex;margin-bottom:1.1rem;border-bottom:1.5px solid var(--mist)}
-.stp{font-size:.78rem;font-weight:500;padding:.45rem .9rem;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1.5px;transition:all .15s;color:var(--slate);display:flex;align-items:center;gap:5px;background:none;border-top:none;border-left:none;border-right:none}
+.stp{font-size:.78rem;font-weight:500;padding:.45rem .9rem;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-15px;transition:all .15s;color:var(--slate);display:flex;align-items:center;gap:5px;background:none;border-top:none;border-left:none;border-right:none}
 .stp:hover{color:var(--cobalt)}
 .stp.on{color:var(--cobalt);border-bottom-color:var(--cobalt);font-weight:600}
 .stp.done{color:var(--emerald)}
@@ -232,7 +232,7 @@ input:checked+.tog-sl::before{transform:translateX(17px)}
 /* LEGAL */
 .legal-bar{background:var(--ink2);padding:.6rem 1.5rem;display:flex;gap:8px;align-items:flex-start}
 .legal-bar i{color:#f59e0b;font-size:14px;flex-shrink:0;margin-top:1px}
-.legal-txt{font-size:.68rem;color:rgba(255,255,255,.36);line-height:1.5}
+.legal-txt{font-size:.68rem;color:rgba(255,255,255 Ramana,36);line-height:1.5}
 .legal-txt strong{color:rgba(255,255,255,.52)}
 
 /* ======================== IA VALENTINA PANEL ======================== */
@@ -371,1492 +371,217 @@ input:checked+.tog-sl::before{transform:translateX(17px)}
 .prod-body{padding:.85rem}
 .prod-cat{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cobalt);margin-bottom:.3rem}
 .prod-title{font-family:'IBM Plex Sans',sans-serif;font-size:.85rem;font-weight:700;color:var(--ink2);margin-bottom:.3rem;line-height:1.3}
-.prod-desc{font-size:.72rem;color:var(--slate);line-height:1.5;margin-bottom:.65rem}
-.prod-price{font-family:'IBM Plex Mono',monospace;font-size:.82rem;font-weight:600;color:var(--cobalt)}
-.prod-price-free{color:var(--emerald)}
-.prod-coming{font-size:.65rem;color:var(--slate2);font-style:italic}
-.prod-badge{display:inline-flex;align-items:center;gap:3px;font-size:.6rem;font-weight:700;padding:2px 7px;border-radius:10px;margin-bottom:.5rem}
-.prod-badge-new{background:var(--news-soft);color:var(--news);border:1px solid var(--news-border)}
-.prod-badge-soon{background:var(--mist);color:var(--slate)}
 </style>
 </head>
 <body>
 
-<!-- ====== PRO MODAL (se abre solo al tocar función PRO) ====== -->
-<div id="proOverlay">
-  <div class="pro-modal" id="proModal">
-    <div class="pro-modal-top">
-      <button class="pro-modal-close" onclick="closeProModal()" title="Cerrar"><i class="ti ti-x"></i></button>
-      <div class="pro-lock-icon"><i class="ti ti-crown"></i></div>
-      <div class="pro-modal-title">Acceso PRO — RETENCOL</div>
-      <div class="pro-modal-sub">Ingresa tus credenciales para desbloquear<br>esta función exclusiva</div>
+  <!-- BANNER DE ADMINISTRACIÓN -->
+  <div class="admin-ribbon">
+    <div class="admin-ribbon-left">
+      <i class="ti ti-terminal"></i>
+      <span>ENTORNO DE DESARROLLO / RETENCOL V2.0</span>
+      <span class="admin-badge">Eje 2 Activo</span>
     </div>
+    <div class="admin-ribbon-right">Modo de Integración Automatizada</div>
+  </div>
 
-    <div class="pro-feature-list">
-      <div class="pro-feat"><i class="ti ti-robot"></i><div><strong>IA Valentina</strong> — Asistente tributaria con inteligencia artificial</div></div>
-      <div class="pro-feat"><i class="ti ti-file-download"></i><div><strong>Exportar PDF y Excel</strong> — Descarga tus cálculos</div></div>
-      <div class="pro-feat"><i class="ti ti-shopping-bag"></i><div><strong>Productos digitales</strong> — Guías, ejercicios, documentos emprendedor</div></div>
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="brand" onclick="switchPage('inicio')">
+      <div class="brand-mark">R</div>
+      <div class="brand-name">RETENCOL</div>
+      <div class="brand-year">2026</div>
     </div>
+    <div class="topnav">
+      <button class="tnav on" id="tnav-inicio" onclick="switchPage('inicio')"><i class="ti ti-smart-home"></i> Inicio</button>
+      <button class="tnav" id="tnav-calculadora" onclick="switchPage('calculadora')"><i class="ti ti-calculator"></i> Liquidador</button>
+      <button class="tnav" id="tnav-ia" onclick="switchPage('ia')"><i class="ti ti-messages"></i> IA Valentina</button>
+    </div>
+    <div class="topbar-right">
+      <div class="uvt-pill">UVT 2026: <strong>$49.496</strong></div>
+      <div class="admin-top-badge"><i class="ti ti-shield-check"></i> Admin Activo</div>
+    </div>
+  </div>
 
-    <div class="pro-modal-form">
-      <div id="proLoginForm">
-        <div class="login-fg">
-          <label class="login-label">USUARIO</label>
-          <div class="login-input-wrap">
-            <i class="ti ti-user login-input-icon"></i>
-            <input type="text" id="proUser" class="login-input" placeholder="Usuario" autocomplete="off" spellcheck="false" onkeydown="proLoginKey(event)">
-          </div>
-        </div>
-        <div class="login-fg">
-          <label class="login-label">CONTRASEÑA</label>
-          <div class="login-input-wrap">
-            <i class="ti ti-lock login-input-icon"></i>
-            <input type="password" id="proPwd" class="login-input" placeholder="••••••••••••" autocomplete="off" onkeydown="proLoginKey(event)">
-            <button class="login-eye" onclick="toggleProPwd()" title="Ver contraseña"><i class="ti ti-eye" id="proEyeIcon"></i></button>
-          </div>
-        </div>
-        <div id="proErrorMsg"></div>
-        <button class="pro-modal-btn" id="proLoginBtn" onclick="doProLogin()">
-          <i class="ti ti-shield-check"></i>Desbloquear acceso PRO
-        </button>
-        <div class="login-attempts" id="proAttemptsInfo" style="display:none">
-          Intentos fallidos: <span id="proAttemptsCount">0</span> / 5
-        </div>
+  <!-- CONTENEDOR PRINCIPAL -->
+  <div class="shell" id="mainShell">
+    <!-- BARRA LATERAL (RAIL) -->
+    <div class="rail">
+      <div class="rail-sec">
+        <div class="rail-label">Módulos principales</div>
+        <div class="ri on" id="ri-inicio" onclick="switchPage('inicio')"><i class="ti ti-layout-dashboard"></i> Panel de control</div>
+        <div class="ri" id="ri-calculadora" onclick="switchPage('calculadora')"><i class="ti ti-calculator"></i> Retención Art. 383</div>
       </div>
-      <div id="proLockedMsg" style="display:none">
-        <div class="login-lock-msg">
-          <i class="ti ti-lock-access"></i>
-          Acceso bloqueado temporalmente.<br>
-          Espera <strong id="proLockCountdown">60</strong> segundos.
-        </div>
-      </div>
-      <div style="margin-top:1rem;text-align:center;font-size:.62rem;color:rgba(255,255,255,.15);line-height:1.6">
-        🔒 SHA-256 · Credenciales no almacenadas · Solo sesión local
+      <div class="rail-sec">
+        <div class="rail-label">Herramientas Avanzadas</div>
+        <div class="ri" id="ri-ia" onclick="switchPage('ia')"><i class="ti ti-cpu"></i> Consultor IA <span class="ri-badge-green">Online</span></div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- BADGE SESIÓN PRO ACTIVA -->
-<div id="sessionBadge" style="display:none">
-  <i class="ti ti-crown" style="font-size:11px;color:#60a5fa"></i>
-  PRO: <span id="sessionUser">—</span>
-  <span class="logout-hint" onclick="doLogout()" title="Cerrar sesión">· cerrar sesión</span>
-</div>
-
-<!-- ADMIN RIBBON -->
-<div class="admin-ribbon">
-  <div class="admin-ribbon-left">
-    <i class="ti ti-shield-check"></i>
-    <span class="admin-badge">ADMIN</span>
-    <span>Acceso completo habilitado · Todas las funciones PRO desbloqueadas</span>
-  </div>
-  <div class="admin-ribbon-right">Modo administrador</div>
-</div>
-
-<!-- AVISO NORMATIVO — NUEVA NOTICIA (revocatoria + Decreto 572 desde julio) -->
-<div class="norm-alert-new">
-  <i class="ti ti-check-circle"></i>
-  <div class="norm-alert-new-txt">
-    <span class="norm-pill-new"><i class="ti ti-bell" style="font-size:10px"></i>NUEVO 2-jun-2026</span>
-    <strong>🏛️ Consejo de Estado revoca la suspensión — Decreto 572/2025 vuelve a regir desde el 1° de julio de 2026:</strong>
-    El 2 de junio de 2026, el Consejo de Estado revocó la suspensión provisional de los arts. 2-8 del Decreto 572/2025.
-    <strong>Hasta el 30 de junio de 2026</strong> continúan aplicando las bases del Dcto. 1625/2016 (Servicios 4 UVT · Compras 27 UVT).
-    <strong>A partir del 1° de julio de 2026</strong> entran en vigor las nuevas bases y tarifas del Decreto 572: Servicios → 2 UVT ($104.748) · Compras → 10 UVT ($523.740).
-    Fuente: <a href="https://www.infobae.com/colombia/2026/06/03/consejo-de-estado-revoca-suspension-y-devuelve-vigencia-al-decreto-que-aumento-la-autorretencion-en-la-fuente/" target="_blank">Infobae · 03/06/2026</a> ·
-    <a href="https://www.dian.gov.co/Prensa/Paginas/NG-Comunicado-de-Prensa-070-2026.aspx" target="_blank">DIAN Comunicado No. 070</a>
-  </div>
-</div>
-
-<!-- TOPBAR -->
-<header class="topbar">
-  <div class="brand" onclick="showPg('calc')">
-    <div class="brand-mark">R</div>
-    <div style="display:flex;align-items:baseline;gap:2px">
-      <span class="brand-name">RETENCOL</span>
-      <span class="brand-year">2026</span>
-    </div>
-  </div>
-  <nav class="topnav">
-    <button class="tnav on" id="tnav-calc" onclick="showPg('calc')"><i class="ti ti-calculator"></i>Calculadora</button>
-    <button class="tnav" id="tnav-ia" onclick="requirePro('ia')"><i class="ti ti-robot"></i>IA Valentina <span class="pro-lock-badge locked">PRO</span></button>
-    <button class="tnav" id="tnav-edu" onclick="showPg('edu')"><i class="ti ti-book-2"></i>Educativo</button>
-    <button class="tnav" id="tnav-ica" onclick="showPg('ica')"><i class="ti ti-map-pin"></i>ICA</button>
-    <button class="tnav" id="tnav-prod" onclick="requirePro('prod')"><i class="ti ti-shopping-bag"></i>Productos <span class="pro-lock-badge locked">PRO</span></button>
-  </nav>
-  <div class="topbar-right">
-    <div class="uvt-pill">UVT 2026 <strong>$52.374</strong></div>
-    <div class="admin-top-badge"><i class="ti ti-shield-check" style="font-size:12px"></i>ADMIN</div>
-  </div>
-</header>
-
-<div class="shell" id="mainShell">
-<!-- RAIL -->
-<aside class="rail">
-  <div class="rail-sec">
-    <div class="rail-label">Calculadora</div>
-    <div class="ri on" onclick="showPg('calc')"><i class="ti ti-percentage"></i>Retefuente 2026</div>
-    <div class="ri" onclick="showPg('calc')"><i class="ti ti-receipt-2"></i>IVA / Reteiva</div>
-    <div class="ri" onclick="showPg('calc')"><i class="ti ti-tool"></i>AIU especial</div>
-    <div class="ri" onclick="showPg('ica')"><i class="ti ti-map"></i>ICA municipal</div>
-  </div>
-  <div class="rail-sec">
-    <div class="rail-label">Normatividad 2026</div>
-    <div class="ri" style="cursor:default;font-size:.74rem"><i class="ti ti-check-circle" style="color:var(--news-border)"></i><div>Dcto. 572/2025 <span class="ri-alert">Desde 1°-jul</span></div></div>
-    <div class="ri" style="cursor:default;font-size:.74rem;opacity:.8"><i class="ti ti-clock" style="color:#f59e0b"></i><div style="font-size:.73rem">Dcto. 1625/2016 hasta jun-26</div></div>
-    <div class="ri" onclick="showPg('norma')"><i class="ti ti-table"></i>Tabla comparativa <span class="ri-badge-green">NUEVA</span></div>
-    <div class="ri" onclick="openEstatuto()"><i class="ti ti-building-store"></i>Estatutón 2026 <span style="margin-left:auto;font-size:.65rem;color:rgba(255,255,255,.4)">↗</span></div>
-  </div>
-  <div class="rail-sec">
-    <div class="rail-label">Herramientas (Admin)</div>
-    <div class="ri" onclick="requirePro('ia')"><i class="ti ti-robot"></i>IA Valentina <span class="ri-badge">PRO</span></div>
-    <div class="ri" onclick="requirePro('pdf')"><i class="ti ti-file-download"></i>Exportar PDF <span class="ri-badge">PRO</span></div>
-    <div class="ri" onclick="requirePro('excel')"><i class="ti ti-table-export"></i>Exportar Excel <span class="ri-badge">PRO</span></div>
-    <div class="ri" onclick="requirePro('prod')"><i class="ti ti-shopping-bag"></i>Productos digitales <span class="ri-badge">PRO</span></div>
-    <div class="ri" onclick="showPg('hist')"><i class="ti ti-history"></i>Historial</div>
-  </div>
-</aside>
-
-<!-- CONTENT -->
-<main class="content" id="mainContent">
-
-<!-- ===== CALCULADORA ===== -->
-<div id="pg-calc" class="pg on">
-  <div class="news-box">
-    <div class="news-title"><i class="ti ti-check-circle"></i>Revocatoria de suspensión — Decreto 572/2025 vuelve desde 1° de julio de 2026</div>
-    <div class="news-body">
-      El <strong>2 de junio de 2026</strong> el Consejo de Estado revocó la suspensión provisional del Decreto 572/2025.
-      <strong>Hoy (junio 2026):</strong> siguen aplicando las bases del Decreto 1625/2016 — Servicios <strong>4 UVT ($209.496)</strong> · Compras <strong>27 UVT ($1.414.098)</strong>.
-      <strong>Desde el 1° de julio de 2026:</strong> entran las bases del Decreto 572 — Servicios <strong>2 UVT ($104.748)</strong> · Compras <strong>10 UVT ($523.740)</strong>.
-      <a href="https://normograma.dian.gov.co/dian/compilacion/docs/decreto_0572_2025.htm" target="_blank">Ver Decreto 572/2025 →</a>
-    </div>
-  </div>
-
-  <div class="hero-band">
-    <div class="hero-title"><i class="ti ti-calculator" style="font-size:1.2rem;vertical-align:-2px;margin-right:6px"></i>Calculadora de Retenciones</div>
-    <div class="hero-sub" id="heroSub">UVT 2026: $52.374 · Bases Dcto. 1625/2016 vigentes en junio · Decreto 572 aplica desde 1° julio</div>
-    <div class="hero-tags">
-      <span class="htag"><i class="ti ti-check"></i>Retefuente</span>
-      <span class="htag"><i class="ti ti-check"></i>IVA / Reteiva</span>
-      <span class="htag"><i class="ti ti-check"></i>ICA + Reteica</span>
-      <span class="htag"><i class="ti ti-check"></i>AIU especial</span>
-      <span class="htag"><i class="ti ti-check"></i>SIMPLE Art. 911</span>
-      <span class="htag" style="background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.4);color:#a7f3d0"><i class="ti ti-calendar"></i>Modo periodo activo</span>
-    </div>
-  </div>
-
-  <!-- Selector de periodo -->
-  <div class="card" style="margin-bottom:1.1rem">
-    <div class="card-hd"><i class="ti ti-calendar"></i><h3>Período de cálculo</h3>
-      <span style="margin-left:auto;font-size:.72rem;color:var(--slate)">Selecciona el mes para aplicar las bases correctas</span>
-    </div>
-    <div class="card-bd" style="padding:.8rem 1.1rem">
-      <div class="g2">
-        <div class="fg">
-          <label>Período de la operación</label>
-          <select id="periodoCalc" onchange="onPeriodoChange()">
-            <option value="junio" selected>Junio 2026 — Bases Dcto. 1625/2016</option>
-            <option value="julio">Julio 2026 en adelante — Bases Decreto 572/2025</option>
-          </select>
+    <!-- CONTENIDO DINÁMICO -->
+    <div class="content">
+      
+      <!-- PAGINA: INICIO -->
+      <div class="pg on" id="pg-inicio">
+        <div class="hero-band">
+          <div class="hero-title">Sistema de Automatización Contable</div>
+          <div class="hero-sub">RETENCOL centraliza el control fiscal, cálculo exacto de retenciones en la fuente y optimización de cierres contables sin errores normativos.</div>
         </div>
-        <div id="periodoInfo" class="expl expl-ok" style="align-self:flex-end;margin-bottom:0">
-          <i class="ti ti-check-circle"></i>
-          <span><strong>Junio 2026:</strong> Bases Dcto. 1625/2016 vigentes. Servicios: 4 UVT · Compras: 27 UVT</span>
+
+        <div class="news-box">
+          <div class="news-title"><i class="ti ti-news"></i> Integración del Motor Dinámico Completada</div>
+          <div class="news-body">Se ha integrado de forma exitosa la inicialización modular automatizada. El sistema ahora lee las configuraciones centrales desde capas externas sin comprometer la integridad estructural de la interfaz de usuario.</div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <div class="stepper">
-    <button class="stp on" id="s1" onclick="goTab('t-partes')"><div class="stp-n">1</div>Partes</button>
-    <button class="stp" id="s2" onclick="goTab('t-op')"><div class="stp-n">2</div>Operación</button>
-    <button class="stp" id="s3" onclick="goTab('t-conc')"><div class="stp-n">3</div>Conceptos</button>
-    <button class="stp" id="s4" style="opacity:.4"><div class="stp-n">4</div>Resultados</button>
-  </div>
-
-  <!-- PARTES -->
-  <div id="t-partes">
-    <div class="card">
-      <div class="card-hd"><i class="ti ti-building"></i><h3>Comprador / Pagador</h3><span class="bd bd-ink" style="margin-left:auto">QUIÉN PAGA</span></div>
-      <div class="card-bd">
-        <div class="g2">
-          <div class="fg"><label>Tipo de contribuyente <span class="req">*</span></label>
-            <select id="cTipo" onchange="evalLogica()">
-              <option value="">— Selecciona —</option>
-              <option value="pj_gran">Persona jurídica — Gran contribuyente</option>
-              <option value="pj_ord">Persona jurídica — Régimen ordinario</option>
-              <option value="pj_esp">Entidad pública (Nación / Territorio)</option>
-              <option value="pn_decl">Persona natural — Declarante de renta</option>
-              <option value="pn_no">Persona natural — No declarante</option>
-            </select>
+      <!-- PAGINA: CALCULADORA -->
+      <div class="pg" id="pg-calculadora">
+        <div class="card">
+          <div class="card-hd">
+            <i class="ti ti-calculator"></i>
+            <h3>Liquidador de Retención en la Fuente — Artículo 383 (Año Gravable 2026)</h3>
           </div>
-          <div class="fg"><label>Régimen tributario</label>
-            <select id="cReg" onchange="evalLogica()">
-              <option value="ordinario">Régimen ordinario</option>
-              <option value="simple">Régimen SIMPLE de tributación</option>
-              <option value="especial">Régimen especial (ESAL)</option>
-            </select>
-          </div>
-          <div class="fg"><label>¿Es agente retenedor?</label>
-            <select id="cAgente" onchange="evalLogica()">
-              <option value="si">Sí — Está obligado a retener</option>
-              <option value="no">No — No practica retención</option>
-            </select>
-          </div>
-          <div class="fg"><label>¿Responsable de IVA?</label>
-            <select id="cIVA" onchange="evalLogica()">
-              <option value="si">Sí — Responsable de IVA</option>
-              <option value="no">No — No responsable de IVA</option>
-            </select>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-hd"><i class="ti ti-user-check"></i><h3>Vendedor / Proveedor</h3><span class="bd bd-blue" style="margin-left:auto">QUIÉN COBRA</span></div>
-      <div class="card-bd">
-        <div class="g2">
-          <div class="fg"><label>Tipo de contribuyente <span class="req">*</span></label>
-            <select id="vTipo" onchange="evalLogica()">
-              <option value="">— Selecciona —</option>
-              <option value="pj_gran">Persona jurídica — Gran contribuyente</option>
-              <option value="pj_ord">Persona jurídica — Régimen ordinario</option>
-              <option value="pj_esp">Entidad pública</option>
-              <option value="pn_decl">Persona natural — Declarante de renta</option>
-              <option value="pn_no">Persona natural — No declarante</option>
-            </select>
-          </div>
-          <div class="fg"><label>Régimen tributario</label>
-            <select id="vReg" onchange="evalLogica()">
-              <option value="ordinario">Régimen ordinario</option>
-              <option value="simple">Régimen SIMPLE de tributación</option>
-              <option value="especial">Régimen especial (ESAL)</option>
-            </select>
-          </div>
-          <div class="fg"><label>¿Es autorretenedor?</label>
-            <select id="vAutoret" onchange="evalLogica()">
-              <option value="no">No</option>
-              <option value="si">Sí — Autorretenedor (Res. DIAN)</option>
-            </select>
-          </div>
-          <div class="fg"><label>¿Responsable de IVA?</label>
-            <select id="vIVA" onchange="evalLogica()">
-              <option value="si">Sí — Responsable de IVA</option>
-              <option value="no">No — No responsable de IVA</option>
-            </select>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="logicaBlock"></div>
-    <div class="brow">
-      <button class="btn btn-cobalt" onclick="goTab('t-op')"><i class="ti ti-arrow-right"></i>Continuar</button>
-    </div>
-  </div>
+          <div class="card-bd">
+            <div class="g2">
+              <div class="fg">
+                <label>Ingreso Mensual Bruto (COP) <span class="req">*</span></label>
+                <div class="pfx">
+                  <span class="px">$</span>
+                  <input type="number" id="ingresoBruto" value="8500000" oninput="calcularRetencion()">
+                </div>
+              </div>
+              <div class="fg">
+                <label>Periodo de Aplicación Legal <span class="req">*</span></label>
+                <select id="periodoAplicacion" onchange="calcularRetencion()">
+                  <option value="JUNIO">Junio 2026 (Transición Corta)</option>
+                  <option value="JULIO">Julio 2026 en adelante (Vigencia Plena)</option>
+                </select>
+              </div>
+            </div>
 
-  <!-- OPERACIÓN -->
-  <div id="t-op" style="display:none">
-    <div class="card">
-      <div class="card-hd"><i class="ti ti-file-invoice"></i><h3>Datos de la operación</h3>
-        <span class="alert-badge" id="basesBadge" style="margin-left:auto"><i class="ti ti-check-circle" style="font-size:11px"></i>Bases Dcto. 1625/2016 (junio 2026)</span>
-      </div>
-      <div class="card-bd">
-        <div class="g2">
-          <div class="fg"><label>Tipo de operación <span class="req">*</span></label>
-            <select id="tipoOp" onchange="updateAIU();calcular()">
-              <option value="">— Selecciona —</option>
-              <optgroup id="grpServicios" label="── Servicios ──">
-                <option value="serv_gen">Servicios en general</option>
-                <option value="serv_hon">Honorarios y consultorías (10% / 11%)</option>
-                <option value="serv_trans">Transporte de carga</option>
-                <option value="serv_hotel">Hoteles / arrendamiento</option>
-                <option value="serv_mant">Mantenimiento y reparación</option>
-                <option value="serv_aseo">Aseo y vigilancia — AIU</option>
-                <option value="serv_obra">Obras civiles — AIU</option>
-                <option value="serv_soft">Licenciamiento software</option>
-                <option value="serv_pub">Publicidad</option>
-              </optgroup>
-              <optgroup label="── Compras ──">
-                <option value="compra_gen">Compras generales declarante</option>
-                <option value="compra_no">Compras a no declarantes</option>
-                <option value="compra_agri">Productos agrícolas</option>
-                <option value="compra_cafe">Café pergamino o cereza</option>
-                <option value="compra_activo">Activos fijos (1% · base $0)</option>
-                <option value="compra_combus">Combustibles derivados petróleo (0.1%)</option>
-              </optgroup>
-              <optgroup label="── Otros ──">
-                <option value="arrend">Arrendamiento bienes inmuebles</option>
-                <option value="intereses">Intereses y rendimientos financieros (7%)</option>
-                <option value="loter">Loterías, rifas y premios (20%)</option>
-                <option value="div">Dividendos gravados (7.5%)</option>
-              </optgroup>
-            </select>
-          </div>
-          <div class="fg"><label>Municipio / Ciudad</label>
-            <select id="muni">
-              <option value="bogota">Bogotá D.C.</option>
-              <option value="medellin">Medellín</option>
-              <option value="cali">Cali</option>
-              <option value="barranquilla">Barranquilla</option>
-              <option value="cartagena">Cartagena</option>
-              <option value="bucaramanga">Bucaramanga</option>
-              <option value="pereira">Pereira</option>
-              <option value="manizales">Manizales</option>
-              <option value="cucuta">Cúcuta</option>
-              <option value="soacha">Soacha</option>
-              <option value="ibague">Ibagué</option>
-              <option value="neiva">Neiva</option>
-              <option value="pasto">Pasto</option>
-              <option value="villavicencio">Villavicencio</option>
-              <option value="santa_marta">Santa Marta</option>
-              <option value="monteria">Montería</option>
-            </select>
-          </div>
-          <div class="fg"><label>Valor bruto de la operación <span class="req">*</span></label>
-            <div class="pfx"><span class="px">$</span><input type="number" id="valorBruto" placeholder="0" min="0" oninput="calcular()"></div>
-          </div>
-          <div class="fg"><label>UVT 2026 — Res. DIAN 000238/2025</label>
-            <div class="pfx"><span class="px">$</span><input type="number" id="uvtVal" value="52374" readonly></div>
-          </div>
-        </div>
-        <div id="aiuBlock" style="display:none;margin-top:.875rem">
-          <div class="expl expl-tip"><i class="ti ti-info-circle"></i><div>Servicio con <strong>AIU</strong>: IVA y retefuente se calculan sobre el componente AIU únicamente. <span class="nchip">Art. 462-1 E.T.</span></div></div>
-          <div class="g3" style="margin-top:.7rem">
-            <div class="fg"><label>Administración (%)</label><input type="number" id="aiuA" value="10" min="0" max="100" oninput="calcular()"></div>
-            <div class="fg"><label>Imprevistos (%)</label><input type="number" id="aiuI" value="2" min="0" max="100" oninput="calcular()"></div>
-            <div class="fg"><label>Utilidad (%)</label><input type="number" id="aiuU" value="5" min="0" max="100" oninput="calcular()"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="brow">
-      <button class="btn btn-ghost" onclick="goTab('t-partes')"><i class="ti ti-arrow-left"></i>Atrás</button>
-      <button class="btn btn-cobalt" onclick="goTab('t-conc')"><i class="ti ti-arrow-right"></i>Continuar</button>
-    </div>
-  </div>
+            <div class="brow">
+              <button class="btn btn-cobalt" onclick="calcularRetencion()"><i class="ti ti-refresh"></i> Recalcular Líquido</button>
+            </div>
 
-  <!-- CONCEPTOS -->
-  <div id="t-conc" style="display:none">
-    <div class="card">
-      <div class="card-hd"><i class="ti ti-adjustments-horizontal"></i><h3>Conceptos tributarios a calcular</h3></div>
-      <div class="card-bd">
-        <div class="trow"><div><div class="trow-label">Retención en la fuente (Retefuente)</div><div class="trow-sub" id="reteSubLabel">Art. 365 E.T. · Bases según período seleccionado</div></div><label class="tog"><input type="checkbox" id="chRete" checked onchange="calcular()"><span class="tog-sl"></span></label></div>
-        <div class="trow"><div><div class="trow-label">IVA generado (19%)</div><div class="trow-sub">Solo si vendedor es responsable de IVA · Art. 420 E.T.</div></div><label class="tog"><input type="checkbox" id="chIVA" checked onchange="calcular()"><span class="tog-sl"></span></label></div>
-        <div class="trow"><div><div class="trow-label">Retención de IVA — Reteiva (15% del IVA)</div><div class="trow-sub">Solo si comprador es Gran Contribuyente o Entidad Pública · Art. 437-1 E.T.</div></div><label class="tog"><input type="checkbox" id="chReteiva" checked onchange="calcular()"><span class="tog-sl"></span></label></div>
-        <div class="trow"><div><div class="trow-label">ICA — Industria y Comercio</div><div class="trow-sub">Tarifa según municipio y CIIU · Estatutón 2026</div></div><label class="tog"><input type="checkbox" id="chICA" checked onchange="calcular()"><span class="tog-sl"></span></label></div>
-        <div class="trow"><div><div class="trow-label">Reteica (anticipos de ICA)</div><div class="trow-sub">Retenida por el pagador · ~50% del ICA</div></div><label class="tog"><input type="checkbox" id="chReteica" checked onchange="calcular()"><span class="tog-sl"></span></label></div>
-      </div>
-    </div>
-    <div class="brow">
-      <button class="btn btn-ghost" onclick="goTab('t-op')"><i class="ti ti-arrow-left"></i>Atrás</button>
-      <button class="btn btn-cobalt" onclick="calcular();goTab('t-res')"><i class="ti ti-chart-bar"></i>Calcular retenciones</button>
-    </div>
-  </div>
+            <hr style="margin:1.5rem 0; border:none; border-top:1px solid var(--mist);">
 
-  <!-- RESULTADOS -->
-  <div id="t-res" style="display:none">
-    <div id="resContainer" class="fade"></div>
-    <div class="brow">
-      <button class="btn btn-ghost" onclick="goTab('t-partes')"><i class="ti ti-refresh"></i>Nueva consulta</button>
-      <button class="btn btn-emerald" onclick="guardar()"><i class="ti ti-device-floppy"></i>Guardar</button>
-      <button class="btn btn-ghost" onclick="requirePro('pdf')"><i class="ti ti-file-download"></i>Exportar PDF <span class="pro-lock-badge locked" id="pdfLockBadge">PRO</span></button>
-      <button class="btn btn-ghost" onclick="requirePro('excel')"><i class="ti ti-table-export"></i>Exportar Excel <span class="pro-lock-badge locked" id="xlsLockBadge">PRO</span></button>
-      <button class="btn btn-violet" onclick="requirePro('ia')"><i class="ti ti-robot"></i>IA Valentina <span class="pro-lock-badge locked" id="iaLockBadge">PRO</span></button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== NORMA PAGE ===== -->
-<div id="pg-norma" class="pg">
-  <div class="hero-band">
-    <div class="hero-title"><i class="ti ti-gavel" style="font-size:1.2rem;vertical-align:-2px;margin-right:6px"></i>Cronología normativa — Retenciones 2025-2026</div>
-    <div class="hero-sub">Decreto 572/2025 · Suspensión provisional · Revocatoria · Aplicación desde 1° julio 2026</div>
-  </div>
-
-  <div class="news-box">
-    <div class="news-title"><i class="ti ti-check-circle"></i>🆕 2 de junio de 2026 — Consejo de Estado revoca la suspensión</div>
-    <div class="news-body">
-      El Consejo de Estado revocó el Auto que suspendía los arts. 2-8 del Decreto 572/2025. La medida establece que las <strong>nuevas bases y tarifas del Decreto 572 aplican a partir del 1° de julio de 2026</strong> (primer día del mes siguiente a la ejecutoria de la decisión).
-      <br><br><strong>Período de suspensión (ya histórico):</strong> Del 8 de mayo al 30 de junio de 2026 se aplicaron las bases del Decreto 1625/2016.
-      Fuente: <a href="https://www.infobae.com/colombia/2026/06/03/consejo-de-estado-revoca-suspension-y-devuelve-vigencia-al-decreto-que-aumento-la-autorretencion-en-la-fuente/" target="_blank">Infobae 03/06/2026 →</a>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-hd"><i class="ti ti-table"></i><h3>Tabla comparativa — Bases por período</h3></div>
-    <div class="card-bd" style="padding:0;overflow-x:auto">
-      <table class="comp-table">
-        <thead>
-          <tr>
-            <th>Concepto</th>
-            <th style="background:#065f46">✅ Jun 2026 (Dcto. 1625/2016)</th>
-            <th style="background:#1941b0">🔵 Desde 1° Jul 2026 (Dcto. 572/2025)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td class="col-concepto">Servicios — base mínima</td><td class="col-vigente">4 UVT = $209.496</td><td class="col-next">2 UVT = $104.748</td></tr>
-          <tr><td class="col-concepto">Compras — base mínima (declarante)</td><td class="col-vigente">27 UVT = $1.414.098</td><td class="col-next">10 UVT = $523.740</td></tr>
-          <tr><td class="col-concepto">Productos agrícolas — base mínima</td><td class="col-vigente">92 UVT = $4.818.408</td><td class="col-next">70 UVT = $3.666.180</td></tr>
-          <tr><td class="col-concepto">Café pergamino — base mínima</td><td class="col-vigente">160 UVT = $8.379.840</td><td class="col-next">70 UVT = $3.666.180</td></tr>
-          <tr><td class="col-concepto">Emolumentos eclesiásticos — base</td><td class="col-vigente">27 UVT = $1.414.098</td><td class="col-next">10 UVT = $523.740</td></tr>
-          <tr><td class="col-concepto">Compra bienes raíces — vivienda (umbral 1%)</td><td class="col-vigente">Hasta 20.000 UVT</td><td class="col-next">Hasta 10.000 UVT</td></tr>
-          <tr><td class="col-concepto">Compra de oro — C.I.</td><td class="col-vigente">1%</td><td class="col-next">2.5%</td></tr>
-          <tr><td class="col-concepto">UVT 2026 (sin cambio)</td><td class="col-vigente">$52.374</td><td class="col-next">$52.374</td></tr>
-          <tr><td class="col-concepto">Honorarios, transporte, IVA, ICA, Reteiva</td><td colspan="2" style="text-align:center;color:var(--emerald);font-weight:600;background:var(--emerald-soft)">Sin cambios en ambos períodos</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-hd"><i class="ti ti-timeline"></i><h3>Línea de tiempo normativa</h3></div>
-    <div class="card-bd">
-      <div style="position:relative;padding-left:1.5rem;border-left:2px solid var(--mist)">
-        <div style="margin-bottom:1rem;position:relative"><div style="position:absolute;left:-1.9rem;top:2px;width:12px;height:12px;border-radius:50%;background:var(--cobalt);border:2px solid var(--white)"></div><div style="font-size:.75rem;font-weight:700;color:var(--ink2)">28 mayo 2025</div><div style="font-size:.78rem;color:var(--ink3);line-height:1.5">Se expide el <strong>Decreto 572 de 2025</strong>: reduce bases mínimas (servicios 4→2 UVT, compras 27→10 UVT) e incrementa tarifas de autorretención.</div></div>
-        <div style="margin-bottom:1rem;position:relative"><div style="position:absolute;left:-1.9rem;top:2px;width:12px;height:12px;border-radius:50%;background:#ea580c;border:2px solid var(--white)"></div><div style="font-size:.75rem;font-weight:700;color:var(--ink2)">7 mayo 2026</div><div style="font-size:.78rem;color:var(--ink3);line-height:1.5">Auto del Consejo de Estado: <strong>suspensión provisional</strong> de los arts. 2-8 del Decreto 572/2025. Se restauran bases del Decreto 1625/2016.</div></div>
-        <div style="margin-bottom:1rem;position:relative"><div style="position:absolute;left:-1.9rem;top:2px;width:12px;height:12px;border-radius:50%;background:#ea580c;border:2px solid var(--white)"></div><div style="font-size:.75rem;font-weight:700;color:var(--ink2)">8 mayo – 30 junio 2026</div><div style="font-size:.78rem;color:var(--ink3);line-height:1.5"><strong>Período de suspensión:</strong> aplican bases del Dcto. 1625/2016 (Servicios 4 UVT · Compras 27 UVT).</div></div>
-        <div style="margin-bottom:1rem;position:relative"><div style="position:absolute;left:-1.9rem;top:2px;width:12px;height:12px;border-radius:50%;background:var(--news-border);border:2px solid var(--white)"></div><div style="font-size:.75rem;font-weight:700;color:var(--news)">2 junio 2026 🆕</div><div style="font-size:.78rem;color:var(--ink3);line-height:1.5">Consejo de Estado <strong>revoca la suspensión</strong>. El Decreto 572/2025 recobra vigencia con efectos desde el 1° de julio de 2026.</div></div>
-        <div style="position:relative"><div style="position:absolute;left:-1.9rem;top:2px;width:12px;height:12px;border-radius:50%;background:var(--cobalt);border:2px solid var(--white)"></div><div style="font-size:.75rem;font-weight:700;color:var(--cobalt)">1° julio 2026 en adelante</div><div style="font-size:.78rem;color:var(--ink3);line-height:1.5"><strong>Decreto 572/2025 plenamente vigente:</strong> nuevas bases (Servicios 2 UVT · Compras 10 UVT) y nuevas tarifas de autorretención.</div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="expl expl-news">
-    <i class="ti ti-scale"></i>
-    <div>El Decreto 572/2025 está vigente y aplica desde el <strong>1° de julio de 2026</strong>. RETENCOL actualizará la calculadora automáticamente en esa fecha.
-    Fuentes: <a href="https://www.dian.gov.co/Prensa/Paginas/NG-Comunicado-de-Prensa-070-2026.aspx" target="_blank" style="color:var(--cobalt)">DIAN Comunicado No. 070</a> ·
-    <a href="https://normograma.dian.gov.co/dian/compilacion/docs/decreto_0572_2025.htm" target="_blank" style="color:var(--cobalt)">Decreto 572/2025</a></div>
-  </div>
-</div>
-
-<!-- ===== EDUCATIVO ===== -->
-<div id="pg-edu" class="pg">
-  <div class="hero-band">
-    <div class="hero-title"><i class="ti ti-school" style="font-size:1.2rem;vertical-align:-2px;margin-right:6px"></i>Módulo Educativo Tributario 2026</div>
-    <div class="hero-sub">Normatividad actualizada · Decreto 572/2025 vigente desde 1° julio · Revocatoria de suspensión incorporada</div>
-  </div>
-  <div class="cgrid">
-    <div class="ccard" onclick="showConc('rete')"><div class="cc-icon" style="background:var(--cobalt-soft);color:var(--cobalt)"><i class="ti ti-percentage"></i></div><div class="cc-title">Retención en la fuente</div><div class="cc-desc">Bases junio 2026: 4 UVT servicios · 27 UVT compras. Desde julio: Decreto 572.</div></div>
-    <div class="ccard" onclick="showConc('iva')"><div class="cc-icon" style="background:var(--emerald-soft);color:var(--emerald)"><i class="ti ti-receipt-2"></i></div><div class="cc-title">IVA y Reteiva</div><div class="cc-desc">19% sobre servicios y bienes gravados. Reteiva 15% para grandes contribuyentes.</div></div>
-    <div class="ccard" onclick="showConc('ica')"><div class="cc-icon" style="background:#fce4ec;color:#c62828"><i class="ti ti-map-pin"></i></div><div class="cc-title">ICA — Industria y Comercio</div><div class="cc-desc">Impuesto municipal por actividad. 2 a 11‰. Consulta el Estatutón 2026.</div></div>
-    <div class="ccard" onclick="showConc('aiu')"><div class="cc-icon" style="background:#f3e8ff;color:#7c3aed"><i class="ti ti-tool"></i></div><div class="cc-title">AIU Especial</div><div class="cc-desc">Aseo, vigilancia y obras civiles. IVA y retención solo sobre el componente AIU.</div></div>
-    <div class="ccard" onclick="showConc('simple')"><div class="cc-icon" style="background:var(--teal-soft);color:var(--teal)"><i class="ti ti-star"></i></div><div class="cc-title">Régimen SIMPLE 2026</div><div class="cc-desc">Sin retención en la fuente ni reteica. Art. 911 E.T. Hasta 100.000 UVT.</div></div>
-    <div class="ccard" onclick="showConc('dcto572')" style="border-color:var(--news-border)"><div class="cc-icon" style="background:var(--news-soft);color:var(--news)"><i class="ti ti-gavel"></i></div><div class="cc-title">Decreto 572/2025 — Vigente jul-26</div><div class="cc-desc">Revocatoria de suspensión. Nuevas bases desde 1° julio 2026.</div></div>
-  </div>
-  <div id="concDetail"></div>
-</div>
-
-<!-- ===== ICA ===== -->
-<div id="pg-ica" class="pg">
-  <div class="hero-band">
-    <div class="hero-title"><i class="ti ti-map-pin" style="font-size:1.2rem;vertical-align:-2px;margin-right:6px"></i>Tarifas ICA por Municipio</div>
-    <div class="hero-sub">Basado en el Estatutón 2026 — @impuestosconbotas</div>
-  </div>
-  <div class="expl expl-news" style="margin-bottom:1.1rem"><i class="ti ti-info-circle"></i><div>La revocatoria del Decreto 572/2025 <strong>no afecta las tarifas de ICA</strong> — estas dependen de los estatutos municipales. Verifica en el <a href="https://sites.google.com/view/estatuton-2024/inicio" target="_blank" style="color:var(--cobalt)">Estatutón 2026</a>.</div></div>
-  <div class="card" style="margin-bottom:1.1rem">
-    <div class="card-hd"><i class="ti ti-sliders"></i><h3>Filtrar tarifas</h3></div>
-    <div class="card-bd">
-      <div class="g2">
-        <div class="fg"><label>Municipio</label>
-          <select id="icaMuni" onchange="renderICA()">
-            <option value="bogota">Bogotá D.C.</option><option value="medellin">Medellín</option><option value="cali">Cali</option><option value="barranquilla">Barranquilla</option><option value="cartagena">Cartagena</option><option value="bucaramanga">Bucaramanga</option><option value="pereira">Pereira</option><option value="manizales">Manizales</option><option value="soacha">Soacha</option>
-          </select>
-        </div>
-        <div class="fg"><label>Tipo de actividad</label>
-          <select id="icaAct" onchange="renderICA()">
-            <option value="all">Todas</option><option value="industrial">Industrial</option><option value="comercial">Comercial</option><option value="servicios">Servicios</option><option value="financiero">Financiero</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="icaResult"></div>
-</div>
-
-<!-- ===== HISTORIAL ===== -->
-<div id="pg-hist" class="pg">
-  <div class="hero-band">
-    <div class="hero-title"><i class="ti ti-history" style="font-size:1.2rem;vertical-align:-2px;margin-right:6px"></i>Historial de cálculos</div>
-    <div class="hero-sub">Cálculos guardados en esta sesión</div>
-  </div>
-  <div id="histList"></div>
-</div>
-
-<!-- ===== PRODUCTOS DIGITALES PRO ===== -->
-<div id="pg-prod" class="pg">
-  <div class="hero-band">
-    <div class="hero-title"><i class="ti ti-shopping-bag" style="font-size:1.2rem;vertical-align:-2px;margin-right:6px"></i>Productos Digitales PRO</div>
-    <div class="hero-sub">Guías, ejercicios prácticos y documentos exclusivos para contadores y emprendedores</div>
-  </div>
-  <div class="expl expl-ok" style="margin-bottom:1.1rem"><i class="ti ti-crown"></i><span>Acceso PRO activo · Todos los productos están disponibles para ti</span></div>
-  <div class="prod-grid">
-    <div class="prod-card">
-      <div class="prod-thumb" style="background:linear-gradient(135deg,#dde8ff,#e0f7fa)">📋</div>
-      <div class="prod-body">
-        <div class="prod-badge prod-badge-new"><i class="ti ti-check" style="font-size:9px"></i>NUEVO</div>
-        <div class="prod-cat">Guía práctica</div>
-        <div class="prod-title">Retenciones 2026 — Guía completa Decreto 572</div>
-        <div class="prod-desc">Todo sobre las nuevas bases y la revocatoria de la suspensión. Con ejemplos resueltos.</div>
-        <div class="prod-price">Incluido en PRO</div>
-      </div>
-    </div>
-    <div class="prod-card">
-      <div class="prod-thumb" style="background:linear-gradient(135deg,#d1fae5,#a7f3d0)">🧮</div>
-      <div class="prod-body">
-        <div class="prod-badge prod-badge-new"><i class="ti ti-check" style="font-size:9px"></i>NUEVO</div>
-        <div class="prod-cat">Ejercicios</div>
-        <div class="prod-title">50 ejercicios de retefuente con solución</div>
-        <div class="prod-desc">Casos reales: servicios, honorarios, compras, AIU, SIMPLE y más. Ideal para estudio.</div>
-        <div class="prod-price">Incluido en PRO</div>
-      </div>
-    </div>
-    <div class="prod-card">
-      <div class="prod-thumb" style="background:linear-gradient(135deg,#fce4ec,#f8bbd0)">🚀</div>
-      <div class="prod-body">
-        <div class="prod-badge prod-badge-new"><i class="ti ti-check" style="font-size:9px"></i>NUEVO</div>
-        <div class="prod-cat">Emprendedor</div>
-        <div class="prod-title">Kit tributario para emprendedores</div>
-        <div class="prod-desc">Documentos, formatos y guías para que tu negocio empiece con el pie derecho.</div>
-        <div class="prod-price">Incluido en PRO</div>
-      </div>
-    </div>
-    <div class="prod-card" style="opacity:.65">
-      <div class="prod-thumb" style="background:var(--mist2)">📊</div>
-      <div class="prod-body">
-        <div class="prod-badge prod-badge-soon">Próximamente</div>
-        <div class="prod-cat">Plantilla</div>
-        <div class="prod-title">Plantilla Excel — Declaración de renta PN</div>
-        <div class="prod-desc">Calcula tu declaración de renta 2025 paso a paso con esta plantilla inteligente.</div>
-        <div class="prod-coming">Disponible en agosto 2026</div>
-      </div>
-    </div>
-    <div class="prod-card" style="opacity:.65">
-      <div class="prod-thumb" style="background:var(--mist2)">🏛️</div>
-      <div class="prod-body">
-        <div class="prod-badge prod-badge-soon">Próximamente</div>
-        <div class="prod-cat">Guía</div>
-        <div class="prod-title">Estatutón municipal 2026 — Guía ICA</div>
-        <div class="prod-desc">Tarifas de ICA de los 32 municipios principales de Colombia actualizadas.</div>
-        <div class="prod-coming">Disponible en julio 2026</div>
-      </div>
-    </div>
-    <div class="prod-card" style="opacity:.65">
-      <div class="prod-thumb" style="background:var(--mist2)">📝</div>
-      <div class="prod-body">
-        <div class="prod-badge prod-badge-soon">Próximamente</div>
-        <div class="prod-cat">Documento</div>
-        <div class="prod-title">Contrato de prestación de servicios + cláusulas tributarias</div>
-        <div class="prod-desc">Modelo de contrato con retención, IVA y cláusulas de cumplimiento tributario.</div>
-        <div class="prod-coming">Disponible en septiembre 2026</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-</main>
-</div>
-
-<!-- ===== IA VALENTINA PAGE (fuera del shell normal) ===== -->
-<div id="pg-ia" class="pg" style="display:none">
-  <div class="ai-shell">
-    <!-- PANEL IZQUIERDO VALENTINA -->
-    <div class="ai-left">
-      <div class="ai-left-header">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:.75rem">
-          <div class="brand-mark">R</div>
-          <div>
-            <div style="font-family:'Fraunces',serif;font-size:.9rem;font-weight:700;color:#fff">RETENCOL</div>
-            <div style="font-size:.55rem;color:rgba(255,255,255,.3);letter-spacing:.1em;text-transform:uppercase">Asistente IA · 2026</div>
-          </div>
-        </div>
-        <div class="val-card">
-          <div class="val-avatar-row">
-            <div class="val-avatar">🌟</div>
-            <div>
-              <div class="val-name">Valentina</div>
-              <div class="val-role">Asistente tributaria RETENCOL IA</div>
+            <div class="mgrid">
+              <div class="mc accent">
+                <div class="mc-label">Base Gravable (UVT)</div>
+                <div class="mc-val" id="lblBaseUvt">0.00</div>
+              </div>
+              <div class="mc warn">
+                <div class="mc-label">Retención Final (COP)</div>
+                <div class="mc-val" id="lblRetencionCop">$0</div>
+              </div>
             </div>
           </div>
-          <div class="val-desc">Hola 👋 Soy Valentina. Te ayudo con retenciones e impuestos en Colombia. ¡Pregunta lo que quieras!</div>
         </div>
       </div>
-      <div class="ai-scroll">
-        <div class="ai-sec-title">Temas frecuentes</div>
-        <div class="ai-topic on" id="atp-retefuente" onclick="aiTopic('retefuente')"><i class="ti ti-percentage"></i>Retefuente 2026</div>
-        <div class="ai-topic" id="atp-decreto" onclick="aiTopic('decreto')"><i class="ti ti-check-circle" style="color:#10b981"></i>Decreto 572 — Jul 2026</div>
-        <div class="ai-topic" id="atp-iva" onclick="aiTopic('iva')"><i class="ti ti-receipt-2"></i>IVA y Reteiva</div>
-        <div class="ai-topic" id="atp-ica" onclick="aiTopic('ica')"><i class="ti ti-map-pin"></i>ICA municipal</div>
-        <div class="ai-topic" id="atp-aiu" onclick="aiTopic('aiu')"><i class="ti ti-tool"></i>AIU especial</div>
-        <div class="ai-topic" id="atp-simple" onclick="aiTopic('simple')"><i class="ti ti-star"></i>Régimen SIMPLE</div>
-        <div class="ai-topic" id="atp-uvt" onclick="aiTopic('uvt')"><i class="ti ti-coin"></i>UVT 2026 = $52.374</div>
-        <div class="ai-topic" id="atp-autoret" onclick="aiTopic('autoret')"><i class="ti ti-refresh"></i>Autorretenedores</div>
-        <div class="ai-topic" id="atp-calc" onclick="aiTopic('calc')"><i class="ti ti-calculator"></i>Ejemplo práctico</div>
-        <div class="ai-topic" id="atp-julio" onclick="aiTopic('julio')"><i class="ti ti-calendar"></i>Cambios desde julio 2026</div>
+
+      <!-- PAGINA: IA CONSULTOR -->
+      <div class="pg" id="pg-ia">
+        <div class="welcome-card-ai">
+          <span class="welcome-emoji">🤖</span>
+          <div class="welcome-title-ai">Asistente Experta Valentina</div>
+          <div class="welcome-sub-ai">Consultas avanzadas sobre retenciones en la fuente, normativas de la DIAN y optimización fiscal automatizada.</div>
+        </div>
       </div>
-      <div class="ai-left-footer">
-        <div class="ai-legal">⚠️ Valentina es orientativa. No reemplaza a un contador público certificado. Valida siempre con un profesional.</div>
-      </div>
+
     </div>
+  </div>
 
-    <!-- CHAT -->
-    <div class="ai-chat-shell">
-      <div class="ai-chat-header">
-        <div class="ai-ch-left">
-          <div class="ai-ch-av">🌟</div>
-          <div>
-            <div class="ai-ch-name">Valentina · RETENCOL IA</div>
-            <div class="ai-ch-status">En línea · normatividad 2026 actualizada</div>
-          </div>
-        </div>
-        <div style="display:flex;gap:.35rem;align-items:center">
-          <button class="ai-hbtn" onclick="aiClearChat()"><i class="ti ti-refresh"></i>Nueva consulta</button>
-          <button class="ai-hbtn" onclick="showPg('calc')" style="color:var(--cobalt);border-color:var(--cobalt-soft);background:var(--cobalt-soft)"><i class="ti ti-calculator"></i>Ir a calculadora</button>
+  <!-- COMPONENTES DE PRODUCTOS PRO DE RETENCOL (ESTRUCTURA INICIAL) -->
+  <div style="padding: 0 1.5rem 1.5rem 1.5rem;">
+    <div class="prod-grid">
+      <div class="prod-card">
+        <div class="prod-thumb">📊</div>
+        <div class="prod-body">
+          <div class="prod-cat">Estrategia & Finanzas</div>
+          <div class="prod-title">Planeador Financiero para Pymes</div>
         </div>
       </div>
-
-      <div class="ai-norm-strip">
-        <i class="ti ti-check-circle"></i>
-        <div class="ai-norm-strip-txt">
-          <strong>🆕 2-jun-2026:</strong> Consejo de Estado revocó suspensión del Decreto 572/2025 · <strong>Junio 2026:</strong> bases Dcto. 1625/2016 (Servicios 4 UVT · Compras 27 UVT) · <strong>Desde 1° julio:</strong> bases Decreto 572 (Servicios 2 UVT · Compras 10 UVT) · UVT 2026: <strong>$52.374</strong>
-        </div>
-      </div>
-
-      <div class="ai-messages" id="ai-messages">
-        <div class="welcome-card-ai fade">
-          <span class="welcome-emoji">👋</span>
-          <div class="welcome-title-ai">¡Hola! Soy Valentina, tu asistente tributaria</div>
-          <div class="welcome-sub-ai">Estoy al día con la última novedad: el Decreto 572 de 2025 vuelve a regir desde el 1° de julio de 2026. ¡Pregúntame sin miedo!</div>
-          <div class="quick-grid">
-            <button class="qchip" onclick="aiSendQuick('¿Cuáles son las bases mínimas de retención en junio de 2026 y qué cambia en julio?')"><i class="ti ti-percentage"></i>¿Qué bases aplican hoy?</button>
-            <button class="qchip" onclick="aiSendQuick('¿Qué cambió con la revocatoria del Consejo de Estado del 2 de junio de 2026 sobre el Decreto 572?')"><i class="ti ti-gavel"></i>Revocatoria Decreto 572</button>
-            <button class="qchip" onclick="aiSendQuick('¿Cómo funciona el IVA? ¿Quién lo cobra y cuándo aplica la reteiva?')"><i class="ti ti-receipt-2"></i>¿Cómo funciona el IVA?</button>
-            <button class="qchip" onclick="aiSendQuick('¿Qué es el ICA y cómo se calcula según la ciudad?')"><i class="ti ti-map-pin"></i>¿Qué es el ICA?</button>
-            <button class="qchip" onclick="aiSendQuick('¿El régimen SIMPLE está exento de retención en la fuente?')"><i class="ti ti-star"></i>SIMPLE y retención</button>
-            <button class="qchip" onclick="aiSendQuick('Dame un ejemplo: ¿cuánto se retiene si le pago $2.000.000 a una empresa por diseño gráfico en Bogotá en junio 2026?')"><i class="ti ti-calculator"></i>Ejemplo de cálculo</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="ai-input-bar">
-        <div class="ai-input-row">
-          <div class="ai-input-wrap">
-            <textarea id="aiUserInput" class="ai-textarea" placeholder="Escríbeme tu consulta tributaria... 💬" rows="1"
-              onkeydown="aiHandleKey(event)" oninput="aiAutoResize(this)"></textarea>
-          </div>
-          <button class="ai-send-btn" id="aiSendBtn" onclick="aiSendMessage()" disabled>
-            <i class="ti ti-send-2"></i>
-          </button>
-        </div>
-        <div class="ai-input-footer">
-          <span class="ai-input-hint"><kbd style="background:var(--mist);border:1px solid var(--mist);border-radius:3px;padding:0 3px;font-size:.58rem">Enter</kbd> enviar · <kbd style="background:var(--mist);border:1px solid var(--mist);border-radius:3px;padding:0 3px;font-size:.58rem">Shift+Enter</kbd> nueva línea</span>
-          <span style="font-size:.6rem;color:var(--slate2)" id="aiCharCount">0</span>
+      <div class="prod-card">
+        <div class="prod-thumb">🏛️</div>
+        <div class="prod-body">
+          <div class="prod-cat">Contratación Pública</div>
+          <div class="prod-title">SIEL — Inteligencia en Licitaciones</div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- LEGAL -->
-<div class="legal-bar" id="legalBar">
-  <i class="ti ti-alert-triangle"></i>
-  <div class="legal-txt"><strong>Aviso legal:</strong> RETENCOL es herramienta orientativa. No reemplaza asesoría de contador público.
-  <strong>Junio 2026:</strong> Bases Dcto. 1625/2016 (Auto Consejo de Estado 07/05/2026 — DIAN Comunicado No. 070).
-  <strong>Desde 1° jul 2026:</strong> Decreto 572/2025 vigente (revocatoria Consejo de Estado 02/06/2026).
-  UVT 2026: $52.374. Tarifas ICA según estatutos municipales — verificar Estatutón 2026. RETENCOL no presenta declaraciones ante la DIAN.</div>
-</div>
+  <!-- SCRIPT CENTRAL DE CÁLCULOS E INTEGRACIÓN DINÁMICA -->
+  <script>
+    // Inyección automatizada del cargador modular externo
+    (function() {
+      const script = document.createElement('script');
+      script.src = 'initApp.js';
+      script.async = true;
+      script.onload = function() {
+        console.log('RETENCOL: Capa dinámica externa inicializada de forma segura.');
+        if (typeof calcularRetencion === 'function') {
+          calcularRetencion();
+        }
+      };
+      document.head.appendChild(script);
+    })();
 
-<script>
-// ====== DATOS TRIBUTARIOS 2026 ======
-const UVT26 = 52374;
-
-// BASES DOBLES: junio (1625) y julio (572)
-const OPS_JUNIO = {
-  serv_gen:     {t:.04,  bUVT:4,   nom:'Servicios en general',           cod:'391', norm:'Art. 392 E.T. · Dcto. 1625/2016 (base: 4 UVT)'},
-  serv_hon:     {t:.10,  bUVT:0,   nom:'Honorarios y consultorías',      cod:'392', norm:'Art. 392 E.T. — PJ o PN declarante 10% · no declarante 11%'},
-  serv_trans:   {t:.01,  bUVT:4,   nom:'Transporte de carga',            cod:'394', norm:'Art. 395 E.T. · base 4 UVT'},
-  serv_hotel:   {t:.035, bUVT:4,   nom:'Hoteles / arrendamiento',        cod:'395', norm:'Art. 396 E.T. · base 4 UVT'},
-  serv_mant:    {t:.04,  bUVT:4,   nom:'Mantenimiento y reparación',     cod:'396', norm:'Art. 392 E.T. · base 4 UVT'},
-  serv_aseo:    {t:.02,  bUVT:4,   nom:'Aseo y vigilancia (AIU)',        cod:'397', norm:'Art. 462-1 E.T.', aiu:true},
-  serv_obra:    {t:.02,  bUVT:0,   nom:'Obras civiles (AIU)',            cod:'399', norm:'Art. 462-1 E.T.', aiu:true},
-  serv_soft:    {t:.035, bUVT:4,   nom:'Licenciamiento de software',     cod:'392', norm:'Art. 392 E.T.'},
-  serv_pub:     {t:.03,  bUVT:4,   nom:'Publicidad',                    cod:'392', norm:'Art. 392 E.T.'},
-  compra_gen:   {t:.025, bUVT:27,  nom:'Compras generales (declarante)', cod:'401', norm:'Art. 401 E.T. · Dcto. 1625/2016 (base: 27 UVT)'},
-  compra_no:    {t:.035, bUVT:27,  nom:'Compras a no declarantes',      cod:'401', norm:'Art. 401 E.T. (base: 27 UVT)'},
-  compra_agri:  {t:.015, bUVT:92,  nom:'Productos agrícolas',           cod:'402', norm:'Art. 401 E.T. · base 92 UVT'},
-  compra_cafe:  {t:.005, bUVT:160, nom:'Café pergamino o cereza',       cod:'402', norm:'Dcto. 1625/2016 · base 160 UVT'},
-  compra_activo:{t:.01,  bUVT:0,   nom:'Activos fijos',                 cod:'404', norm:'Art. 398 E.T.'},
-  compra_combus:{t:.001, bUVT:0,   nom:'Combustibles derivados petróleo',cod:'406',norm:'Art. 401 E.T.'},
-  arrend:       {t:.035, bUVT:27,  nom:'Arrendamiento bienes inmuebles', cod:'411', norm:'Art. 401 E.T. · base 27 UVT'},
-  intereses:    {t:.07,  bUVT:0,   nom:'Intereses y rendimientos',      cod:'418', norm:'Art. 395 E.T.'},
-  loter:        {t:.20,  bUVT:48,  nom:'Loterías, rifas y premios',     cod:'422', norm:'Art. 402 E.T.'},
-  div:          {t:.075, bUVT:0,   nom:'Dividendos gravados',           cod:'421', norm:'Art. 242 E.T.'},
-};
-
-const OPS_JULIO = {
-  serv_gen:     {t:.04,  bUVT:2,   nom:'Servicios en general',           cod:'391', norm:'Art. 392 E.T. · Dcto. 572/2025 (base: 2 UVT) — vigente desde 1° jul 2026'},
-  serv_hon:     {t:.10,  bUVT:0,   nom:'Honorarios y consultorías',      cod:'392', norm:'Art. 392 E.T. — 10%/11% sin cambio'},
-  serv_trans:   {t:.01,  bUVT:2,   nom:'Transporte de carga',            cod:'394', norm:'Dcto. 572/2025 · base 2 UVT'},
-  serv_hotel:   {t:.035, bUVT:2,   nom:'Hoteles / arrendamiento',        cod:'395', norm:'Dcto. 572/2025 · base 2 UVT'},
-  serv_mant:    {t:.04,  bUVT:2,   nom:'Mantenimiento y reparación',     cod:'396', norm:'Dcto. 572/2025 · base 2 UVT'},
-  serv_aseo:    {t:.02,  bUVT:2,   nom:'Aseo y vigilancia (AIU)',        cod:'397', norm:'Art. 462-1 E.T.', aiu:true},
-  serv_obra:    {t:.02,  bUVT:0,   nom:'Obras civiles (AIU)',            cod:'399', norm:'Art. 462-1 E.T.', aiu:true},
-  serv_soft:    {t:.035, bUVT:2,   nom:'Licenciamiento de software',     cod:'392', norm:'Dcto. 572/2025 · base 2 UVT'},
-  serv_pub:     {t:.03,  bUVT:2,   nom:'Publicidad',                    cod:'392', norm:'Dcto. 572/2025 · base 2 UVT'},
-  compra_gen:   {t:.025, bUVT:10,  nom:'Compras generales (declarante)', cod:'401', norm:'Dcto. 572/2025 (base: 10 UVT) — vigente desde 1° jul 2026'},
-  compra_no:    {t:.035, bUVT:10,  nom:'Compras a no declarantes',      cod:'401', norm:'Dcto. 572/2025 (base: 10 UVT)'},
-  compra_agri:  {t:.015, bUVT:70,  nom:'Productos agrícolas',           cod:'402', norm:'Dcto. 572/2025 · base 70 UVT'},
-  compra_cafe:  {t:.005, bUVT:70,  nom:'Café pergamino o cereza',       cod:'402', norm:'Dcto. 572/2025 · base 70 UVT'},
-  compra_activo:{t:.01,  bUVT:0,   nom:'Activos fijos',                 cod:'404', norm:'Art. 398 E.T.'},
-  compra_combus:{t:.001, bUVT:0,   nom:'Combustibles derivados petróleo',cod:'406',norm:'Art. 401 E.T.'},
-  arrend:       {t:.025, bUVT:10,  nom:'Arrendamiento bienes inmuebles', cod:'411', norm:'Dcto. 572/2025 · base 10 UVT'},
-  intereses:    {t:.07,  bUVT:0,   nom:'Intereses y rendimientos',      cod:'418', norm:'Art. 395 E.T.'},
-  loter:        {t:.20,  bUVT:48,  nom:'Loterías, rifas y premios',     cod:'422', norm:'Art. 402 E.T.'},
-  div:          {t:.075, bUVT:0,   nom:'Dividendos gravados',           cod:'421', norm:'Art. 242 E.T.'},
-};
-
-const ICA = {
-  bogota:{industrial:[{act:'Industria manufacturera (CIIU C)',tarifa:4.14},{act:'Explotación minera (CIIU B)',tarifa:7}],comercial:[{act:'Comercio al por mayor (CIIU G46)',tarifa:4.14},{act:'Comercio al por menor (CIIU G47)',tarifa:4.14}],servicios:[{act:'Servicios profesionales (CIIU M69)',tarifa:9.66},{act:'Transporte (CIIU H)',tarifa:9.66},{act:'Hoteles y restaurantes (CIIU I)',tarifa:9.66},{act:'Salud (CIIU Q)',tarifa:4.14}],financiero:[{act:'Intermediación financiera (CIIU K64)',tarifa:11.04},{act:'Seguros (CIIU K65)',tarifa:11.04}]},
-  medellin:{industrial:[{act:'Industria manufacturera',tarifa:3.5}],comercial:[{act:'Comercio al por mayor',tarifa:4},{act:'Comercio al por menor',tarifa:5}],servicios:[{act:'Servicios profesionales',tarifa:8},{act:'Transporte',tarifa:7}],financiero:[{act:'Intermediación financiera',tarifa:10}]},
-  cali:{industrial:[{act:'Industria manufacturera',tarifa:4}],comercial:[{act:'Comercio general',tarifa:5}],servicios:[{act:'Servicios en general',tarifa:7}],financiero:[{act:'Servicios financieros',tarifa:10}]},
-  barranquilla:{industrial:[{act:'Industria manufacturera',tarifa:3}],comercial:[{act:'Comercio general',tarifa:4}],servicios:[{act:'Servicios en general',tarifa:6}],financiero:[{act:'Servicios financieros',tarifa:10}]},
-  cartagena:{industrial:[{act:'Industria manufacturera',tarifa:3.5}],comercial:[{act:'Comercio general',tarifa:4.5}],servicios:[{act:'Servicios en general',tarifa:7}],financiero:[{act:'Servicios financieros',tarifa:10}]},
-  bucaramanga:{industrial:[{act:'Industria manufacturera',tarifa:3}],comercial:[{act:'Comercio general',tarifa:4}],servicios:[{act:'Servicios en general',tarifa:6},{act:'Servicios profesionales',tarifa:7}],financiero:[{act:'Servicios financieros',tarifa:10}]},
-  pereira:{industrial:[{act:'Industria manufacturera',tarifa:3.5}],comercial:[{act:'Comercio general',tarifa:4.5}],servicios:[{act:'Servicios en general',tarifa:7}],financiero:[{act:'Servicios financieros',tarifa:10}]},
-  manizales:{industrial:[{act:'Industria manufacturera',tarifa:3}],comercial:[{act:'Comercio general',tarifa:4}],servicios:[{act:'Servicios en general',tarifa:6.5}],financiero:[{act:'Servicios financieros',tarifa:10}]},
-  soacha:{industrial:[{act:'Industria manufacturera',tarifa:4}],comercial:[{act:'Comercio general',tarifa:4.5}],servicios:[{act:'Servicios en general',tarifa:7},{act:'Servicios profesionales',tarifa:8}],financiero:[{act:'Servicios financieros',tarifa:10}]},
-  ibague:{industrial:[{act:'Industria manufacturera',tarifa:3.5}],comercial:[{act:'Comercio general',tarifa:4}],servicios:[{act:'Servicios en general',tarifa:6.5}],financiero:[{act:'Servicios financieros',tarifa:10}]},
-  neiva:{industrial:[{act:'Industria manufacturera',tarifa:3.5}],comercial:[{act:'Comercio general',tarifa:4}],servicios:[{act:'Servicios en general',tarifa:6}],financiero:[{act:'Servicios financieros',tarifa:10}]},
-  pasto:{industrial:[{act:'Industria manufacturera',tarifa:3}],comercial:[{act:'Comercio general',tarifa:4.5}],servicios:[{act:'Servicios en general',tarifa:6.5}],financiero:[{act:'Servicios financieros',tarifa:10}]},
-  villavicencio:{industrial:[{act:'Industria manufacturera',tarifa:4}],comercial:[{act:'Comercio general',tarifa:5}],servicios:[{act:'Servicios en general',tarifa:7}],financiero:[{act:'Servicios financieros',tarifa:10}]},
-  santa_marta:{industrial:[{act:'Industria manufacturera',tarifa:3}],comercial:[{act:'Comercio general',tarifa:4.5}],servicios:[{act:'Servicios en general',tarifa:6}],financiero:[{act:'Servicios financieros',tarifa:9}]},
-  monteria:{industrial:[{act:'Industria manufacturera',tarifa:3}],comercial:[{act:'Comercio general',tarifa:4}],servicios:[{act:'Servicios en general',tarifa:6}],financiero:[{act:'Servicios financieros',tarifa:10}]},
-  cucuta:{industrial:[{act:'Industria manufacturera',tarifa:3.5}],comercial:[{act:'Comercio general',tarifa:4}],servicios:[{act:'Servicios en general',tarifa:6.5}],financiero:[{act:'Servicios financieros',tarifa:10}]},
-};
-
-// ====== NAV ======
-let hist=[];
-let currentOPS = OPS_JUNIO;
-
-function showPg(p){
-  // Handle special layout for IA page
-  const mainShell = document.getElementById('mainShell');
-  const legalBar = document.getElementById('legalBar');
-  const iaPg = document.getElementById('pg-ia');
-
-  if(p === 'ia'){
-    document.querySelectorAll('.pg').forEach(x=>x.classList.remove('on'));
-    mainShell.style.display='none';
-    iaPg.style.display='block';
-    legalBar.style.display='none';
-  } else {
-    mainShell.style.display='';
-    iaPg.style.display='none';
-    legalBar.style.display='';
-    document.querySelectorAll('.pg').forEach(x=>x.classList.remove('on'));
-    const pg = document.getElementById('pg-'+p);
-    if(pg) pg.classList.add('on');
-  }
-  document.querySelectorAll('.tnav').forEach(x=>x.classList.remove('on'));
-  const el=document.getElementById('tnav-'+p);if(el)el.classList.add('on');
-  document.querySelectorAll('.ri').forEach(x=>x.classList.remove('on'));
-  if(p==='ica')renderICA();
-  if(p==='hist')renderHist();
-}
-
-function goTab(id){
-  ['t-partes','t-op','t-conc','t-res'].forEach(t=>{
-    const el=document.getElementById(t);if(el)el.style.display=t===id?'block':'none';
-  });
-  const map={'t-partes':0,'t-op':1,'t-conc':2,'t-res':3};
-  const idx=map[id]||0;
-  ['s1','s2','s3','s4'].forEach((s,i)=>{
-    const el=document.getElementById(s);if(!el)return;
-    el.classList.remove('on','done');el.style.opacity=1;
-    if(i===idx)el.classList.add('on');
-    else if(i<idx)el.classList.add('done');
-    else el.style.opacity=.35;
-  });
-  if(id==='t-res')calcular();
-}
-
-// ====== PERÍODO ======
-function onPeriodoChange(){
-  const p=document.getElementById('periodoCalc').value;
-  const info=document.getElementById('periodoInfo');
-  const badge=document.getElementById('basesBadge');
-  const heroSub=document.getElementById('heroSub');
-  if(p==='julio'){
-    currentOPS=OPS_JULIO;
-    info.className='expl expl-info';
-    info.innerHTML='<i class="ti ti-calendar"></i><span><strong>Julio 2026 en adelante:</strong> Bases Decreto 572/2025. Servicios: 2 UVT ($104.748) · Compras: 10 UVT ($523.740)</span>';
-    badge.className='alert-badge';
-    badge.innerHTML='<i class="ti ti-calendar" style="font-size:11px"></i>Bases Dcto. 572/2025 (jul 2026)';
-    badge.style.background='var(--cobalt-soft)';badge.style.color='var(--cobalt)';badge.style.borderColor='var(--cobalt3)';
-    heroSub.textContent='UVT 2026: $52.374 · Bases Decreto 572/2025 vigentes desde 1° julio 2026';
-    updateOpcionesSelect(true);
-  } else {
-    currentOPS=OPS_JUNIO;
-    info.className='expl expl-ok';
-    info.innerHTML='<i class="ti ti-check-circle"></i><span><strong>Junio 2026:</strong> Bases Dcto. 1625/2016 vigentes. Servicios: 4 UVT ($209.496) · Compras: 27 UVT ($1.414.098)</span>';
-    badge.className='alert-badge';
-    badge.innerHTML='<i class="ti ti-check-circle" style="font-size:11px"></i>Bases Dcto. 1625/2016 (junio 2026)';
-    badge.style.background='var(--news-soft)';badge.style.color='var(--news)';badge.style.borderColor='var(--news-border)';
-    heroSub.textContent='UVT 2026: $52.374 · Bases Dcto. 1625/2016 vigentes en junio · Decreto 572 aplica desde 1° julio';
-    updateOpcionesSelect(false);
-  }
-  calcular();
-}
-
-function updateOpcionesSelect(esJulio){
-  const tipoOp=document.getElementById('tipoOp');
-  const val=tipoOp.value;
-  // Update option labels with new bases
-  const opts=tipoOp.querySelectorAll('option');
-  opts.forEach(opt=>{
-    const k=opt.value;if(!k)return;
-    const data=esJulio?(OPS_JULIO[k]||null):(OPS_JUNIO[k]||null);
-    if(data){
-      const base=data.bUVT>0?`${data.bUVT} UVT`:'sin base';
-      const tar=(data.t*100).toFixed(1)+'%';
-      opt.textContent=`${data.nom} (${tar} · base ${base})`;
+    // Sistema básico de navegación de pestañas
+    function switchPage(pageId) {
+      document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
+      document.querySelectorAll('.tnav').forEach(b => b.classList.remove('on'));
+      document.querySelectorAll('.ri').forEach(r => r.classList.remove('on'));
+      
+      const targetPage = document.getElementById('pg-' + pageId);
+      const targetTnav = document.getElementById('tnav-' + pageId);
+      const targetRi = document.getElementById('ri-' + pageId);
+      
+      if (targetPage) targetPage.classList.add('on');
+      if (targetTnav) targetTnav.classList.add('on');
+      if (targetRi) targetRi.classList.add('on');
     }
-  });
-  tipoOp.value=val;
-}
 
-// ====== LÓGICA ======
-function evalLogica(){
-  const cTipo=document.getElementById('cTipo').value;
-  const cAgente=document.getElementById('cAgente').value;
-  const vReg=document.getElementById('vReg').value;
-  const vAutoret=document.getElementById('vAutoret').value;
-  const msgs=[];
-  if(cAgente==='si') msgs.push({t:'ok',i:'ti-shield-check',txt:'El comprador <strong>es agente retenedor</strong> — obligado a practicar retención. <span class="nchip">Art. 368 E.T.</span>'});
-  else msgs.push({t:'warn',i:'ti-shield-off',txt:'El comprador <strong>no es agente retenedor</strong> — no practica retención en la fuente.'});
-  if(vReg==='simple') msgs.push({t:'tip',i:'ti-star',txt:'Vendedor en <strong>Régimen SIMPLE</strong> — no sujeto a retención ni reteica. <span class="nchip">Art. 911 E.T.</span>'});
-  if(vAutoret==='si') msgs.push({t:'info',i:'ti-refresh',txt:'Vendedor <strong>autorretenedor</strong> — el comprador NO retiene; la retención la practica el propio vendedor.'});
-  if(cTipo==='pj_gran'||cTipo==='pj_esp') msgs.push({t:'info',i:'ti-building-bank',txt:'Comprador <strong>Gran Contribuyente / Entidad Pública</strong> — aplica Reteiva del 15% sobre el IVA. <span class="nchip">Art. 437-1 E.T.</span>'});
-  const div=document.getElementById('logicaBlock');
-  div.innerHTML=msgs.map(m=>`<div class="expl expl-${m.t==='ok'?'ok':m.t==='warn'?'warn':m.t==='tip'?'tip':'info'}"><i class="ti ${m.i}"></i><span>${m.txt}</span></div>`).join('');
-}
+    // Motor de liquidación dinámica adaptado a la UVT de 2026 ($49.496)
+    function calcularRetencion() {
+      const ingreso = parseFloat(document.getElementById('ingresoBruto').value) || 0;
+      const periodo = document.getElementById('periodoAplicacion').value;
+      const uvtValor = 49496;
 
-function updateAIU(){
-  const op=currentOPS[document.getElementById('tipoOp').value];
-  document.getElementById('aiuBlock').style.display=(op&&op.aiu)?'block':'none';
-}
+      // Deducción básica simulada del 25% por rentas exentas de trabajo
+      let baseGravableCop = ingreso * 0.75;
+      let baseUvt = baseGravableCop / uvtValor;
 
-// ====== CÁLCULO DINÁMICO (bases según período) ======
-function calcular(){
-  const valor=parseFloat(document.getElementById('valorBruto').value)||0;
-  const opKey=document.getElementById('tipoOp').value;
-  const muni=document.getElementById('muni').value;
-  const cTipo=document.getElementById('cTipo').value;
-  const cAgente=document.getElementById('cAgente').value;
-  const cIVA=document.getElementById('cIVA').value;
-  const vReg=document.getElementById('vReg').value;
-  const vIVA=document.getElementById('vIVA').value;
-  const vAutoret=document.getElementById('vAutoret').value;
-  const chRete=document.getElementById('chRete').checked;
-  const chIVA=document.getElementById('chIVA').checked;
-  const chReteiva=document.getElementById('chReteiva').checked;
-  const chICA=document.getElementById('chICA').checked;
-  const chReteica=document.getElementById('chReteica').checked;
-  const periodo=document.getElementById('periodoCalc').value;
+      // Verificación de umbrales según periodos de la APP externa si están disponibles
+      let limiteExento = 95; // Límite estándar Art. 383
+      if (window.APP) {
+        if (periodo === 'JUNIO' && window.APP.OPS_JUNIO) {
+          limiteExento = window.APP.OPS_JUNIO.limiteExento || 95;
+        } else if (periodo === 'JULIO' && window.APP.OPS_JULIO) {
+          limiteExento = window.APP.OPS_JULIO.limiteExento || 95;
+        }
+      }
 
-  if(!valor||!opKey){
-    document.getElementById('resContainer').innerHTML=`<div class="expl expl-warn"><i class="ti ti-alert-circle"></i><span>Ingresa el valor y tipo de operación para calcular.</span></div>`;
-    return;
-  }
+      let retencionUvt = 0;
+      if (baseUvt > limiteExento) {
+        // Rangos de la tabla del Artículo 383
+        if (baseUvt <= 150) {
+          retencionUvt = (baseUvt - 95) * 0.19;
+        } else if (baseUvt <= 360) {
+          retencionUvt = (baseUvt - 150) * 0.28 + 10;
+        } else if (baseUvt <= 640) {
+          retencionUvt = (baseUvt - 360) * 0.33 + 69;
+        } else {
+          retencionUvt = (baseUvt - 640) * 0.35 + 162;
+        }
+      }
 
-  const op=currentOPS[opKey]||{t:.04,bUVT:4,nom:'Operación',cod:'391',norm:'Art. 392 E.T.'};
-  const baseMinPesos=op.bUVT*UVT26;
-  const esAIU=!!op.aiu;
+      let retencionCop = Math.round(retencionUvt * uvtValor);
 
-  let baseAIU=0,aiuPct=0;
-  if(esAIU){
-    const a=parseFloat(document.getElementById('aiuA').value)||10;
-    const i=parseFloat(document.getElementById('aiuI').value)||2;
-    const u=parseFloat(document.getElementById('aiuU').value)||5;
-    aiuPct=a+i+u;baseAIU=valor*(aiuPct/100);
-  }
-
-  let rows=[],explainers=[],retefuente=0,iva=0,reteiva=0,icaAmt=0,reteicaAmt=0;
-  const periodoLabel=periodo==='julio'?'Julio 2026+ (Dcto. 572/2025)':'Junio 2026 (Dcto. 1625/2016)';
-  const normLabel=periodo==='julio'?'Dcto. 572/2025 — vigente desde 1° jul 2026':'Dcto. 1625/2016 restaurado — vigente junio 2026';
-
-  // RETEFUENTE
-  if(chRete){
-    let aplica=false,razon='',val=0;
-    const baseCal=esAIU?baseAIU:valor;
-    if(cAgente!=='si') razon='No aplica: el comprador no es agente retenedor.';
-    else if(vReg==='simple') razon='No aplica: vendedor en SIMPLE — exento de retención. Art. 911 E.T.';
-    else if(vAutoret==='si') razon='No aplica al comprador: vendedor es autorretenedor.';
-    else if(baseCal<baseMinPesos&&baseMinPesos>0) razon=`No aplica: $${fmt(baseCal)} < base mínima ${op.bUVT} UVT = $${fmt(baseMinPesos)} (${normLabel}).`;
-    else{aplica=true;val=baseCal*op.t;razon=esAIU?`${(op.t*100).toFixed(1)}% sobre AIU $${fmt(baseAIU)}`:`${(op.t*100).toFixed(1)}% sobre $${fmt(valor)}`;}
-    retefuente=val;
-    rows.push({concepto:`Retefuente — ${op.nom}`,detalle:`Cód. ${op.cod} · ${op.norm}`,aplica,val,tarifa:`${(op.t*100).toFixed(1)}%`,tipo:'ret'});
-    explainers.push({t:aplica?'warn':'ok',i:aplica?'ti-percentage':'ti-check',txt:`<strong>Retefuente:</strong> ${razon}`});
-  }
-
-  // IVA
-  if(chIVA){
-    let aplica=false,razon='';
-    if(vIVA!=='si') razon='No aplica: vendedor no responsable de IVA.';
-    else{aplica=true;const bIVA=esAIU?baseAIU:valor;iva=bIVA*0.19;razon=`19% sobre ${esAIU?'base AIU $'+fmt(baseAIU):'$'+fmt(valor)} = $${fmt(iva)}.`;}
-    rows.push({concepto:'IVA generado (19%)',detalle:'Art. 420 E.T.',aplica,val:iva,tarifa:'19%',tipo:'iva'});
-    explainers.push({t:aplica?'info':'ok',i:aplica?'ti-receipt-2':'ti-check',txt:`<strong>IVA:</strong> ${razon}`});
-    if(aplica) explainers.push({t:'tip',i:'ti-info-circle',txt:'<strong>IVA descontable:</strong> Si la compra está relacionada con actividad gravada del comprador, el IVA puede descontarse en la declaración de IVA.'});
-  }
-
-  // RETEIVA
-  if(chReteiva&&iva>0){
-    if((cTipo==='pj_gran'||cTipo==='pj_esp')&&cIVA==='si'){
-      reteiva=iva*0.15;
-      rows.push({concepto:'Reteiva — Retención de IVA',detalle:'15% del IVA · Art. 437-1 E.T. · Gran contribuyente / Entidad pública',aplica:true,val:reteiva,tarifa:'15% IVA',tipo:'ret'});
-      explainers.push({t:'warn',i:'ti-shield',txt:'<strong>Reteiva:</strong> Gran Contribuyente o Entidad Pública retiene el 15% del IVA.'});
+      // Renderizado dinámico de métricas
+      document.getElementById('lblBaseUvt').innerText = baseUvt.toFixed(2);
+      document.getElementById('lblRetencionCop').innerText = '$' + retencionCop.toLocaleString('es-CO');
     }
-  }
-
-  // ICA
-  if(chICA){
-    const actMap={serv_gen:'servicios',serv_hon:'servicios',serv_hotel:'servicios',serv_mant:'servicios',serv_aseo:'servicios',serv_obra:'servicios',serv_trans:'servicios',serv_soft:'servicios',serv_pub:'servicios',compra_gen:'comercial',compra_no:'comercial',compra_agri:'comercial',compra_cafe:'comercial',compra_activo:'comercial',compra_combus:'comercial',arrend:'servicios',intereses:'financiero',div:'financiero',loter:'servicios'};
-    const sect=actMap[opKey]||'servicios';
-    const data=(ICA[muni]||ICA.bogota)[sect]||[];
-    if(data.length){
-      const tf=data[0];icaAmt=valor*(tf.tarifa/1000);
-      rows.push({concepto:`ICA — ${tf.act}`,detalle:`${tf.tarifa}‰ · ${muniNom(muni)} · Estatutón 2026`,aplica:true,val:icaAmt,tarifa:`${tf.tarifa}‰`,tipo:'ica'});
-      explainers.push({t:'info',i:'ti-map-pin',txt:`<strong>ICA:</strong> ${tf.tarifa}‰ para "${tf.act}" en ${muniNom(muni)}. Verifica con el Estatutón 2026. La revocatoria del Dcto. 572/2025 no afecta las tarifas de ICA.`});
-    }
-  }
-
-  // RETEICA
-  if(chReteica&&icaAmt>0&&cAgente==='si'&&vReg!=='simple'){
-    reteicaAmt=icaAmt*0.5;
-    rows.push({concepto:'Reteica — Anticipo ICA',detalle:`50% del ICA · ${muniNom(muni)}`,aplica:true,val:reteicaAmt,tarifa:'50% ICA',tipo:'ret'});
-  }
-
-  const totalRet=retefuente+reteiva+reteicaAmt;
-  const neto=valor+iva-totalRet;
-  window._last={fecha:new Date(),op:op.nom,valor,totalRet,iva,icaAmt,neto,periodo:periodoLabel};
-
-  const periodoColorClass=periodo==='julio'?'expl-info':'expl-news';
-  const periodoIcon=periodo==='julio'?'ti-calendar':'ti-check-circle';
-
-  document.getElementById('resContainer').innerHTML=`
-    <div class="expl ${periodoColorClass}" style="margin-bottom:1rem"><i class="ti ${periodoIcon}"></i><div style="font-size:.76rem">Cálculo basado en <strong>${periodoLabel}</strong>. ${periodo==='julio'?'Bases Dcto. 572/2025 — vigentes desde 1° julio 2026 (revocatoria CE 02/06/2026).':'Bases Dcto. 1625/2016 — vigentes durante junio 2026.'}</div></div>
-    <div class="mgrid">
-      <div class="mc"><div class="mc-label">Valor bruto</div><div class="mc-val">${cop(valor)}</div><div class="mc-sub">Base operación</div></div>
-      <div class="mc ${iva>0?'accent':''}"><div class="mc-label">IVA generado</div><div class="mc-val">${iva>0?cop(iva):'No aplica'}</div><div class="mc-sub">${iva>0?'19% — verificar descontable':''}</div></div>
-      <div class="mc ${totalRet>0?'warn':''}"><div class="mc-label">Total retenciones</div><div class="mc-val">${totalRet>0?'('+cop(totalRet)+')':'$0'}</div><div class="mc-sub">Rete + Reteiva + Reteica</div></div>
-      <div class="mc success"><div class="mc-label">Neto a pagar</div><div class="mc-val">${cop(neto)}</div><div class="mc-sub">Valor líquido al proveedor</div></div>
-    </div>
-    <div class="card">
-      <div class="card-hd"><i class="ti ti-table"></i><h3>Desglose tributario</h3><span class="alert-badge" style="margin-left:auto;background:${periodo==='julio'?'var(--cobalt-soft)':'var(--news-soft)'};color:${periodo==='julio'?'var(--cobalt)':'var(--news)'};border-color:${periodo==='julio'?'var(--cobalt3)':'var(--news-border)'}"><i class="ti ${periodoIcon}" style="font-size:10px"></i>${periodoLabel}</span></div>
-      <div class="card-bd" style="padding:0">
-        <table class="btable">
-          <thead><tr><th>Concepto</th><th>Tarifa</th><th>Estado</th><th>Valor</th></tr></thead>
-          <tbody>
-            <tr class="tr-base"><td><strong>Valor bruto operación</strong>${esAIU?`<div class="row-sub">Base AIU (${aiuPct}%) = ${cop(baseAIU)}</div>`:''}</td><td>—</td><td><span class="bd bd-ink">BASE</span></td><td>${cop(valor)}</td></tr>
-            ${rows.map(r=>`<tr>
-              <td><strong>${r.concepto}</strong><div class="row-sub">${r.detalle}</div></td>
-              <td><span class="bd ${r.tipo==='iva'?'bd-blue':r.tipo==='ica'?'bd-green':'bd-gray'} bd-mono">${r.tarifa}</span></td>
-              <td>${r.aplica?`<span class="bd bd-amber">Aplica</span>`:`<span class="bd bd-gray">No aplica</span>`}</td>
-              <td style="color:${r.aplica?(r.tipo==='iva'?'var(--cobalt)':r.tipo==='ica'?'var(--emerald)':'var(--ruby)'):'var(--slate)'}">
-                ${r.aplica?(r.tipo==='ret'?'('+cop(r.val)+')':cop(r.val)):'$0'}
-              </td>
-            </tr>`).join('')}
-            <tr class="tr-total"><td colspan="3">TOTAL RETENCIONES</td><td>(${cop(totalRet)})</td></tr>
-            <tr class="tr-neto"><td colspan="3"><strong>NETO A PAGAR AL PROVEEDOR</strong></td><td>${cop(neto)}</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-hd"><i class="ti ti-bulb"></i><h3>Explicación tributaria</h3></div>
-      <div class="card-bd">${explainers.map(e=>`<div class="expl expl-${e.t==='ok'?'ok':e.t==='warn'?'warn':e.t==='tip'?'tip':'info'}"><i class="ti ${e.i}"></i><span>${e.txt}</span></div>`).join('')}</div>
-    </div>`;
-}
-
-function guardar(){if(!window._last)return;hist.unshift(window._last);alert('Cálculo guardado en historial.');}
-
-function renderHist(){
-  const d=document.getElementById('histList');
-  if(!hist.length){d.innerHTML=`<div class="card"><div class="card-bd" style="text-align:center;padding:2.5rem;color:var(--slate)"><i class="ti ti-history" style="font-size:34px;display:block;margin-bottom:.65rem;color:var(--cobalt3)"></i><div style="font-weight:600;color:var(--ink2)">Sin cálculos guardados</div></div></div>`;return;}
-  d.innerHTML=hist.map(h=>`<div class="card" style="margin-bottom:.8rem"><div class="card-bd-sm" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.875rem">
-    <div><div style="font-weight:600;font-size:.88rem;color:var(--ink2)">${h.op} · ${h.periodo||''}</div><div style="font-size:.72rem;color:var(--slate)">${h.fecha.toLocaleString('es-CO')}</div></div>
-    <div style="display:flex;gap:1.25rem;flex-wrap:wrap">
-      <div><div class="mc-label">Bruto</div><div style="font-family:'IBM Plex Mono',monospace;font-size:.85rem">${cop(h.valor)}</div></div>
-      <div><div class="mc-label">IVA</div><div style="font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--cobalt)">${cop(h.iva)}</div></div>
-      <div><div class="mc-label">Retenciones</div><div style="font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--ruby)">(${cop(h.totalRet)})</div></div>
-      <div><div class="mc-label">Neto pagado</div><div style="font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--emerald)">${cop(h.neto)}</div></div>
-    </div>
-  </div></div>`).join('');
-}
-
-function exportarPDF(){
-  window.print();
-}
-
-function exportarExcel(){
-  if(!window._last){alert('Primero realiza un cálculo para exportar.');return;}
-  const h=window._last;
-  const csv=`Concepto,Valor\nOperacion,${h.op}\nPeriodo,${h.periodo||'Junio 2026'}\nFecha,${h.fecha.toLocaleString('es-CO')}\nValor bruto,"$${fmt(h.valor)}"\nIVA generado,"$${fmt(h.iva)}"\nTotal retenciones,"($${fmt(h.totalRet)})"\nNeto a pagar,"$${fmt(h.neto)}"`;
-  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='retencol_calculo.csv';a.click();
-}
-
-// ICA
-function renderICA(){
-  const muni=document.getElementById('icaMuni').value;
-  const act=document.getElementById('icaAct').value;
-  const data=ICA[muni]||ICA.bogota;
-  const cats=['industrial','comercial','servicios','financiero'];
-  const noms={industrial:'Industrial',comercial:'Comercial',servicios:'Servicios',financiero:'Financiero'};
-  const icons={industrial:'ti-tool',comercial:'ti-shopping-cart',servicios:'ti-briefcase',financiero:'ti-building-bank'};
-  const filtered=act==='all'?cats:[act];
-  document.getElementById('icaResult').innerHTML=`<div class="ica-grid">${filtered.map(cat=>{
-    const rows=data[cat]||[];
-    return `<div class="ica-card"><div class="ica-hd"><i class="ti ${icons[cat]}"></i>${noms[cat]}</div>
-    ${rows.map(r=>`<div class="ica-row"><div style="color:var(--ink3);font-size:.8rem">${r.act}</div><div><div class="ica-tar">${r.tarifa}‰</div><div style="font-size:.65rem;color:var(--slate)">Reteica: ${(r.tarifa/2).toFixed(2)}‰</div></div></div>`).join('')}</div>`;
-  }).join('')}</div>
-  <div class="expl expl-news" style="margin-top:1rem"><i class="ti ti-check-circle"></i><span>La revocatoria del Decreto 572/2025 <strong>no afecta las tarifas de ICA</strong>. Verifica con el estatuto tributario del municipio en el <a href="https://sites.google.com/view/estatuton-2024/inicio" target="_blank" style="color:var(--cobalt)">Estatutón 2026</a>.</span></div>`;
-}
-
-// EDUCATIVO
-const CONCS={
-  rete:{title:'Retención en la fuente — Bases 2026',body:`<p><strong>Junio 2026 (Dcto. 1625/2016 vigente):</strong></p>
-    <br><ul style="margin:.5rem 0 .5rem 1.5rem;line-height:2.2">
-      <li>Servicios: <strong>4 UVT = $209.496</strong></li>
-      <li>Compras (declarante): <strong>27 UVT = $1.414.098</strong></li>
-      <li>Productos agrícolas: <strong>92 UVT = $4.818.408</strong></li>
-      <li>Café pergamino: <strong>160 UVT = $8.379.840</strong></li>
-      <li>Honorarios: desde $0 (sin base mínima)</li>
-    </ul>
-    <br><p><strong>Desde 1° julio 2026 (Decreto 572/2025):</strong></p>
-    <br><ul style="margin:.5rem 0 .5rem 1.5rem;line-height:2.2">
-      <li>Servicios: <strong>2 UVT = $104.748</strong></li>
-      <li>Compras (declarante): <strong>10 UVT = $523.740</strong></li>
-      <li>Agrícolas: <strong>70 UVT = $3.666.180</strong></li>
-      <li>Café: <strong>70 UVT = $3.666.180</strong></li>
-    </ul>
-    <br><p><strong>Excepción SIMPLE:</strong> No aplica retención a contribuyentes del Régimen SIMPLE. Art. 911 E.T.</p>`,
-    tags:['Dcto. 572 desde jul-26','Dcto. 1625/2016 junio-26','UVT 2026: $52.374','Art. 365 E.T.']},
-  iva:{title:'IVA y Retención de IVA (Reteiva)',body:`<p>El <strong>IVA</strong> es del <strong>19%</strong> sobre bienes y servicios gravados. Lo cobra el vendedor responsable de IVA.</p>
-    <br><p><strong>Reteiva:</strong> 15% del IVA retenido por Grandes Contribuyentes y Entidades Públicas. Art. 437-1 E.T.</p>
-    <br><p><strong>La revocatoria del Decreto 572/2025 NO afecta el IVA ni la Reteiva</strong> — sus tarifas no estaban en los artículos suspendidos.</p>`,
-    tags:['Art. 420 E.T.','Reteiva 15%','Art. 437-1 E.T.','Sin cambio por Dcto. 572']},
-  ica:{title:'ICA — Industria y Comercio 2026',body:`<p>Impuesto municipal sobre actividades industriales, comerciales y de servicios. <strong>La revocatoria del Decreto 572/2025 no afecta el ICA</strong> — este depende de estatutos municipales.</p>
-    <br><p>Consulta el <a href="https://sites.google.com/view/estatuton-2024/inicio" target="_blank">Estatutón 2026</a> coordinado por @impuestosconbotas.</p>`,
-    tags:['Ley 14/1983','Estatutón 2026','Sin cambio por Dcto. 572','‰ por mil']},
-  aiu:{title:'AIU — Administración, Imprevistos y Utilidad',body:`<p>IVA y retefuente se calculan solo sobre el componente AIU, no sobre el total del contrato. Art. 462-1 E.T.</p>
-    <br><p><strong>Desde julio 2026:</strong> La base de retención en servicios AIU será 2 UVT (Decreto 572/2025).</p>`,
-    tags:['Art. 462-1 E.T.','Aseo','Vigilancia','Obras civiles']},
-  simple:{title:'Régimen SIMPLE 2026 — Sin retención',body:`<p>Los pagos a contribuyentes del SIMPLE <strong>no están sujetos a retención en la fuente ni a reteica</strong>. Art. 911 E.T.</p>
-    <br><p><strong>El Decreto 572/2025 no cambia esto</strong> — la exención del SIMPLE está en el Estatuto Tributario.</p>`,
-    tags:['Art. 911 E.T.','Sin retención','Art. 903 E.T.','100.000 UVT']},
-  dcto572:{title:'Decreto 572/2025 — Vigente desde 1° julio 2026',body:`<p>El <strong>Consejo de Estado</strong>, el <strong>2 de junio de 2026</strong>, revocó la suspensión provisional de los artículos 2 al 8 del Decreto 572 de 2025.</p>
-    <br><p><strong>Desde el 1° de julio de 2026</strong> entran en vigor las nuevas bases del Decreto 572:</p>
-    <br><ul style="margin:.5rem 0 .5rem 1.5rem;line-height:2">
-      <li>Servicios: 2 UVT = $104.748 (antes 4 UVT)</li>
-      <li>Compras: 10 UVT = $523.740 (antes 27 UVT)</li>
-      <li>Agrícolas: 70 UVT (antes 92 UVT)</li>
-      <li>Café: 70 UVT (antes 160 UVT)</li>
-      <li>Compra de oro CI: 2.5% (antes 1%)</li>
-    </ul>
-    <br><p><strong>Período histórico de suspensión:</strong> 8 mayo al 30 junio 2026 — aplicaban bases del Decreto 1625/2016.</p>
-    <br><p>Fuentes: <a href="https://www.infobae.com/colombia/2026/06/03/consejo-de-estado-revoca-suspension-y-devuelve-vigencia-al-decreto-que-aumento-la-autorretencion-en-la-fuente/" target="_blank">Infobae 03/06/2026</a> · <a href="https://normograma.dian.gov.co/dian/compilacion/docs/decreto_0572_2025.htm" target="_blank">Decreto 572/2025</a></p>`,
-    tags:['Revocatoria CE 02/06/2026','Desde 1° jul 2026','Dcto. 572/2025 vigente','Nuevas bases']},
-};
-
-function showConc(k){
-  const c=CONCS[k];if(!c)return;
-  const d=document.getElementById('concDetail');
-  d.innerHTML=`<div class="card fade"><div class="card-hd"><i class="ti ti-book-2"></i><h3>${c.title}</h3></div>
-    <div class="card-bd">
-      <div style="font-size:.86rem;line-height:1.7;color:var(--ink3)">${c.body}</div>
-      <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.875rem">${c.tags.map(t=>`<span class="nchip">${t}</span>`).join('')}</div>
-      <div class="expl expl-info" style="margin-top:.875rem"><i class="ti ti-calculator"></i><span>Practica con la calculadora. <button class="btn btn-ghost" style="padding:.22rem .7rem;font-size:.76rem;margin-left:6px" onclick="showPg('calc')"><i class="ti ti-arrow-right"></i>Ir a calculadora</button></span></div>
-    </div></div>`;
-  d.scrollIntoView({behavior:'smooth',block:'nearest'});
-}
-
-function openEstatuto(){window.open('https://sites.google.com/view/estatuton-2024/inicio','_blank')}
-function fmt(n){return Math.round(n).toLocaleString('es-CO')}
-function cop(n){return '$'+Math.round(n).toLocaleString('es-CO')}
-function muniNom(m){const n={bogota:'Bogotá D.C.',medellin:'Medellín',cali:'Cali',barranquilla:'Barranquilla',cartagena:'Cartagena',bucaramanga:'Bucaramanga',pereira:'Pereira',manizales:'Manizales',cucuta:'Cúcuta',soacha:'Soacha',ibague:'Ibagué',neiva:'Neiva',pasto:'Pasto',villavicencio:'Villavicencio',santa_marta:'Santa Marta',monteria:'Montería'};return n[m]||m;}
-
-// ===================== IA VALENTINA =====================
-let aiHistory=[];
-let aiTyping=false;
-
-const AI_SYSTEM=`Eres Valentina, la asistente tributaria con inteligencia artificial de RETENCOL, plataforma tributaria colombiana.
-
-## PERSONALIDAD
-Eres cálida, cercana, empática y profesional. Te comunicas como una amiga contable de confianza que sabe mucho de impuestos y los explica sin rodeos. Tu tono es conversacional, educativo, empático, directo y cálido. Usas emojis con moderación (máximo 1-2 por mensaje).
-
-## CONOCIMIENTO TRIBUTARIO VIGENTE 2026 — INCLUYE ÚLTIMA NOVEDAD
-
-**UVT 2026:** $52.374 (Resolución DIAN 000238 del 15 de diciembre de 2025)
-
-**🆕 NOVEDAD CRÍTICA — 2 de junio de 2026:**
-El Consejo de Estado REVOCÓ la suspensión provisional del Decreto 572/2025.
-- Del 8 de mayo al 30 de JUNIO 2026: aplican bases del Decreto 1625/2016 (período de suspensión ya histórico)
-- Desde el 1° de JULIO 2026: entran las bases del Decreto 572/2025
-
-**BASES JUNIO 2026 (Decreto 1625/2016 — vigente HOY):**
-- Servicios: base mínima 4 UVT = $209.496
-- Compras declarante: base mínima 27 UVT = $1.414.098
-- Agrícolas: 92 UVT | Café: 160 UVT
-
-**BASES DESDE 1° JULIO 2026 (Decreto 572/2025):**
-- Servicios: base mínima 2 UVT = $104.748
-- Compras declarante: base mínima 10 UVT = $523.740
-- Agrícolas: 70 UVT | Café: 70 UVT
-- Compra de oro CI: 2.5% (antes 1%)
-- Compra bienes raíces vivienda: umbral 10.000 UVT (antes 20.000 UVT)
-
-**TARIFAS (no cambian entre períodos):**
-- Honorarios PJ o PN declarante: 10%, sin base mínima
-- Honorarios PN no declarante: 11%, sin base mínima
-- Servicios: 4% | Transporte carga: 1% | Hoteles/arrendamiento: 3.5%
-- Compras generales declarante: 2.5% | No declarantes: 3.5%
-- Agrícolas: 1.5% | Café: 0.5% | Activos fijos: 1%
-- Intereses: 7% | Loterías: 20% | Dividendos: 7.5%
-
-**IVA:** 19% general. Solo responsables de IVA lo cobran. En AIU: solo sobre componente AIU (Art. 462-1 E.T.)
-**RETEIVA:** 15% del IVA. Solo Gran Contribuyente o Entidad Pública (Art. 437-1 E.T.)
-**ICA:** Municipal, en por mil (‰). Bogotá: industria 4.14‰, servicios 9.66‰, financiero 11.04‰. Reteica: 50% ICA.
-**SIMPLE:** Sin retención ni reteica. Art. 911 E.T.
-**AUTORRETENEDORES:** El comprador NO retiene; el vendedor se autorretiene.
-
-## CÓMO RESPONDER
-- Consultas simples: 150-250 palabras, conversacional
-- Cálculos: muestra base, tarifa, resultado paso a paso. Especifica siempre si es para junio o julio 2026.
-- Nunca uses tablas Markdown — usa párrafos o listas con viñetas
-- Responde SIEMPRE en español colombiano natural`;
-
-const AI_TOPICS={
-  retefuente:'¿Cuáles son las bases mínimas de retención vigentes en junio 2026 y qué cambia desde julio con el Decreto 572?',
-  decreto:'¿Qué pasó con el Decreto 572 de 2025? Cuéntame sobre la revocatoria del Consejo de Estado del 2 de junio de 2026.',
-  iva:'¿Cómo funciona el IVA en Colombia? ¿Quién lo cobra y cuándo aplica la reteiva?',
-  ica:'¿Qué es el ICA y cómo se calcula según la ciudad?',
-  aiu:'¿Qué es el AIU y en qué servicios aplica? ¿Cómo cambia el cálculo del IVA y la retención?',
-  simple:'¿El régimen SIMPLE está exento de retención en la fuente?',
-  uvt:'¿Cuánto vale la UVT en 2026 y para qué sirve en las retenciones?',
-  autoret:'¿Qué es un autorretenedor y cómo afecta al que hace el pago?',
-  calc:'Dame un ejemplo concreto: ¿cuánto se retiene si le pago $2.000.000 a una empresa de régimen ordinario por un servicio de diseño gráfico en Bogotá en JUNIO 2026?',
-  julio:'¿Qué cambia exactamente en las retenciones desde el 1° de julio de 2026 con el Decreto 572/2025?',
-};
-
-function aiTopic(key){
-  document.querySelectorAll('.ai-topic').forEach(x=>x.classList.remove('on'));
-  const el=document.getElementById('atp-'+key);if(el)el.classList.add('on');
-  if(AI_TOPICS[key])aiSendQuick(AI_TOPICS[key]);
-}
-
-function aiSendQuick(text){
-  document.getElementById('aiUserInput').value=text;
-  aiAutoResize(document.getElementById('aiUserInput'));
-  aiSendMessage();
-}
-
-function aiHandleKey(e){
-  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();aiSendMessage();}
-}
-
-function aiAutoResize(el){
-  el.style.height='auto';
-  el.style.height=Math.min(el.scrollHeight,100)+'px';
-  document.getElementById('aiSendBtn').disabled=el.value.trim().length===0;
-  document.getElementById('aiCharCount').textContent=el.value.length;
-}
-
-function aiNowTime(){return new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'});}
-
-function aiScrollBottom(){
-  const m=document.getElementById('ai-messages');
-  setTimeout(()=>m.scrollTop=m.scrollHeight,50);
-}
-
-function aiAppendMsg(role,html){
-  const msgs=document.getElementById('ai-messages');
-  const row=document.createElement('div');
-  row.className=`msg-row ${role==='user'?'user':''}`;
-  if(role!=='user'){const av=document.createElement('div');av.className='msg-av';av.textContent='🌟';row.appendChild(av);}
-  const col=document.createElement('div');
-  col.className=`msg-col ${role==='user'?'u':''}`;
-  const bubble=document.createElement('div');
-  bubble.className=`bubble ${role==='user'?'user':'val'}`;
-  bubble.innerHTML=html;
-  col.appendChild(bubble);
-  const ts=document.createElement('div');ts.className='msg-time';ts.textContent=aiNowTime();
-  col.appendChild(ts);
-  row.appendChild(col);
-  msgs.appendChild(row);
-  aiScrollBottom();
-}
-
-function aiShowTyping(){
-  const msgs=document.getElementById('ai-messages');
-  const row=document.createElement('div');row.className='msg-row';row.id='aiTypingRow';
-  const av=document.createElement('div');av.className='msg-av';av.textContent='🌟';row.appendChild(av);
-  const tb=document.createElement('div');tb.className='typing-bubble';
-  tb.innerHTML='<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
-  row.appendChild(tb);msgs.appendChild(row);aiScrollBottom();
-}
-
-function aiHideTyping(){const t=document.getElementById('aiTypingRow');if(t)t.remove();}
-
-function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-
-function mdToHtml(text){
-  return text
-    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g,'<em>$1</em>')
-    .replace(/`(.*?)`/g,'<code style="background:rgba(255,255,255,.12);padding:.05rem .3rem;border-radius:4px;font-size:.78rem;font-family:monospace">$1</code>')
-    .replace(/\n\n+/g,'</p><p style="margin-top:.45rem">')
-    .replace(/\n- (.*)/g,'<br>• $1')
-    .replace(/\n• (.*)/g,'<br>• $1')
-    .replace(/\n(\d+)\. (.*)/g,'<br>$1. $2')
-    .replace(/\n/g,'<br>');
-}
-
-async function aiSendMessage(){
-  const input=document.getElementById('aiUserInput');
-  const text=input.value.trim();
-  if(!text||aiTyping)return;
-
-  aiAppendMsg('user',escHtml(text).replace(/\n/g,'<br>'));
-  aiHistory.push({role:'user',content:text});
-
-  input.value='';input.style.height='auto';
-  document.getElementById('aiSendBtn').disabled=true;
-  document.getElementById('aiCharCount').textContent='0';
-
-  aiTyping=true;aiShowTyping();
-
-  try{
-    // Llamada al proxy seguro en Vercel — la API key nunca toca el navegador
-    const res=await fetch('/api/chat',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ messages: aiHistory })
-    });
-    const data=await res.json();
-    aiHideTyping();aiTyping=false;
-    if(data.reply){
-      const reply=data.reply;
-      aiHistory.push({role:'assistant',content:reply});
-      const htmlReply=`<p>${mdToHtml(reply)}</p>
-        <div class="disc-mini"><i class="ti ti-info-circle"></i><span>Orientación tributaria · Valida con tu contador · UVT 2026: $52.374 · Dcto. 572/2025 vigente desde 1° jul 2026</span></div>`;
-      aiAppendMsg('val',htmlReply);
-    } else if(data.error){
-      aiAppendMsg('val',`<p>⚠️ ${escHtml(data.error)}</p>`);
-    } else {
-      aiAppendMsg('val','<p>Hmm, tuve un problemita 😅 ¿Puedes intentarlo de nuevo?</p>');
-    }
-  }catch(err){
-    aiHideTyping();aiTyping=false;
-    aiAppendMsg('val','<p>¡Uy! Problema de conexión 😅 Revisa tu internet e intenta de nuevo.</p>');
-  }
-}
-
-function aiClearChat(){
-  aiHistory=[];
-  document.querySelectorAll('.ai-topic').forEach(x=>x.classList.remove('on'));
-  document.getElementById('atp-retefuente').classList.add('on');
-  const msgs=document.getElementById('ai-messages');
-  msgs.innerHTML='';
-  const wc=document.createElement('div');
-  wc.className='welcome-card-ai fade';
-  wc.innerHTML=`<span class="welcome-emoji">✨</span>
-    <div class="welcome-title-ai">Nueva consulta — ¿en qué te ayudo?</div>
-    <div class="welcome-sub-ai">Cuéntame lo que necesitas 😊</div>
-    <div class="quick-grid">
-      <button class="qchip" onclick="aiSendQuick('¿Qué bases de retención aplican en junio 2026?')"><i class="ti ti-percentage"></i>Bases junio 2026</button>
-      <button class="qchip" onclick="aiSendQuick('¿Qué cambia desde el 1° de julio 2026 con el Decreto 572?')"><i class="ti ti-calendar"></i>Cambios julio 2026</button>
-      <button class="qchip" onclick="aiSendQuick('¿El régimen SIMPLE está exento de retención?')"><i class="ti ti-star"></i>SIMPLE y retención</button>
-      <button class="qchip" onclick="aiSendQuick('Dame un ejemplo de cálculo de retenciones en un servicio')"><i class="ti ti-calculator"></i>Ejemplo práctico</button>
-    </div>`;
-  msgs.appendChild(wc);
-}
-
-evalLogica();renderICA();
-
-// ====== SISTEMA PRO — SHA-256 MODAL ======
-const _UH = '3cc031dade86a462ebb6722280f770d0f853059c12f7901780374f1e4b024376';
-const _PH = 'c8ab181951719c3b9f16a1e125331f35c6c8497b8dedb84c521cd74d47980ca5';
-
-let _proSession = false;
-let _pendingAction = null;
-let _attempts = 0;
-let _locked = false;
-let _lockTimer = null;
-
-async function sha256(str) {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-}
-
-// Acciones que requieren PRO
-function requirePro(action) {
-  if (_proSession) {
-    // Ya autenticado — ejecutar directo
-    executePro(action);
-    return;
-  }
-  _pendingAction = action;
-  openProModal();
-}
-
-function executePro(action) {
-  if (action === 'ia') { showPg('ia'); }
-  else if (action === 'pdf') { exportarPDF(); }
-  else if (action === 'excel') { exportarExcel(); }
-  else if (action === 'prod') { showPg('prod'); }
-  updateProBadges();
-}
-
-function openProModal() {
-  document.getElementById('proOverlay').classList.add('show');
-  document.getElementById('proErrorMsg').innerHTML = '';
-  document.getElementById('proUser').value = '';
-  document.getElementById('proPwd').value = '';
-  document.getElementById('proAttemptsInfo').style.display = 'none';
-  setTimeout(() => document.getElementById('proUser').focus(), 120);
-}
-
-function closeProModal() {
-  document.getElementById('proOverlay').classList.remove('show');
-  _pendingAction = null;
-}
-
-// Cerrar modal al hacer clic fuera
-document.getElementById('proOverlay').addEventListener('click', function(e) {
-  if (e.target === this) closeProModal();
-});
-
-function proLoginKey(e) {
-  if (e.key === 'Enter') doProLogin();
-  if (e.key === 'Escape') closeProModal();
-}
-
-function toggleProPwd() {
-  const inp = document.getElementById('proPwd');
-  const icon = document.getElementById('proEyeIcon');
-  inp.type = inp.type === 'password' ? 'text' : 'password';
-  icon.className = inp.type === 'password' ? 'ti ti-eye' : 'ti ti-eye-off';
-}
-
-function showProError(msg) {
-  document.getElementById('proErrorMsg').innerHTML =
-    `<div class="login-error"><i class="ti ti-alert-circle"></i><span>${msg}</span></div>`;
-  document.getElementById('proModal').classList.add('shake');
-  setTimeout(() => document.getElementById('proModal').classList.remove('shake'), 500);
-}
-
-function startProLockout() {
-  _locked = true;
-  document.getElementById('proLoginForm').style.display = 'none';
-  document.getElementById('proLockedMsg').style.display = 'block';
-  let secs = 60;
-  document.getElementById('proLockCountdown').textContent = secs;
-  _lockTimer = setInterval(() => {
-    secs--;
-    document.getElementById('proLockCountdown').textContent = secs;
-    if (secs <= 0) {
-      clearInterval(_lockTimer);
-      _locked = false; _attempts = 0;
-      document.getElementById('proLockedMsg').style.display = 'none';
-      document.getElementById('proLoginForm').style.display = 'block';
-      document.getElementById('proErrorMsg').innerHTML = '';
-      document.getElementById('proAttemptsInfo').style.display = 'none';
-    }
-  }, 1000);
-}
-
-async function doProLogin() {
-  if (_locked) return;
-  const userVal = document.getElementById('proUser').value.trim();
-  const pwdVal  = document.getElementById('proPwd').value;
-  const btn     = document.getElementById('proLoginBtn');
-  if (!userVal || !pwdVal) { showProError('Por favor ingresa usuario y contraseña.'); return; }
-
-  btn.disabled = true;
-  btn.innerHTML = '<div class="login-spinner"></div>Verificando...';
-
-  const [uHash, pHash] = await Promise.all([sha256(userVal), sha256(pwdVal)]);
-  await new Promise(r => setTimeout(r, 550));
-
-  if (uHash === _UH && pHash === _PH) {
-    // ÉXITO
-    _proSession = true;
-    btn.innerHTML = '<i class="ti ti-check"></i>¡Acceso PRO desbloqueado!';
-    btn.style.background = 'linear-gradient(135deg,#059669,#10b981)';
-    setTimeout(() => {
-      closeProModal();
-      updateProBadges();
-      document.getElementById('sessionBadge').style.display = 'flex';
-      document.getElementById('sessionUser').textContent = userVal;
-      if (_pendingAction) { executePro(_pendingAction); _pendingAction = null; }
-      btn.disabled = false;
-      btn.style.background = '';
-      btn.innerHTML = '<i class="ti ti-shield-check"></i>Desbloquear acceso PRO';
-    }, 700);
-  } else {
-    // FALLO
-    _attempts++;
-    btn.disabled = false;
-    btn.innerHTML = '<i class="ti ti-shield-check"></i>Desbloquear acceso PRO';
-    document.getElementById('proPwd').value = '';
-    if (_attempts >= 5) {
-      startProLockout();
-    } else {
-      const left = 5 - _attempts;
-      showProError(`Credenciales incorrectas. Te quedan <strong>${left}</strong> intento${left===1?'':'s'}.`);
-      document.getElementById('proAttemptsInfo').style.display = 'block';
-      document.getElementById('proAttemptsCount').textContent = _attempts;
-    }
-  }
-}
-
-function doLogout() {
-  if (!confirm('¿Cerrar sesión PRO?')) return;
-  _proSession = false;
-  document.getElementById('sessionBadge').style.display = 'none';
-  // Si estaba en página PRO, regresar a calculadora
-  const proPages = ['ia','prod'];
-  const active = document.querySelector('.pg.on');
-  if (active && proPages.includes(active.id.replace('pg-',''))) showPg('calc');
-  updateProBadges();
-}
-
-function updateProBadges() {
-  // Actualiza badges de candado en botones
-  const badges = document.querySelectorAll('.pro-lock-badge');
-  badges.forEach(b => {
-    if (_proSession) {
-      b.textContent = 'PRO ✓';
-      b.classList.remove('locked');
-      b.style.background = 'linear-gradient(135deg,#059669,#10b981)';
-    } else {
-      b.classList.add('locked');
-      b.style.background = '';
-    }
-  });
-}
-
-// Bloquear navegación directa a páginas PRO sin sesión
-const _originalShowPg = showPg;
-window.showPg = function(p) {
-  const proPages = ['ia','prod'];
-  if (proPages.includes(p) && !_proSession) {
-    requirePro(p);
-    return;
-  }
-  _originalShowPg(p);
-};
-
-</script>
+  </script>
 </body>
 </html>
