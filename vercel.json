@@ -6,6 +6,14 @@
       "dest": "/api/chat.js"
     },
     {
+      "src": "/src/data/(.*)",
+      "dest": "/src/data/$1",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "public, max-age=3600, stale-while-revalidate=86400"
+      }
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
@@ -15,6 +23,13 @@
       "source": "/api/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "no-store" }
+      ]
+    },
+    {
+      "source": "/src/data/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "X-Content-Type-Options",      "value": "nosniff" }
       ]
     },
     {
