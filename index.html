@@ -653,35 +653,20 @@ input:checked+.tog-sl::before{transform:translateX(17px)}
 </div>
 
 <script>
-// ====== DATOS TRIBUTARIOS 2026 ======
-// IMPORTANTE: Bases restauradas por suspensión Decreto 572/2025
-// Auto Consejo de Estado 07/05/2026 - DIAN Comunicado No. 070 del 08/05/2026
-// Vigente desde el 8 de mayo de 2026
-
-const UVT26 = 52374;
-
-// bUVT = base mínima en UVT del Decreto 1625/2016 ORIGINAL (restauradas)
-const OPS = {
-  serv_gen:     {t:.04,  bUVT:4,   nom:'Servicios en general',          cod:'391', norm:'Art. 392 E.T. · Dcto. 1625/2016 (base original: 4 UVT)'},
-  serv_hon:     {t:.10,  bUVT:0,   nom:'Honorarios y consultorías',     cod:'392', norm:'Art. 392 E.T. — Personas jurídicas 10% · naturales declarantes 10% · no declarantes 11%'},
-  serv_trans:   {t:.01,  bUVT:4,   nom:'Transporte de carga',           cod:'394', norm:'Art. 395 E.T. · Dcto. 1625/2016 (base: 4 UVT)'},
-  serv_hotel:   {t:.035, bUVT:4,   nom:'Hoteles / arrendamiento',       cod:'395', norm:'Art. 396 E.T. · Dcto. 1625/2016 (base: 4 UVT)'},
-  serv_mant:    {t:.04,  bUVT:4,   nom:'Mantenimiento y reparación',    cod:'396', norm:'Art. 392 E.T. · Dcto. 1625/2016 (base: 4 UVT)'},
-  serv_aseo:    {t:.02,  bUVT:4,   nom:'Aseo y vigilancia (AIU)',       cod:'397', norm:'Art. 462-1 E.T.', aiu:true},
-  serv_obra:    {t:.02,  bUVT:0,   nom:'Obras civiles (AIU)',           cod:'399', norm:'Art. 462-1 E.T.', aiu:true},
-  serv_soft:    {t:.035, bUVT:4,   nom:'Licenciamiento de software',    cod:'392', norm:'Art. 392 E.T. · Dcto. 1625/2016'},
-  serv_pub:     {t:.03,  bUVT:4,   nom:'Publicidad',                    cod:'392', norm:'Art. 392 E.T. · Dcto. 1625/2016'},
-  compra_gen:   {t:.025, bUVT:27,  nom:'Compras generales (declarante)',cod:'401', norm:'Art. 401 E.T. · Dcto. 1625/2016 (base restaurada: 27 UVT)'},
-  compra_no:    {t:.035, bUVT:27,  nom:'Compras a no declarantes',      cod:'401', norm:'Art. 401 E.T. · Dcto. 1625/2016 (base restaurada: 27 UVT)'},
-  compra_agri:  {t:.015, bUVT:92,  nom:'Productos agrícolas',           cod:'402', norm:'Art. 401 E.T. · Dcto. 1625/2016 (base restaurada: 92 UVT)'},
-  compra_cafe:  {t:.005, bUVT:160, nom:'Café pergamino o cereza',       cod:'402', norm:'Dcto. 1625/2016 (base restaurada: 160 UVT)'},
-  compra_activo:{t:.01,  bUVT:0,   nom:'Activos fijos',                 cod:'404', norm:'Art. 398 E.T.'},
-  compra_combus:{t:.001, bUVT:0,   nom:'Combustibles derivados petróleo',cod:'406',norm:'Art. 401 E.T.'},
-  arrend:       {t:.035, bUVT:27,  nom:'Arrendamiento bienes inmuebles',cod:'411', norm:'Art. 401 E.T. · Dcto. 1625/2016 (base: 27 UVT)'},
-  intereses:    {t:.07,  bUVT:0,   nom:'Intereses y rendimientos',      cod:'418', norm:'Art. 395 E.T.'},
-  loter:        {t:.20,  bUVT:48,  nom:'Loterías, rifas y premios',     cod:'422', norm:'Art. 402 E.T.'},
-  div:          {t:.075, bUVT:0,   nom:'Dividendos gravados',           cod:'421', norm:'Art. 242 E.T.'},
+window.APP_DATA = {
+    uvt: 52374,
+    bases: {
+        servicios: 209496, // 4 UVT
+        compras: 1414098,  // 27 UVT
+        agricolas: 4818408, // 92 UVT
+        cafe: 8379840      // 160 UVT
+    },
+    version: "2026-05-08-SUSPENSION"
 };
+
+function initApp() {
+    console.log("Sistema cargado con bases restauradas Dcto. 1625/2016");
+}
 
 const ICA = {
   bogota:{
