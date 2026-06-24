@@ -656,10 +656,10 @@ input:checked+.tog-sl::before{transform:translateX(17px)}
 window.APP_DATA = {
     uvt: 52374,
     bases: {
-        servicios: 209496, // 4 UVT
-        compras: 1414098,  // 27 UVT
-        agricolas: 4818408, // 92 UVT
-        cafe: 8379840      // 160 UVT
+        servicios: window.APP_DATA.bases.servicios, // 4 UVT
+        compras: window.APP_DATA.bases.servicios,  // 27 UVT
+        agricolas: window.APP_DATA.bases.servicios, // 92 UVT
+        cafe: window.APP_DATA.bases.servicios      // 160 UVT
     },
     version: "2026-05-08-SUSPENSION"
 };
