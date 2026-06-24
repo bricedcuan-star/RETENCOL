@@ -656,12 +656,13 @@ input:checked+.tog-sl::before{transform:translateX(17px)}
 window.APP_DATA = {
     uvt: 52374,
     bases: {
-        servicios: 209496,  // 4 UVT
-        compras: 1414098,   // 27 UVT
-        agricolas: 4818408, // 92 UVT
-        cafe: 8379840       // 160 UVT
+        servicios: 209496,   // 4 UVT
+        compras: 1414098,    // 27 UVT
+        agricolas: 4818408,  // 92 UVT
+        cafe: 8379840        // 160 UVT
     },
     version: "2026-05-08-SUSPENSION"
+};
 };
     
 function initApp() {
@@ -908,17 +909,20 @@ function renderICA(){
   <div class="expl expl-warn" style="margin-top:1rem"><i class="ti ti-alert-triangle"></i><span>La suspensión del Decreto 572/2025 <strong>no afecta las tarifas de ICA</strong>. Verifica con el estatuto tributario del municipio en el <a href="https://sites.google.com/view/estatuton-2024/inicio" target="_blank" style="color:var(--amber)">Estatutón 2026</a>.</span></div>`;
 }
 
-// EDUCATIVO
-const CONCS={
-  rete:{title:'Retención en la fuente — Bases vigentes 2026',body:`<p>Tras la suspensión provisional del Decreto 572/2025 (Auto Consejo de Estado 07/05/2026), rigen las bases del <strong>Decreto 1625/2016 originales</strong>:</p>
-    <br><ul style="margin:.5rem 0 .5rem 1.5rem;line-height:2.2">
-      <li>Servicios: <strong>4 UVT = $209.496</strong></li>
-      <li>Compras (declarante): <strong>27 UVT = $1.414.098</strong></li>
-      <li>Compras (no declarante): <strong>27 UVT = $1.414.098</strong></li>
-      <li>Productos agrícolas: <strong>92 UVT = $4.818.408</strong></li>
-      <li>Café pergamino: <strong>160 UVT = $8.379.840</strong></li>
-      <li>Honorarios: desde $0 (sin base mínima)</li>
-    </ul>
+// EDUCATIVO (Cambia las comillas simples ' por invertidas `)
+const CONCS = {
+    rete: {
+        title: 'Retención en la fuente - Bases vigentes 2026',
+        body: `
+            <p>Tras la suspensión provisional...</p>
+            <ul>
+                <li>Servicios: <strong>4 UVT = ${window.APP_DATA.bases.servicios.toLocaleString()}</strong></li>
+                <li>Compras (declarante): <strong>27 UVT = ${window.APP_DATA.bases.compras.toLocaleString()}</strong></li>
+                <li>Productos agrícolas: <strong>92 UVT = ${window.APP_DATA.bases.agricolas.toLocaleString()}</strong></li>
+            </ul>
+        `
+    }
+};
     <br><p><strong>Excepción SIMPLE:</strong> No aplica retención a contribuyentes del Régimen SIMPLE. Art. 911 E.T.</p>`,
     tags:['Dcto. 1625/2016 restaurado','UVT 2026: $52.374','Art. 365 E.T.','Suspensión Dcto. 572/2025']},
   iva:{title:'IVA y Retención de IVA (Reteiva)',body:`<p>El <strong>IVA</strong> es del <strong>19%</strong> sobre bienes y servicios gravados. Lo cobra el vendedor responsable de IVA.</p>
