@@ -1,89 +1,132 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RETENCOL | Calculadora Especializada</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
-<style>
-    :root {
-        --brand-primary: #0b2a59;
-        --brand-accent: #2a9d59;
-        --bg-main: #f4f7f6;
-        --text-main: #1e293b;
+// api/chat.js — Proxy seguro RETENCOL → Google Gemini
+// Runtime: Node.js (más compatible con Vercel que edge)
+
+const SYSTEM_PROMPT = `Eres Valentina, la asistente tributaria con inteligencia artificial de RETENCOL, plataforma tributaria colombiana.
+
+Eres cálida, cercana, empática y profesional. Te comunicas como una amiga contable de confianza. Tono conversacional, educativo y directo. Emojis con moderación (máximo 1-2 por mensaje).
+
+## CONOCIMIENTO TRIBUTARIO VIGENTE 2026
+
+UVT 2026: $52.374
+
+NOVEDAD 2 junio 2026: El Consejo de Estado revocó la suspensión del Decreto 572/2025.
+- Junio 2026: bases Decreto 1625/2016 (Servicios 4 UVT=$209.496 · Compras 27 UVT=$1.414.098)
+- Desde 1° julio 2026: bases Decreto 572/2025 (Servicios 2 UVT=$104.748 · Compras 10 UVT=$523.740)
+
+TARIFAS (no cambian entre períodos):
+- Honorarios PJ/PN declarante: 10% sin base mínima
+- Honorarios no declarante: 11%
+- Servicios: 4% | Transporte carga: 1% | Arrendamiento: 3.5%
+- Compras declarante: 2.5% | No declarantes: 3.5%
+- Agrícolas: 1.5% | Café: 0.5% | Activos fijos: 1%
+- Intereses: 7% | Loterías: 20% | Dividendos: 7.5%
+
+IVA: 19%. Reteiva: 15% del IVA solo para Grandes Contribuyentes/Entidades Públicas.
+ICA: municipal en por mil. Bogotá servicios: 9.66‰. Reteica: 50% del ICA.
+SIMPLE: sin retención ni reteica. Art. 911 E.T.
+Autorretenedores: el comprador NO retiene.
+
+REGLAS: responde en español colombiano natural, sin tablas Markdown. Para cálculos muestra paso a paso. Siempre aclara si aplica junio o julio 2026. Al final recuerda brevemente que es orientación y no reemplaza al contador.`;
+
+export default async function handler(req, res) {
+  // CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(204).end();
+  }
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Método no permitido' });
+  }
+
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    console.error('GEMINI_API_KEY no está definida en las variables de entorno');
+    return res.status(500).json({ error: 'API key no configurada en el servidor.' });
+  }
+
+  const { messages } = req.body;
+  if (!messages || !Array.isArray(messages) || messages.length === 0) {
+    return res.status(400).json({ error: 'Se requiere el campo messages.' });
+  }
+
+  // Convertir formato {role, content} → formato Gemini {role, parts}
+  // Gemini usa "model" en vez de "assistant"
+  const geminiContents = messages.slice(-20).map(m => ({
+    role: m.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: String(m.content) }],
+  }));
+
+  // Gemini requiere que el primer mensaje sea "user"
+  // y que los roles alternen user/model
+  const cleanedContents = [];
+  for (const msg of geminiContents) {
+    const last = cleanedContents[cleanedContents.length - 1];
+    if (last && last.role === msg.role) {
+      // fusionar mensajes del mismo rol
+      last.parts[0].text += '\n' + msg.parts[0].text;
+    } else {
+      cleanedContents.push({ ...msg, parts: [{ text: msg.parts[0].text }] });
     }
-    body { font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main); margin: 0; padding: 20px; }
-    .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-    h1 { color: var(--brand-primary); }
-    .btn { padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.3s; }
-    .btn-primary { background: var(--brand-primary); color: white; }
-    .btn-accent { background: var(--brand-accent); color: white; }
-    
-    /* Valentina Chat */
-    .chat-container { border: 2px solid var(--brand-primary); border-radius: 12px; margin-top: 20px; overflow: hidden; }
-    .chat-header { background: var(--brand-primary); color: white; padding: 15px; font-weight: 600; }
-    .chat-messages { height: 250px; overflow-y: auto; padding: 15px; background: #f9f9f9; }
-    .chat-input { padding: 15px; display: flex; gap: 10px; }
-    input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 6px; }
-    
-    /* Exportación */
-    .actions { margin-top: 20px; display: flex; gap: 10px; }
-</style>
-</head>
-<body>
+  }
 
-<div class="container">
-    <h1>RETENCOL Pro</h1>
-    <p>Calculadora especializada y guía tributaria inteligente.</p>
+  // Asegurar que empiece con "user"
+  if (cleanedContents.length > 0 && cleanedContents[0].role !== 'user') {
+    cleanedContents.shift();
+  }
 
-    <!-- Módulo Valentina IA -->
-    <div class="chat-container">
-        <div class="chat-header">Valentina IA | Tu Asistente Tributaria</div>
-        <div class="chat-messages" id="chat-box">
-            <p><strong>Valentina:</strong> ¡Hola! Soy tu asistente de RETENCOL. Puedes preguntarme sobre SAS, retenciones, o casos específicos. ¿En qué te ayudo hoy?</p>
-        </div>
-        <div class="chat-input">
-            <input type="text" id="user-input" placeholder="Ej: ¿Retención a diseñador persona natural?">
-            <button class="btn btn-primary" onclick="enviarMensaje()">Preguntar</button>
-        </div>
-    </div>
+  if (cleanedContents.length === 0) {
+    return res.status(400).json({ error: 'No hay mensajes válidos para procesar.' });
+  }
 
-    <!-- Acciones Pro -->
-    <div class="actions">
-        <button class="btn btn-primary" onclick="exportar('PDF')"><i class="ti ti-file-type-pdf"></i> Descargar Informe PDF</button>
-        <button class="btn btn-accent" onclick="exportar('Excel')"><i class="ti ti-table-export"></i> Exportar a Excel</button>
-    </div>
-</div>
+  const geminiPayload = {
+    system_instruction: {
+      parts: [{ text: SYSTEM_PROMPT }],
+    },
+    contents: cleanedContents,
+    generationConfig: {
+      maxOutputTokens: 1024,
+      temperature: 0.7,
+    },
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_HATE_SPEECH',       threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' },
+    ],
+  };
 
-<script>
-    function enviarMensaje() {
-        const input = document.getElementById('user-input');
-        const chat = document.getElementById('chat-box');
-        const mensaje = input.value.toLowerCase();
-        
-        if (mensaje.trim() === "") return;
-        
-        chat.innerHTML += `<p><strong>Tú:</strong> ${input.value}</p>`;
-        
-        let respuesta = "Valentina: Estoy analizando tu caso bajo la normativa vigente. ";
-        if (mensaje.includes("diseñador")) {
-            respuesta += "Si es persona natural, verifica si la labor es intelectual (Honorarios 10%-11%) o servicio general (4%). ¿Deseas realizar el cálculo exacto?";
-        } else if (mensaje.includes("sas")) {
-            respuesta += "Las SAS son sociedades comerciales. Su retención depende de la actividad económica y si es declarante o no.";
-        } else {
-            respuesta += "Te recomiendo revisar el Decreto 1625/2016 para mayor detalle. ¿Quieres que profundicemos en algún concepto?";
-        }
-        
-        chat.innerHTML += `<p><strong>${respuesta}</strong></p>`;
-        input.value = '';
-        chat.scrollTop = chat.scrollHeight;
+  const GEMINI_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+
+  try {
+    const geminiRes = await fetch(GEMINI_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(geminiPayload),
+    });
+
+    const data = await geminiRes.json();
+
+    if (!geminiRes.ok) {
+      console.error('Gemini HTTP error:', geminiRes.status, JSON.stringify(data));
+      return res.status(502).json({ error: `Error Gemini ${geminiRes.status}: ${data?.error?.message || 'Sin detalle'}` });
     }
 
-    function exportar(tipo) {
-        alert("Generando archivo " + tipo + " con tu identidad de marca...");
-    }
-</script>
+    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
-</body>
-</html>
+    if (!reply) {
+      const reason = data?.candidates?.[0]?.finishReason || 'desconocido';
+      console.error('Gemini sin texto. finishReason:', reason, JSON.stringify(data));
+      return res.status(200).json({ error: `Sin respuesta de la IA (razón: ${reason}). Intenta de nuevo.` });
+    }
+
+    return res.status(200).json({ reply });
+
+  } catch (err) {
+    console.error('Error en handler:', err.message, err.stack);
+    return res.status(500).json({ error: 'Error interno del servidor: ' + err.message });
+  }
+}
